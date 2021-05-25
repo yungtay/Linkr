@@ -1,41 +1,61 @@
+import axios from "axios";
 import { Link } from "react-router-dom";
-
+import { useEffect, useState, useContext } from "react";
 import styled from "styled-components";
+import UserContext from "../../context/UserContext";
 
 //HARD-CODED SIDEBAR - ESPERANDO CORPO FICAR PRONTO
 
 export default function SideBar() {
-    const Trends = [
-        "JavaScript",
-        "React",
-        "Swift",
-        "Angular",
-        "Vue",
-        "Node",
-        "SQL",
-        "Python",
-        "CSS",
-        "HTML",
-    ];
+    const { accountInformation } = useContext(UserContext);
+    const [trendingHashs, setTrendingHashs] = useState([]);
+    const [flag, setFlag] = useState(false);
+
+    console.log(trendingHashs);
+    useEffect(() => {
+        const config = {
+            headers: {
+                Authorization: `Bearer ${accountInformation.token}`,
+            },
+        };
+        const request = axios.get(
+            "https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/hashtags/trending",
+            config
+        );
+        request.then((resp) => {
+            setTrendingHashs(resp.data.hashtags);
+            setFlag(true);
+        });
+    }, [flag, accountInformation.token]);
 
     return (
         <>
-            <TrendingMenu>
-                <Title>trending</Title>
-                <TrendingList>
-                    {Trends.map((trend, i) => {
-                        return (
-                            <Link
-                                key={i}
-                                to={`/hashtag/${trend}`}
-                                style={{ textDecoration: "none" }}
-                            >
-                                <Trendings key={i}> # {trend} </Trendings>
-                            </Link>
-                        );
-                    })}
-                </TrendingList>
-            </TrendingMenu>
+            {flag ? (
+                <TrendingMenu>
+                    <Title>trending</Title>
+                    <TrendingList>
+                        {trendingHashs.map((trendHash, i) => {
+                            return (
+                                <Link
+                                    key={i}
+                                    to={`/hashtag/${trendHash.name}`}
+                                    style={{ textDecoration: "none" }}
+                                >
+                                    <Trendings key={trendHash.id}>
+                                        {" "}
+                                        # {trendHash.name}{" "}
+                                    </Trendings>
+                                </Link>
+                            );
+                        })}
+                    </TrendingList>
+                </TrendingMenu>
+            ) : (
+                <TrendingMenu>
+                    <Title>trending</Title>
+                    <TrendingList>Carregando</TrendingList>
+                </TrendingMenu>
+            )}
         </>
     );
 }

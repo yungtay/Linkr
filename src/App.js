@@ -22,22 +22,22 @@ export default function App() {
                     <Route to="sign-up" exact>
                         <Registration />
                     </Route>
-                    <Route to="/timeline">
+                    <Route to="/timeline" exact>
                         <TimeLine />
                     </Route>
-                    <Route to="/my-posts">
+                    <Route to="/my-posts" exact>
                         <Mypost />
                     </Route>
-                    <Route to="/hashtag/:hastag">
+                    <Route to="/hashtag/:hastag" exact>
                         <HashTag />
                     </Route>
-                    <Route to="/user/:id">
+                    <Route to="/user/:id" exact>
                         <MyFriendPosts />
                     </Route>
-                    <Route to="/my-likes">
+                    <Route to="/my-likes" exact>
                         <MyLikes />
                     </Route>
-                    <Route to="/siderbar">
+                    <Route to="/siderbar" exact>
                         <SideBar />
                     </Route>
                 </Switch>

@@ -3,7 +3,13 @@ import { Link } from 'react-router-dom'
 import { useState } from 'react'
 
 export default function Login() {
-  const [userLogInInformation, setUserLogInInformation] = useState({});
+  const [userLogInInformation, setUserLogInInformation] = useState({email:"", password:""});
+  console.log(userLogInInformation)
+
+  function submitLogin(e) {
+    e.preventDefault()
+    console.log(userLogInInformation)
+  }
 
   return (
     <LoginRegisterScreen>
@@ -14,7 +20,7 @@ export default function Login() {
         </LoginRegisterSubTitle>
       </LoginRegisterText>
       <LoginRegisterContainerForms>
-        <Form>
+        <Form onSubmit={(e) => submitLogin(e)}>
           <input
             type="text"
             placeholder="e-mail"

@@ -3,9 +3,18 @@ import {LoginRegisterScreen, LoginRegisterText, LoginRegisterLogo, LoginRegister
 import { useState } from 'react'
 
 export default function Registration() {
+    const [userSignUpInformation, setUserSignUpInformation] = useState({email:"", password:"", username:"", picture:""});
 
-    const [userSignUpInformation, setUserSignUpInformation] = useState({});
-    
+    function submitSignUp(e) {
+      e.preventDefault()
+      for (const key in userSignUpInformation){
+        if(userSignUpInformation[key].length !== 0){
+          console.log(userSignUpInformation[key].length)
+        }
+      }
+      //console.log(userSignUpInformation)
+    }
+
     return (
         <LoginRegisterScreen>
           <LoginRegisterText>
@@ -15,7 +24,7 @@ export default function Registration() {
             </LoginRegisterSubTitle>
           </LoginRegisterText>
           <LoginRegisterContainerForms>
-            <Form>
+            <Form onChange={(e) => submitSignUp(e)}>
               <input type="text" placeholder="e-mail" onChange={(e) => setUserSignUpInformation({...userSignUpInformation, email: e.target.value})} />
               <input type="password" placeholder="password" onChange={(e) => setUserSignUpInformation({...userSignUpInformation, password: e.target.value})} />
               <input type="text" placeholder="username" onChange={(e) => setUserSignUpInformation({...userSignUpInformation, username: e.target.value})} />

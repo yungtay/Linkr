@@ -9,43 +9,51 @@ import Mypost from "./components/MyPost/MyPost";
 import MyFriendPosts from "./components/MyFriendPosts/MyFriendPosts";
 import HashTag from "./components/HashTag/HashTag";
 import MyLikes from "./components/MyLikes/MyLikes";
+import NavBar from "./components/NavBar";
 import "./styles/reset.css";
 
 export default function App() {
-    return (
-        <BrowserRouter>
-            <Container>
-                <Switch>
-                    <Route path="/" exact>
-                        <Login />
-                    </Route>
-                    <Route path="/sign-up" exact>
-                        <Registration />
-                    </Route>
-                    <Route path="/timeline" exact>
-                        <TimeLine />
-                    </Route>
-                    <Route path="/my-posts" exact>
-                        <Mypost />
-                    </Route>
-                    <Route path="/hashtag/:hastag" exact>
-                        <HashTag />
-                    </Route>
-                    <Route path="/user/:id" exact>
-                        <MyFriendPosts />
-                    </Route>
-                    <Route path="/my-likes" exact>
-                        <MyLikes />
-                    </Route>
-                    <Route path="/siderbar" exact>
-                        <SideBar />
-                    </Route>
-                </Switch>
-            </Container>
-        </BrowserRouter>
-    );
+  return (
+    <BrowserRouter>
+      <Switch>
+        <Route path="/" exact>
+          <Login />
+        </Route>
+        <Route path="/sign-up" exact>
+          <Registration />
+        </Route>
+        <Container>
+          <Route path="/timeline" exact>
+            <NavBar />
+            <TimeLine />
+          </Route>
+          <Route path="/my-posts" exact>
+            <NavBar />
+            <Mypost />
+          </Route>
+          <Route path="/hashtag/:hastag" exact>
+            <NavBar />
+            <HashTag />
+          </Route>
+          <Route path="/user/:id" exact>
+            <NavBar />
+            <MyFriendPosts />
+          </Route>
+          <Route path="/my-likes" exact>
+            <NavBar />
+            <MyLikes />
+          </Route>
+          <Route path="/siderbar" exact>
+            <SideBar />
+          </Route>
+        </Container>
+      </Switch>
+    </BrowserRouter>
+  );
 }
 
 const Container = styled.div`
+  height: 100vh;
   background: #333333;
+  padding-top: 125px;
 `;

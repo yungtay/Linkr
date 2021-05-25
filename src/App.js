@@ -9,6 +9,7 @@ import Mypost from "./components/MyPost/MyPost";
 import MyFriendPosts from "./components/MyFriendPosts/MyFriendPosts";
 import HashTag from "./components/HashTag/HashTag";
 import MyLikes from "./components/MyLikes/MyLikes";
+import NavBar from "./components/NavBar";
 import "./styles/reset.css";
 
 export default function App() {
@@ -23,18 +24,23 @@ export default function App() {
                         <Registration />
                     </Route>
                     <Route path="/timeline" exact>
+                        <NavBar />
                         <TimeLine />
                     </Route>
                     <Route path="/my-posts" exact>
+                        <NavBar />
                         <Mypost />
                     </Route>
                     <Route path="/hashtag/:hastag" exact>
+                        <NavBar />
                         <HashTag />
                     </Route>
                     <Route path="/user/:id" exact>
+                        <NavBar />
                         <MyFriendPosts />
                     </Route>
                     <Route path="/my-likes" exact>
+                        <NavBar />
                         <MyLikes />
                     </Route>
                     <Route path="/siderbar" exact>
@@ -47,5 +53,5 @@ export default function App() {
 }
 
 const Container = styled.div`
-  background: #333333;
+    background: #333333;
 `;

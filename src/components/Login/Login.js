@@ -1,9 +1,49 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import axios from 'axios'
+import { useHistory } from 'react-router-dom'
+import UserContext from "../../context/UserContext"
+import Loader from "react-loader-spinner";
 
 export default function Login() {
-  const [userLogInInformation, setUserLogInInformation] = useState({});
+  const history = useHistory();
+  const [userLogInInformation, setUserLogInInformation] = useState({
+    email: "",
+    password: "",
+  });
+  const [isLoading, setIsLoading] = useState("");
+  const { setAccountInformation } = useContext(UserContext);
+
+  function submitLogin(e) {
+    e.preventDefault();
+    for (const key in userLogInInformation) {
+      if (!userLogInInformation[key]) {
+        setIsLoading("")
+        alert(`Por favor, preencha o campo: ${key}`);
+        return;
+      }
+    }
+    const request = axios.post(
+      "https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/sign-in",
+      userLogInInformation
+    );
+    request.then(submitLoginSucess);
+    request.catch(submitLoginFail);
+  }
+
+  function submitLoginSucess(response) {
+    setIsLoading("")
+    alert("Parabéns você logou neste lindo site !");
+    setUserLogInInformation({ email: "", password: "" });
+    setAccountInformation(response.data);
+    history.push("/timeline");
+  }
+
+  function submitLoginFail(error) {
+    setIsLoading("")
+    alert("E-mail ou senha incorretos");
+  }
 
   return (
     <LoginRegisterScreen>
@@ -14,10 +54,11 @@ export default function Login() {
         </LoginRegisterSubTitle>
       </LoginRegisterText>
       <LoginRegisterContainerForms>
-        <Form>
+        <Form onSubmit={(e) => submitLogin(e)} loading={isLoading}>
           <input
             type="text"
             placeholder="e-mail"
+            value={userLogInInformation.email}
             onChange={(e) =>
               setUserLogInInformation({
                 ...userLogInInformation,
@@ -28,6 +69,7 @@ export default function Login() {
           <input
             type="password"
             placeholder="password"
+            value={userLogInInformation.password}
             onChange={(e) =>
               setUserLogInInformation({
                 ...userLogInInformation,
@@ -35,7 +77,13 @@ export default function Login() {
               })
             }
           />
-          <button type="submit">Log In</button>
+          <button type="submit" onClick={() => setIsLoading("carregando")}>
+            {isLoading ? (
+              <Loader type="ThreeDots" color="white" height={20} />
+            ) : (
+              "Log In"
+            )}
+          </button>
           <Link to="/sign-up">First time? Create a account!</Link>
         </Form>
       </LoginRegisterContainerForms>
@@ -99,6 +147,10 @@ const Form = styled.form`
     font-size: 27px;
     font-weight: 700;
     font-family: "Oswald";
+
+    opacity: ${prop => prop.loading ? 0.35 : 1};
+    background: ${prop => prop.loading ? "#F2F2F2" : "white"};
+    pointer-events: ${prop => prop.loading ? "none" : "initial"};
 
     &::placeholder {
       color: #9f9f9f;

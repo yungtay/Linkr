@@ -42,6 +42,7 @@ export default function NavBar() {
                         <>
                             {option.name === "Logout" ? (
                                 <Link
+                                    key={i}
                                     to={option.route}
                                     style={{ textDecoration: "none" }}
                                 >
@@ -51,6 +52,7 @@ export default function NavBar() {
                                 </Link>
                             ) : (
                                 <Link
+                                    key={i}
                                     to={option.route}
                                     style={{ textDecoration: "none" }}
                                 >

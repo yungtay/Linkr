@@ -1,18 +1,21 @@
 import axios from "axios";
 import { useContext, useState } from "react";
 import styled from "styled-components";
+import UserContext from "../../context/UserContext";
 
 export default function AddPost() {
   const [link, setLink] = useState("");
   const [text, setText] = useState("");
   const [submitting, setSubmitting] = useState(false);
-  //const { user } = useContext(UserContext);
-  const token = "111";
+  const { accountInformation } = useContext(UserContext);
+  console.log(accountInformation);
 
   function submitPublish(e) {
     e.preventDefault();
     setSubmitting(true);
-    const config = { headers: { Authorization: `Bearer ${token}` } };
+    const config = {
+      headers: { Authorization: `Bearer ${accountInformation.token}` },
+    };
     const post = { link, text };
 
     const request = axios.post(
@@ -34,10 +37,7 @@ export default function AddPost() {
   }
   return (
     <Structure>
-      <img
-        src="https://pbs.twimg.com/profile_images/1382815821148385287/evfQlSZ__400x400.jpg"
-        alt="avatar do usuário"
-      />
+      <img src={accountInformation.user.avatar} alt="avatar do usuário" />
       <Inputs>
         <p>O que você tem para favoritar hoje?</p>
         <form onSubmit={submitPublish}>

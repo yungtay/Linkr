@@ -119,7 +119,6 @@ const OptionsMenu = styled.ul`
     align-items: center;
     font-size: 17px;
     font-weight: 700;
-    font-family: "Lato", sans-serif;
     padding: 10px 0px;
     transition-timing-function: ease-in-out;
     transition: height 0.3s;

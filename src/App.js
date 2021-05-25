@@ -48,5 +48,5 @@ export default function App() {
 }
 
 const Container = styled.div`
-  background: red;
+  background: #333333;
 `;

@@ -1,5 +1,4 @@
-import { useState } from 'react'
-import {BrowserRouter, Switch, Route, useHistory, useLocation} from "react-router-dom"
+import {BrowserRouter, Switch, Route} from "react-router-dom"
 import styled from 'styled-components'
 
 import Login from './components/Login/Login'

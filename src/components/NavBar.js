@@ -12,7 +12,6 @@ export default function NavBar() {
     ];
     const [isOpened, setIsOpened] = useState(false);
     const { accountInformation } = useContext(UserContext);
-    console.log(accountInformation.user.avatar);
     function Logout() {
         //localStorage.removeItem('@welcome-app/username');
         alert("clicou pra deslogar");

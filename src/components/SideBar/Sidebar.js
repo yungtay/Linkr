@@ -12,7 +12,6 @@ export default function SideBar() {
     const [trendingHashs, setTrendingHashs] = useState([]);
     const [flag, setFlag] = useState(false);
 
-    console.log(trendingHashs);
     useEffect(() => {
         const config = {
             headers: {

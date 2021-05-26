@@ -1,8 +1,7 @@
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import {LoginRegisterScreen, LoginRegisterText, LoginRegisterLogo, LoginRegisterSubTitle, LoginRegisterContainerForms,Form} from "../Login/Login"
 import { useState } from 'react'
 import axios from 'axios'
-import { useHistory } from 'react-router-dom'
 import Loader from "react-loader-spinner";  
 
 export default function Registration() {

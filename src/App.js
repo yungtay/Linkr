@@ -16,14 +16,14 @@ import UserContext from "./context/UserContext"
 
 export default function App() {
   const [accountInformation, setAccountInformation] = useState(null);
-  console.log(accountInformation)
+
   return (
     <BrowserRouter>
       <Switch>
         <UserContext.Provider
           value={{ accountInformation, setAccountInformation }}
         >
-          <Route path="/" exact>
+          <Route path={"/"} exact>
             <Login />
           </Route>
           <Route path="/sign-up" exact>

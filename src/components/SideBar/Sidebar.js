@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useState, useContext } from "react";
 import styled from "styled-components";
 import UserContext from "../../context/UserContext";
+import Loader from "react-loader-spinner";
 
 //HARD-CODED SIDEBAR - ESPERANDO CORPO FICAR PRONTO
 
@@ -53,7 +54,9 @@ export default function SideBar() {
             ) : (
                 <TrendingMenu>
                     <Title>trending</Title>
-                    <TrendingList>Carregando</TrendingList>
+                    <Loading>
+                        <Loader type="ThreeDots" color="white" height={20} />
+                    </Loading>
                 </TrendingMenu>
             )}
         </>
@@ -82,6 +85,12 @@ const TrendingList = styled.ul`
     width: 100%;
     padding: 0px 16px;
     margin-top: 18px;
+`;
+const Loading = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80%;
 `;
 const Trendings = styled.li`
     font-size: 19px;

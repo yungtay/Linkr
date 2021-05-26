@@ -12,7 +12,7 @@ export default function NavBar() {
   const [isOpened, setIsOpened] = useState(false);
 
   function Logout() {
-    //localStorage.removeItem('@welcome-app/username');
+    localStorage.removeItem('user');
     alert("clicou pra deslogar");
   }
 

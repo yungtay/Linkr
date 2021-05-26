@@ -21,7 +21,7 @@ export default function NavBar() {
     return (
         <>
             <Topbar isOpened={isOpened}>
-                <Link to={"timeline"} style={{ textDecoration: "none" }}>
+                <Link to="/timeline" style={{ textDecoration: "none" }}>
                     <div className="title">linkr</div>
                 </Link>
                 <ClickAwayListener onClickAway={() => setIsOpened(false)}>
@@ -82,6 +82,7 @@ const Topbar = styled.div`
     justify-content: space-between;
     align-items: center;
     padding: 0px 28px;
+    z-index: 10;
 
     .title {
         font-family: "Passion One";

@@ -1,4 +1,6 @@
 import styled from "styled-components";
+import SideBar from "../SideBar/Sidebar";
+import AddPost from "./AddPost";
 
 export default function TimeLine() {
   return (
@@ -6,8 +8,10 @@ export default function TimeLine() {
       <Application>
         <Title>timeline</Title>
         <Container>
-          <Posts></Posts>
-          <SideBar></SideBar>
+          <Posts>
+            <AddPost />
+          </Posts>
+          <SideBar />
         </Container>
       </Application>
     </>
@@ -17,7 +21,7 @@ export default function TimeLine() {
 const Application = styled.div`
   width: 937px;
   height: 100%;
-
+  position: relative;
   margin: 0 auto;
 `;
 
@@ -48,12 +52,14 @@ const Posts = styled.div`
   }
 `;
 
-const SideBar = styled.div`
-  width: 301px;
-  height: 200px;
-  background-color: blue;
+// const SideBar = styled.div`
+//   width: 301px;
+//   height: 200px;
+//   background-color: blue;
 
-  @media (max-width: 640px) {
-    display: none;
-  }
-`;
+//   @media (max-width: 640px) {
+//     display: none;
+//   }
+// `;
+
+export { Application, Title, Container, Posts}

@@ -1,8 +1,10 @@
-//import styled from "styled-components";
 import axios from 'axios'
 import { useParams } from "react-router-dom";
 import { useContext, useEffect } from "react";
 import UserContext from "../../context/UserContext"
+import { Application, Title, Container, Posts} from '../TimeLine/TimeLine'
+import SideBar from "../SideBar/Sidebar";
+//import AddPost from "../TimeLine/AddPost";
 export default function HashTag() {
     const { accountInformation } = useContext(UserContext);
     const { hashtag } = useParams();
@@ -14,7 +16,16 @@ export default function HashTag() {
         request.catch((e) => console.log(e.data))
     },[hashtag, accountInformation])
 
-    return(
-        <div>Olá mundo</div>
-    )
+        return (
+          <>
+            <Application>
+              <Title># {hashtag}</Title>
+              <Container>
+                <Posts>
+                </Posts>
+                <SideBar />
+              </Container>
+            </Application>
+          </>
+        );
 }

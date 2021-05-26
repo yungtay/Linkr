@@ -23,7 +23,7 @@ export default function App() {
         <UserContext.Provider
           value={{ accountInformation, setAccountInformation }}
         >
-          <Route path={"/"} exact>
+          <Route path="/" exact>
             <Login />
           </Route>
           <Route path="/sign-up" exact>
@@ -38,7 +38,7 @@ export default function App() {
               <NavBar />
               <Mypost />
             </Route>
-            <Route path="/hashtag/:hastag" exact>
+            <Route path="/hashtag/:hashtag" exact>
               <NavBar />
               <HashTag />
             </Route>

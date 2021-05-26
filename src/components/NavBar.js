@@ -15,7 +15,6 @@ export default function NavBar() {
     localStorage.removeItem('user');
     alert("clicou pra deslogar");
   }
-
     return (
         <>
             <Topbar isOpened={isOpened}>
@@ -35,6 +34,7 @@ export default function NavBar() {
                     />
                 </div>
             </Topbar>
+
 
       <OptionsMenu isOpened={isOpened}>
         {menuOptions.map((option, i) => {

@@ -45,6 +45,8 @@ const TrendingMenu = styled.div`
     height: 406px;
     background-color: #171717;
     border-radius: 16px;
+    position: absolute;
+    right: 0;
 `;
 const Title = styled.div`
     height: 61px;

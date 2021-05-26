@@ -1,14 +1,10 @@
-export default function SideBar() {
-    return <div>Olá mundoooo</div>;
-}
-
-//HARD-CODED SIDEBAR - ESPERANDO CORPO FICAR PRONTO
-
-/*import "./styles/reset.css";
 import { Link } from "react-router-dom";
 
 import styled from "styled-components";
-export default function App() {
+
+//HARD-CODED SIDEBAR - ESPERANDO CORPO FICAR PRONTO
+
+export default function SideBar() {
     const Trends = [
         "JavaScript",
         "React",
@@ -24,31 +20,27 @@ export default function App() {
 
     return (
         <>
-            <SideBar>
+            <TrendingMenu>
                 <Title>trending</Title>
                 <TrendingList>
                     {Trends.map((trend, i) => {
                         return (
-                            // <Link key={i} to={`/hashtag/${trend}`} style={{ textDecoration: 'none' }}>
-                            <Trendings key={i}> # {trend} </Trendings>
-                            // </Link>
+                            <Link
+                                key={i}
+                                to={`/hashtag/${trend}`}
+                                style={{ textDecoration: "none" }}
+                            >
+                                <Trendings key={i}> # {trend} </Trendings>
+                            </Link>
                         );
                     })}
                 </TrendingList>
-            </SideBar>
+            </TrendingMenu>
         </>
     );
 }
 
-const Container = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #666;
-    width: 100vw;
-    height: 100vh;
-`;
-const SideBar = styled.div`
+const TrendingMenu = styled.div`
     width: 301px;
     height: 406px;
     background-color: #171717;
@@ -77,5 +69,3 @@ const Trendings = styled.li`
     color: #fff;
     margin-bottom: 10px;
 `;
-
- */

@@ -66,7 +66,7 @@ export default function Post({ posts }) {
         <h2>
           <ReactHashtag
             onHashtagClick={(hashtag) =>
-              history.push(`/hashtag/${hashtag.replace("#", "")}`)
+              history.push(`/hashtag/${hashtag.substring(1)}`)
             }
           >
             {posts.text}

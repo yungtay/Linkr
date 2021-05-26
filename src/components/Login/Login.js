@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import axios from 'axios'
 import { Link, useHistory } from "react-router-dom";
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext } from "react";
 import UserContext from "../../context/UserContext"
 import Loader from "react-loader-spinner";
 
@@ -13,14 +13,6 @@ export default function Login() {
   });
   const [isLoading, setIsLoading] = useState("");
   const { setAccountInformation } = useContext(UserContext);
-
-  useEffect(() => {
-    if(localStorage.getItem("user")){
-      const userSerializado = localStorage.getItem("user")
-      setAccountInformation(JSON.parse(userSerializado))
-      history.push("/timeline")
-    }
-  }, [history, setAccountInformation])
 
   function submitLogin(e) {
     e.preventDefault();

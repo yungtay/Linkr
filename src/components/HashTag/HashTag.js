@@ -11,7 +11,6 @@ export default function HashTag() {
     const { hashtag } = useParams();
     const [posts, setPosts] = useState([]);
     const [refresh, setRefresh] = useState(false);
-    const [hashTags, setHashTags ] = useState("")
 
     useEffect(() => {
       setRefresh(false);
@@ -25,7 +24,6 @@ export default function HashTag() {
       request.then((r) => {
         setPosts(r.data.posts);
         setRefresh(true);
-        setHashTags(hashtag)
       });
 
       request.catch(() => alert("Houve uma falha ao obter os posts, por favor atualize a página"));
@@ -34,7 +32,7 @@ export default function HashTag() {
     return (
       <>
         <Application>
-          <Title>{refresh ? `# ${hashTags}` : ""}</Title>
+          <Title># {hashtag}</Title>
           <Container>
             <Posts>
               {!refresh ? (

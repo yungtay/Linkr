@@ -24,7 +24,6 @@ export default function MyFriendPosts() {
       );
       request.then((r) => {
         setPosts(r.data.posts);
-        console.log(r.data)
         setRefresh(true);
       });
 

@@ -27,7 +27,6 @@ export default function AddPost({ setRefresh }) {
       setLink("");
       setText("");
       setRefresh(false);
-      console.log("Submit done");
     });
     request.catch(() => {
       setSubmitting(false);

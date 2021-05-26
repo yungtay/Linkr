@@ -1,8 +1,7 @@
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import {LoginRegisterScreen, LoginRegisterText, LoginRegisterLogo, LoginRegisterSubTitle, LoginRegisterContainerForms,Form} from "../Login/Login"
 import { useState } from 'react'
 import axios from 'axios'
-import { useHistory } from 'react-router-dom'
 import Loader from "react-loader-spinner";  
 
 export default function Registration() {
@@ -46,7 +45,12 @@ export default function Registration() {
 
   function submitSignUpFail(error) {
     setIsLoading("");
-    alert("O e-mail inserido já está em uso");
+    if(error.response.status === 403){
+      alert("O e-mail inserido já está em uso");
+    } else {
+      alert("Um erro desconhecido ocorreu, call reinforcements");
+    }
+    
   }
 
   return (

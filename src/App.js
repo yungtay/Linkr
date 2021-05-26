@@ -16,7 +16,7 @@ import UserContext from "./context/UserContext"
 
 export default function App() {
   const [accountInformation, setAccountInformation] = useState(null);
-  console.log(accountInformation)
+
   return (
     <BrowserRouter>
       <Switch>
@@ -38,7 +38,7 @@ export default function App() {
               <NavBar />
               <Mypost />
             </Route>
-            <Route path="/hashtag/:hastag" exact>
+            <Route path="/hashtag/:hashtag" exact>
               <NavBar />
               <HashTag />
             </Route>

@@ -61,3 +61,5 @@ const Posts = styled.div`
 //     display: none;
 //   }
 // `;
+
+export { Application, Title, Container, Posts}

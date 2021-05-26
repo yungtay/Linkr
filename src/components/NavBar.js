@@ -11,10 +11,10 @@ export default function NavBar() {
     ];
     const [isOpened, setIsOpened] = useState(false);
 
-    function Logout() {
-        //localStorage.removeItem('@welcome-app/username');
-        alert("clicou pra deslogar");
-    }
+  function Logout() {
+    localStorage.removeItem('user');
+    alert("clicou pra deslogar");
+  }
 
     return (
         <>
@@ -36,35 +36,27 @@ export default function NavBar() {
                 </div>
             </Topbar>
 
-            <OptionsMenu isOpened={isOpened}>
-                {menuOptions.map((option, i) => {
-                    return (
-                        <>
-                            {option.name === "Logout" ? (
-                                <Link
-                                    key={i}
-                                    to={option.route}
-                                    style={{ textDecoration: "none" }}
-                                >
-                                    <li key={i} onClick={() => Logout()}>
-                                        {option.name}
-                                    </li>
-                                </Link>
-                            ) : (
-                                <Link
-                                    key={i}
-                                    to={option.route}
-                                    style={{ textDecoration: "none" }}
-                                >
-                                    <li key={i}>{option.name}</li>
-                                </Link>
-                            )}
-                        </>
-                    );
-                })}
-            </OptionsMenu>
-        </>
-    );
+      <OptionsMenu isOpened={isOpened}>
+        {menuOptions.map((option, i) => {
+          return (
+            <div key={i}>
+              {option.name === "Logout" ? (
+                <Link to={option.route} style={{ textDecoration: "none" }}>
+                  <li key={i} onClick={() => Logout()}>
+                    {option.name}
+                  </li>
+                </Link>
+              ) : (
+                <Link to={option.route} style={{ textDecoration: "none" }}>
+                  <li key={i}>{option.name}</li>
+                </Link>
+              )}
+            </div>
+          );
+        })}
+      </OptionsMenu>
+    </>
+  );
 }
 
 const Topbar = styled.div`

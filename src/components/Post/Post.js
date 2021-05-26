@@ -1,12 +1,15 @@
 import styled from "styled-components";
 import { HeartOutline } from "react-ionicons";
 import { Heart } from "react-ionicons";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useHistory } from "react-router";
+import UserContext from "../../context/UserContext";
 
 export default function Post({ posts }) {
   const [toggle, setToggle] = useState(false);
   const history = useHistory();
+  const { accountInformation } = useContext(UserContext);
+  console.log(accountInformation);
 
   return (
     <Structure>

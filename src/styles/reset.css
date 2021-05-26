@@ -134,6 +134,12 @@ body {
     font-family: "Lato", sans-serif;
     background: #333333;
 }
+strong {
+    font-weight: bold;
+}
+a {
+    text-decoration: none;
+}
 
 /* font-family: 'Lato', sans-serif;
 font-family: 'Oswald', sans-serif;

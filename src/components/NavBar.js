@@ -21,7 +21,9 @@ export default function NavBar() {
     return (
         <>
             <Topbar isOpened={isOpened}>
-                <div className="title">linkr</div>
+                <Link to={"timeline"} style={{ textDecoration: "none" }}>
+                    <div className="title">linkr</div>
+                </Link>
                 <ClickAwayListener onClickAway={() => setIsOpened(false)}>
                     <div className="options">
                         <img

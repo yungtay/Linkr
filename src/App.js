@@ -1,5 +1,5 @@
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-import { useState } from 'react'
+import { useState } from "react";
 import styled from "styled-components";
 
 import Login from "./components/Login/Login";
@@ -12,7 +12,7 @@ import HashTag from "./components/HashTag/HashTag";
 import MyLikes from "./components/MyLikes/MyLikes";
 import NavBar from "./components/NavBar";
 import "./styles/reset.css";
-import UserContext from "./context/UserContext"
+import UserContext from "./context/UserContext";
 
 export default function App() {
   const [accountInformation, setAccountInformation] = useState(null);
@@ -61,7 +61,5 @@ export default function App() {
 }
 
 const Container = styled.div`
-  height: 100vh;
-  background: #333333;
   padding-top: 125px;
 `;

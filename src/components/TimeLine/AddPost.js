@@ -3,7 +3,7 @@ import { useContext, useState } from "react";
 import styled from "styled-components";
 import UserContext from "../../context/UserContext";
 
-export default function AddPost() {
+export default function AddPost({ setRefresh }) {
   const [link, setLink] = useState("");
   const [text, setText] = useState("");
   const [submitting, setSubmitting] = useState(false);
@@ -26,7 +26,7 @@ export default function AddPost() {
       setSubmitting(false);
       setLink("");
       setText("");
-      //atualizar lista de posts;
+      setRefresh(false);
       console.log("Submit done");
     });
     request.catch(() => {
@@ -99,6 +99,7 @@ const Structure = styled.div`
 
 const Inputs = styled.div`
   width: 100%;
+  font-size: 20px;
   p {
     font-size: 20px;
     margin-bottom: 15px;
@@ -114,6 +115,7 @@ const Inputs = styled.div`
 const URL = styled.input`
   width: 100%;
   height: 30px;
+  font-family: inherit;
 
   margin-bottom: 5px;
   background-color: #efefef;
@@ -128,9 +130,10 @@ const URL = styled.input`
   }
 `;
 
-const Coment = styled.input`
-  width: 100%;
+const Coment = styled.textarea`
+  min-width: 100%;
   height: 66px;
+  resize: none;
 
   margin-bottom: 5px;
   background-color: #efefef;

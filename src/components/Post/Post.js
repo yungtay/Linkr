@@ -2,15 +2,18 @@ import styled from "styled-components";
 import { HeartOutline } from "react-ionicons";
 import { Heart } from "react-ionicons";
 import { useState } from "react";
+import { useHistory } from "react-router";
 
-export default function Post() {
+export default function Post({ posts }) {
   const [toggle, setToggle] = useState(false);
+  const history = useHistory();
+
   return (
     <Structure>
       <LeftContainer>
         <img
-          onClick={() => console.log("Enviar pro perfil da pessoa")}
-          src="https://pbs.twimg.com/profile_images/1382815821148385287/evfQlSZ__400x400.jpg"
+          onClick={() => history.push(`/user/${posts.user.id}`)}
+          src={posts.user.avatar}
           alt="avatar do usuário"
         />
         {!toggle ? (
@@ -28,33 +31,24 @@ export default function Post() {
             width="20px"
           />
         )}
-        <p>14 likes</p>
+        <p>
+          {posts.likes.length === 1
+            ? `${posts.likes.length} like`
+            : `${posts.likes.length} likes`}
+        </p>
       </LeftContainer>
       <RightContainer>
-        <h1 onClick={() => console.log("Enviar pro perfil da pessoa")}>
-          Juvenal Juvêncio
+        <h1 onClick={() => history.push(`/user/${posts.user.id}`)}>
+          {posts.user.username}
         </h1>
-        <h2>
-          Muito maneiro esse tutorial de Material UI com React, deem uma olhada!
-          <strong onClick={() => console.log("Levar para o link da hashtag")}>
-            {" "}
-            #react
-          </strong>
-        </h2>
-        <LinkSheet onClick={() => console.log("Levar para o link")}>
+        <h2>{posts.text}</h2>
+        <LinkSheet href={posts.link} target="_blank">
           <LinkText>
-            <h1>Como aplicar o Material UI em um projeto React</h1>
-            <h2>
-              Hey! I have moved this tutorial to my personal blog. Same content,
-              new location. Sorry about making you click through to another
-              page.
-            </h2>
-            <h3>https://medium.com/@pshrmn/a-simple-react-router</h3>
+            <h1>{posts.linkTitle}</h1>
+            <h2>{posts.linkDescription}</h2>
+            <h3>{posts.link}</h3>
           </LinkText>
-          <img
-            src="https://pbs.twimg.com/profile_images/1382815821148385287/evfQlSZ__400x400.jpg"
-            alt="avatar do usuário"
-          />
+          <LinkImage src={posts.linkImage} alt="link" />
         </LinkSheet>
       </RightContainer>
     </Structure>
@@ -75,7 +69,6 @@ const Structure = styled.div`
 `;
 
 const LeftContainer = styled.div`
-  background-color: blue;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -109,7 +102,7 @@ const RightContainer = styled.div`
   }
 `;
 
-const LinkSheet = styled.div`
+const LinkSheet = styled.a`
   width: 503px;
   height: 155px;
 
@@ -119,14 +112,23 @@ const LinkSheet = styled.div`
   display: flex;
   justify-content: space-between;
 
-  img {
-    border-radius: 0px 12px 13px 0px;
+  @media (max-width: 640px) {
+    width: calc(100vh - 20px);
   }
 `;
 
+const LinkImage = styled.div`
+  width: 153px;
+  height: 100%;
+  background-image: url(${(props) => props.src});
+  background-position: center;
+  background-size: cover;
+  border-radius: 0px 12px 13px 0px;
+`;
+
 const LinkText = styled.div`
-  width: 100%;
-  padding: 24px 27px 24px 20px;
+  width: 350px;
+  padding: 24px 10px 24px 20px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import axios from 'axios'
 import { Link, useHistory } from "react-router-dom";
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext } from "react";
 import UserContext from "../../context/UserContext"
 import Loader from "react-loader-spinner";
 
@@ -14,14 +14,7 @@ export default function Login() {
   const [isLoading, setIsLoading] = useState("");
   const { setAccountInformation } = useContext(UserContext);
 
-  useEffect(() => {
-    if(localStorage.getItem("user")){
-      const userSerializado = localStorage.getItem("user")
-      const user = JSON.parse(userSerializado)
-      setAccountInformation(user)
-      history.push("/timeline")
-    }
-  }, [history,setAccountInformation])
+  checkLocalStorage()
 
   function submitLogin(e) {
     e.preventDefault();
@@ -51,8 +44,21 @@ export default function Login() {
   }
 
   function submitLoginFail(error) {
+    console.log(error.response.status)
     setIsLoading("")
-    alert("E-mail ou senha incorretos");
+    if(error.response.status === 403){
+      alert("E-mail ou senha incorretos");
+    } else {
+      alert("Um erro desconhecido ocorreu, call reinforcements");
+    }
+  }
+
+  function checkLocalStorage() {
+    if(localStorage.getItem("user")){
+      const userSerializado = localStorage.getItem("user")
+      setAccountInformation(JSON.parse(userSerializado))
+      history.push("/timeline")
+    }
   }
 
   return (
@@ -181,6 +187,7 @@ const Form = styled.form`
     text-decoration: none;
     border-bottom: 1px solid #fff;
     padding-bottom: 2px;
+    pointer-events: ${prop => prop.loading ? "none" : "initial"};
   }
 `;
 

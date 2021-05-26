@@ -51,13 +51,3 @@ const Posts = styled.div`
     width: 100%;
   }
 `;
-
-// const SideBar = styled.div`
-//   width: 301px;
-//   height: 200px;
-//   background-color: blue;
-
-//   @media (max-width: 640px) {
-//     display: none;
-//   }
-// `;

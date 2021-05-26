@@ -1,11 +1,14 @@
 import SideBar from "../SideBar/Sidebar";
 import styled from "styled-components";
-import { useEffect, useContext } from "react";
+import { useEffect, useContext, useState } from "react";
 import axios from "axios";
 import UserContext from "../../context/UserContext";
+import Post from "../Post/Post";
 
 export default function MyPosts() {
     const { accountInformation } = useContext(UserContext);
+    const [myPosts, setMyPosts] = useState([]);
+    console.log(myPosts);
     useEffect(() => {
         const config = {
             headers: {
@@ -17,7 +20,7 @@ export default function MyPosts() {
             config
         );
         request.then((resp) => {
-            console.log(resp.data);
+            setMyPosts(resp.data.posts);
         });
     }, [accountInformation.token, accountInformation.user.id]);
     return (
@@ -25,7 +28,18 @@ export default function MyPosts() {
             <Application>
                 <Title>my posts</Title>
                 <Container>
-                    <Posts></Posts>
+                    {myPosts ? (
+                        <>
+                            {myPosts.map((myPost) => {
+                                return (
+                                    <Post key={myPost.id} posts={myPost}></Post>
+                                );
+                            })}
+                        </>
+                    ) : (
+                        <div>Carregando</div>
+                    )}
+
                     <SideBar />
                 </Container>
             </Application>
@@ -55,14 +69,8 @@ const Container = styled.div`
     width: 100%;
     display: flex;
     justify-content: space-between;
-`;
-
-const Posts = styled.div`
+    flex-direction: column;
     width: 611px;
-    height: 276px;
-    background-color: #171717;
-    border-radius: 16px;
-
     @media (max-width: 640px) {
         width: 100%;
     }

@@ -22,7 +22,7 @@ export default function App() {
         <UserContext.Provider
           value={{ accountInformation, setAccountInformation }}
         >
-          <Route path="/" exact>
+          <Route path={"/"} exact>
             <Login />
           </Route>
           <Route path="/sign-up" exact>

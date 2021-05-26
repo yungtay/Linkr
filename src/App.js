@@ -61,7 +61,5 @@ export default function App() {
 }
 
 const Container = styled.div`
-    height: 100vh;
-    background: #333333;
     padding-top: 125px;
 `;

@@ -1,18 +1,18 @@
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-import { useState } from 'react'
+import { useState } from "react";
 import styled from "styled-components";
 
 import Login from "./components/Login/Login";
 import Registration from "./components/Registration/Registration";
 import SideBar from "./components/SideBar/Sidebar";
 import TimeLine from "./components/TimeLine/TimeLine";
-import Mypost from "./components/MyPost/MyPost";
+import MyPost from "./components/MyPost/MyPost";
 import MyFriendPosts from "./components/MyFriendPosts/MyFriendPosts";
 import HashTag from "./components/HashTag/HashTag";
 import MyLikes from "./components/MyLikes/MyLikes";
 import NavBar from "./components/NavBar";
 import "./styles/reset.css";
-import UserContext from "./context/UserContext"
+import UserContext from "./context/UserContext";
 
 export default function App() {
   const [accountInformation, setAccountInformation] = useState(null);
@@ -36,7 +36,7 @@ export default function App() {
             </Route>
             <Route path="/my-posts" exact>
               <NavBar />
-              <Mypost />
+              <MyPost />
             </Route>
             <Route path="/hashtag/:hashtag" exact>
               <NavBar />
@@ -61,7 +61,5 @@ export default function App() {
 }
 
 const Container = styled.div`
-  height: 100vh;
-  background: #333333;
   padding-top: 125px;
 `;

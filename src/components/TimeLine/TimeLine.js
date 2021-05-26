@@ -1,15 +1,57 @@
+import axios from "axios";
+import { useContext, useEffect, useState } from "react";
+import Loader from "react-loader-spinner";
 import styled from "styled-components";
+import UserContext from "../../context/UserContext";
+import Post from "../Post/Post";
 import SideBar from "../SideBar/Sidebar";
 import AddPost from "./AddPost";
 
 export default function TimeLine() {
+  const { accountInformation } = useContext(UserContext);
+  const [posts, setPosts] = useState([]);
+  const [refresh, setRefresh] = useState(false);
+
+  useEffect(() => {
+    const config = {
+      headers: { Authorization: `Bearer ${accountInformation.token}` },
+    };
+    const request = axios.get(
+      "https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/posts",
+      config
+    );
+    request.then((response) => {
+      setPosts(response.data.posts);
+      setRefresh(true);
+    });
+    request.catch(() =>
+      alert("Houve uma falha ao obter os posts, por favor atualize a página")
+    );
+  }, [refresh, accountInformation.token]);
+
   return (
     <>
       <Application>
         <Title>timeline</Title>
         <Container>
           <Posts>
-            <AddPost />
+            {!refresh ? (
+              <PositionLoader>
+                <Loader type="Oval" color="#FFF" height={80} width={80} />
+              </PositionLoader>
+            ) : posts.length === 0 ? (
+              <>
+                <AddPost setRefresh={setRefresh} />
+                <p>Nenhum post encontrado</p>
+              </>
+            ) : (
+              <>
+                <AddPost setRefresh={setRefresh} />
+                {posts.map((item) => (
+                  <Post key={item.id} posts={item} />
+                ))}
+              </>
+            )}
           </Posts>
           <SideBar />
         </Container>
@@ -47,9 +89,25 @@ const Posts = styled.div`
   height: 200px;
   background-color: #333;
 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  > p {
+    color: #fff;
+    font-size: 30px;
+  }
+
   @media (max-width: 640px) {
     width: 100%;
   }
+`;
+
+const PositionLoader = styled.div`
+  width: 100%;
+  margin-top: 50px;
+  display: flex;
+  justify-content: center;
 `;
 
 // const SideBar = styled.div`

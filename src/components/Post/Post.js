@@ -5,6 +5,7 @@ import UserContext from "../../context/UserContext";
 import { Trash, Create, Heart, HeartOutline } from "react-ionicons";
 import ReactHashtag from "react-hashtag";
 
+
 export default function Post({ posts }) {
   const [toggle, setToggle] = useState(false);
   const history = useHistory();

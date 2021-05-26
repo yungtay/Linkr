@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import Post from "../Post/Post";
 import SideBar from "../SideBar/Sidebar";
 import AddPost from "./AddPost";
 
@@ -10,6 +11,7 @@ export default function TimeLine() {
         <Container>
           <Posts>
             <AddPost />
+            <Post />
           </Posts>
           <SideBar />
         </Container>

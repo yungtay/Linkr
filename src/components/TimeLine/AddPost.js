@@ -8,7 +8,6 @@ export default function AddPost() {
   const [text, setText] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const { accountInformation } = useContext(UserContext);
-  console.log(accountInformation);
 
   function submitPublish(e) {
     e.preventDefault();
@@ -138,12 +137,13 @@ const Coment = styled.input`
   border: none;
   border-radius: 5px;
 
-  vertical-align: baseline;
   padding: 8px 13px;
 
   ::placeholder {
+    text-align: start;
     font-size: 15px;
     color: #949494;
+    margin-bottom: 20px;
   }
 
   @media (max-width: 640px) {

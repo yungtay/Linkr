@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import UserContext from "../../context/UserContext";
 

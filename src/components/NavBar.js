@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import Arrow from "../images/Vector.png";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import UserContext from "../context/UserContext";
 
 export default function NavBar() {
   const menuOptions = [
@@ -10,9 +11,9 @@ export default function NavBar() {
     { route: "/", name: "Logout" },
   ];
   const [isOpened, setIsOpened] = useState(false);
-
+  const { accountInformation } = useContext(UserContext);
   function Logout() {
-    localStorage.removeItem("user");
+    //localStorage.removeItem('@welcome-app/username');
     alert("clicou pra deslogar");
   }
 
@@ -29,7 +30,7 @@ export default function NavBar() {
           />
           <img
             className="profile-picture"
-            src="https://preview.redd.it/v0caqchbtn741.jpg?auto=webp&s=c5d05662a039c031f50032e22a7c77dfcf1bfddc"
+            src={accountInformation.user.avatar}
             alt="Profile"
             onClick={() => setIsOpened(!isOpened)}
           />

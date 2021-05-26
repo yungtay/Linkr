@@ -12,7 +12,7 @@ export default function Login() {
     password: "",
   });
   const [isLoading, setIsLoading] = useState("");
-  const {accountInformation ,setAccountInformation } = useContext(UserContext);
+  const { setAccountInformation } = useContext(UserContext);
 
   useEffect(() => {
     if(localStorage.getItem("user")){
@@ -54,8 +54,6 @@ export default function Login() {
     setIsLoading("")
     alert("E-mail ou senha incorretos");
   }
-
-  if(!accountInformation) return (<LoginRegisterScreen></LoginRegisterScreen>)
 
   return (
     <LoginRegisterScreen>

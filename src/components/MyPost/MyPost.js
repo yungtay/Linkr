@@ -1,7 +1,25 @@
 import SideBar from "../SideBar/Sidebar";
 import styled from "styled-components";
+import { useEffect, useContext } from "react";
+import axios from "axios";
+import UserContext from "../../context/UserContext";
 
 export default function MyPosts() {
+    const { accountInformation } = useContext(UserContext);
+    useEffect(() => {
+        const config = {
+            headers: {
+                Authorization: `Bearer ${accountInformation.token}`,
+            },
+        };
+        const request = axios.get(
+            `https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/users/${accountInformation.user.id}/posts`,
+            config
+        );
+        request.then((resp) => {
+            console.log(resp.data);
+        });
+    }, [accountInformation.token, accountInformation.user.id]);
     return (
         <>
             <Application>

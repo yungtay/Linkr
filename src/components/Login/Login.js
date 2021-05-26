@@ -1,8 +1,7 @@
 import styled from "styled-components";
-import { Link } from "react-router-dom";
-import { useState, useContext } from "react";
 import axios from 'axios'
-import { useHistory } from 'react-router-dom'
+import { Link, useHistory } from "react-router-dom";
+import { useState, useContext, useEffect } from "react";
 import UserContext from "../../context/UserContext"
 import Loader from "react-loader-spinner";
 
@@ -13,7 +12,16 @@ export default function Login() {
     password: "",
   });
   const [isLoading, setIsLoading] = useState("");
-  const { setAccountInformation } = useContext(UserContext);
+  const {accountInformation ,setAccountInformation } = useContext(UserContext);
+
+  useEffect(() => {
+    if(localStorage.getItem("user")){
+      const userSerializado = localStorage.getItem("user")
+      const user = JSON.parse(userSerializado)
+      setAccountInformation(user)
+      history.push("/timeline")
+    }
+  }, [history,setAccountInformation])
 
   function submitLogin(e) {
     e.preventDefault();
@@ -37,6 +45,8 @@ export default function Login() {
     alert("Parabéns você logou neste lindo site !");
     setUserLogInInformation({ email: "", password: "" });
     setAccountInformation(response.data);
+    const userSerializados = JSON.stringify(response.data);
+    localStorage.setItem("user", userSerializados)
     history.push("/timeline");
   }
 
@@ -44,6 +54,8 @@ export default function Login() {
     setIsLoading("")
     alert("E-mail ou senha incorretos");
   }
+
+  if(!accountInformation) return (<LoginRegisterScreen></LoginRegisterScreen>)
 
   return (
     <LoginRegisterScreen>

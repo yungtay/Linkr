@@ -39,7 +39,7 @@ export default function NavBar() {
       <OptionsMenu isOpened={isOpened}>
         {menuOptions.map((option, i) => {
           return (
-            <>
+            <div key={i}>
               {option.name === "Logout" ? (
                 <Link to={option.route} style={{ textDecoration: "none" }}>
                   <li key={i} onClick={() => Logout()}>
@@ -51,7 +51,7 @@ export default function NavBar() {
                   <li key={i}>{option.name}</li>
                 </Link>
               )}
-            </>
+            </div>
           );
         })}
       </OptionsMenu>

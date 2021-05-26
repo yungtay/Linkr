@@ -5,7 +5,6 @@ import UserContext from "../../context/UserContext";
 import { Trash, Create, Heart, HeartOutline } from "react-ionicons";
 import ReactHashtag from "react-hashtag";
 
-
 export default function Post({ posts }) {
   const [toggle, setToggle] = useState(false);
   const history = useHistory();
@@ -66,9 +65,13 @@ export default function Post({ posts }) {
 
         <h2>
           <ReactHashtag
-            onHashtagClick={(hashtag) =>
-              history.push(`/hashtag/${hashtag.substring(1)}`)
-            }
+            renderHashtag={(hashtag) => (
+              <strong
+                onClick={() => history.push(`/hashtag/${hashtag.substring(1)}`)}
+              >
+                {hashtag}
+              </strong>
+            )}
           >
             {posts.text}
           </ReactHashtag>

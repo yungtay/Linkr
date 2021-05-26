@@ -110,14 +110,4 @@ const PositionLoader = styled.div`
   justify-content: center;
 `;
 
-// const SideBar = styled.div`
-//   width: 301px;
-//   height: 200px;
-//   background-color: blue;
-
-//   @media (max-width: 640px) {
-//     display: none;
-//   }
-// `;
-
-export { Application, Title, Container, Posts}
+export { Application, Title, Container, Posts, PositionLoader}

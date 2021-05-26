@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import axios from 'axios'
 import { Link, useHistory } from "react-router-dom";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import UserContext from "../../context/UserContext"
 import Loader from "react-loader-spinner";
 
@@ -14,7 +14,13 @@ export default function Login() {
   const [isLoading, setIsLoading] = useState("");
   const { setAccountInformation } = useContext(UserContext);
 
-  checkLocalStorage()
+  useEffect(() => {
+    if(localStorage.getItem("user")){
+      const userSerializado = localStorage.getItem("user")
+      setAccountInformation(JSON.parse(userSerializado))
+      history.push("/timeline")
+    }
+  }, [history, setAccountInformation])
 
   function submitLogin(e) {
     e.preventDefault();
@@ -50,14 +56,6 @@ export default function Login() {
       alert("E-mail ou senha incorretos");
     } else {
       alert("Um erro desconhecido ocorreu, call reinforcements");
-    }
-  }
-
-  function checkLocalStorage() {
-    if(localStorage.getItem("user")){
-      const userSerializado = localStorage.getItem("user")
-      setAccountInformation(JSON.parse(userSerializado))
-      history.push("/timeline")
     }
   }
 
@@ -112,6 +110,7 @@ const LoginRegisterScreen = styled.div`
   height: 100vh;
   font-weight: 400;
   background: #333333;
+  margin-bottom: -125px;
 `;
 
 const LoginRegisterText = styled.div`

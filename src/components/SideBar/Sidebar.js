@@ -23,7 +23,6 @@ export default function SideBar() {
             config
         );
         request.then((resp) => {
-            console.log(resp.data.hashtags)
             setTrendingHashs(resp.data.hashtags);
             setFlag(true);
         });

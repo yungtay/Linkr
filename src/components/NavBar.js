@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect, useRef } from "react";
 import Arrow from "../images/Vector.png";
 import { Link } from "react-router-dom";
 import styled from "styled-components";

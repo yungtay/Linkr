@@ -8,7 +8,6 @@ import Post from "../Post/Post";
 export default function MyPosts() {
     const { accountInformation } = useContext(UserContext);
     const [myPosts, setMyPosts] = useState([]);
-    console.log(myPosts);
     useEffect(() => {
         const config = {
             headers: {

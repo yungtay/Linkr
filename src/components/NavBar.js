@@ -18,50 +18,50 @@ export default function NavBar() {
     alert("clicou pra deslogar");
   }
 
-    return (
-        <>
-            <Topbar isOpened={isOpened}>
-                <Link to={"timeline"}>
-                    <div className="title">linkr</div>
+  return (
+    <>
+      <Topbar isOpened={isOpened}>
+        <Link to={"/timeline"}>
+          <div className="title">linkr</div>
+        </Link>
+        <ClickAwayListener onClickAway={() => setIsOpened(false)}>
+          <div className="options">
+            <img
+              className="menu"
+              src={Arrow}
+              alt="Arrow to menu"
+              onClick={() => setIsOpened(!isOpened)}
+            />
+            <img
+              className="profile-picture"
+              src={accountInformation.user.avatar}
+              alt="Profile"
+              onClick={() => setIsOpened(!isOpened)}
+            />
+          </div>
+        </ClickAwayListener>
+      </Topbar>
+      <OptionsMenu isOpened={isOpened}>
+        {menuOptions.map((option, i) => {
+          return (
+            <div key={i}>
+              {option.name === "Logout" ? (
+                <Link to={option.route}>
+                  <li key={i} onClick={() => Logout()}>
+                    {option.name}
+                  </li>
                 </Link>
-                <ClickAwayListener onClickAway={() => setIsOpened(false)}>
-                    <div className="options">
-                        <img
-                            className="menu"
-                            src={Arrow}
-                            alt="Arrow to menu"
-                            onClick={() => setIsOpened(!isOpened)}
-                        />
-                        <img
-                            className="profile-picture"
-                            src={accountInformation.user.avatar}
-                            alt="Profile"
-                            onClick={() => setIsOpened(!isOpened)}
-                        />
-                    </div>
-                </ClickAwayListener>
-            </Topbar>
-            <OptionsMenu isOpened={isOpened}>
-                {menuOptions.map((option, i) => {
-                    return (
-                        <div key={i}>
-                            {option.name === "Logout" ? (
-                                <Link to={option.route}>
-                                    <li key={i} onClick={() => Logout()}>
-                                        {option.name}
-                                    </li>
-                                </Link>
-                            ) : (
-                                <Link to={option.route}>
-                                    <li key={i}>{option.name}</li>
-                                </Link>
-                            )}
-                        </div>
-                    );
-                })}
-            </OptionsMenu>
-        </>
-    );
+              ) : (
+                <Link to={option.route}>
+                  <li key={i}>{option.name}</li>
+                </Link>
+              )}
+            </div>
+          );
+        })}
+      </OptionsMenu>
+    </>
+  );
 }
 
 const Topbar = styled.div`
@@ -88,22 +88,22 @@ const Topbar = styled.div`
   .options {
     display: flex;
     align-items: center;
-  } 
+  }
   .menu {
-      width: 18.37px;
-      height: 12.37px;
-      transform: ${(props) =>
-          props.isOpened ? `rotate(180deg)` : `rotate(0deg)`};
-      transition: transform 500ms;
+    width: 18.37px;
+    height: 12.37px;
+    transform: ${(props) =>
+      props.isOpened ? `rotate(180deg)` : `rotate(0deg)`};
+    transition: transform 500ms;
   }
   .profile-picture {
-      width: 53px;
-      height: 53px;
-      border-radius: 26.5px;
-      margin-left: 18px;
+    width: 53px;
+    height: 53px;
+    border-radius: 26.5px;
+    margin-left: 18px;
   }
   a {
-      text-decoration: "none";
+    text-decoration: "none";
   }
 `;
 const OptionsMenu = styled.ul`
@@ -124,12 +124,11 @@ const OptionsMenu = styled.ul`
   transition-timing-function: ease-in-out;
   transition: height 0.3s;
 
-
-    li {
-        display: ${(props) => (props.isOpened ? "block" : "none")};
-        color: #fff;
-    }
-    a {
-        text-decoration: "none";
-    }
+  li {
+    display: ${(props) => (props.isOpened ? "block" : "none")};
+    color: #fff;
+  }
+  a {
+    text-decoration: "none";
+  }
 `;

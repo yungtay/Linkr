@@ -9,7 +9,6 @@ export default function Post({ posts }) {
   const [toggle, setToggle] = useState(false);
   const history = useHistory();
   const { accountInformation } = useContext(UserContext);
-  console.log(accountInformation);
 
   return (
     <Structure>

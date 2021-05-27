@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import UserContext from "../../context/UserContext";
 import { Application, Title, Container, Posts } from "../TimeLine/TimeLine";
 import SideBar from "../SideBar/Sidebar";

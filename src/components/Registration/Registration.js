@@ -45,7 +45,12 @@ export default function Registration() {
 
   function submitSignUpFail(error) {
     setIsLoading("");
-    alert("O e-mail inserido já está em uso");
+    if(error.response.status === 403){
+      alert("O e-mail inserido já está em uso");
+    } else {
+      alert("Um erro desconhecido ocorreu, call reinforcements");
+    }
+    
   }
 
   return (

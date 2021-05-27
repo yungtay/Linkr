@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import Arrow from "../images/Vector.png";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import UserContext from "../context/UserContext";
+import ClickAwayListener from "react-click-away-listener";
 
 export default function NavBar() {
     const menuOptions = [
@@ -11,52 +13,60 @@ export default function NavBar() {
     ];
     const [isOpened, setIsOpened] = useState(false);
 
-  function Logout() {
-    localStorage.removeItem('user');
-    alert("clicou pra deslogar");
-  }
+    const { accountInformation } = useContext(UserContext);
+    function Logout() {
+        localStorage.removeItem("user");
+        alert("clicou pra deslogar");
+    }
+
     return (
         <>
             <Topbar isOpened={isOpened}>
                 <div className="title">linkr</div>
-                <div className="options">
-                    <img
-                        className="menu"
-                        src={Arrow}
-                        alt="Arrow to menu"
-                        onClick={() => setIsOpened(!isOpened)}
-                    />
-                    <img
-                        className="profile-picture"
-                        src="https://preview.redd.it/v0caqchbtn741.jpg?auto=webp&s=c5d05662a039c031f50032e22a7c77dfcf1bfddc"
-                        alt="Profile"
-                        onClick={() => setIsOpened(!isOpened)}
-                    />
-                </div>
+                <ClickAwayListener onClickAway={() => setIsOpened(false)}>
+                    <div className="options">
+                        <img
+                            className="menu"
+                            src={Arrow}
+                            alt="Arrow to menu"
+                            onClick={() => setIsOpened(!isOpened)}
+                        />
+                        <img
+                            className="profile-picture"
+                            src={accountInformation.user.avatar}
+                            alt="Profile"
+                            onClick={() => setIsOpened(!isOpened)}
+                        />
+                    </div>
+                </ClickAwayListener>
             </Topbar>
-
-
-      <OptionsMenu isOpened={isOpened}>
-        {menuOptions.map((option, i) => {
-          return (
-            <div key={i}>
-              {option.name === "Logout" ? (
-                <Link to={option.route} style={{ textDecoration: "none" }}>
-                  <li key={i} onClick={() => Logout()}>
-                    {option.name}
-                  </li>
-                </Link>
-              ) : (
-                <Link to={option.route} style={{ textDecoration: "none" }}>
-                  <li key={i}>{option.name}</li>
-                </Link>
-              )}
-            </div>
-          );
-        })}
-      </OptionsMenu>
-    </>
-  );
+            <OptionsMenu isOpened={isOpened}>
+                {menuOptions.map((option, i) => {
+                    return (
+                        <div key={i}>
+                            {option.name === "Logout" ? (
+                                <Link
+                                    to={option.route}
+                                    style={{ textDecoration: "none" }}
+                                >
+                                    <li key={i} onClick={() => Logout()}>
+                                        {option.name}
+                                    </li>
+                                </Link>
+                            ) : (
+                                <Link
+                                    to={option.route}
+                                    style={{ textDecoration: "none" }}
+                                >
+                                    <li key={i}>{option.name}</li>
+                                </Link>
+                            )}
+                        </div>
+                    );
+                })}
+            </OptionsMenu>
+        </>
+    );
 }
 
 const Topbar = styled.div`

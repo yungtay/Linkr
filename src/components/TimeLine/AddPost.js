@@ -26,6 +26,7 @@ export default function AddPost() {
       setSubmitting(false);
       setLink("");
       setText("");
+
     });
     request.catch(() => {
       setSubmitting(false);

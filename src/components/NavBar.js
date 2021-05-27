@@ -42,7 +42,6 @@ export default function NavBar() {
                     </div>
                 </ClickAwayListener>
             </Topbar>
-
             <OptionsMenu isOpened={isOpened}>
                 {menuOptions.map((option, i) => {
                     return (

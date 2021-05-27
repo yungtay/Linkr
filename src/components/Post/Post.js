@@ -65,9 +65,13 @@ export default function Post({ posts }) {
 
         <h2>
           <ReactHashtag
-            onHashtagClick={(hashtag) =>
-              history.push(`/hashtag/${hashtag.substring(1)}`)
-            }
+            renderHashtag={(hashtag) => (
+              <strong
+                onClick={() => history.push(`/hashtag/${hashtag.substring(1)}`)}
+              >
+                {hashtag}
+              </strong>
+            )}
           >
             {posts.text}
           </ReactHashtag>

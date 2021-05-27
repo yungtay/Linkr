@@ -16,7 +16,6 @@ export default function MyLikes() {
   const { accountInformation } = useContext(UserContext);
   const [posts, setPosts] = useState([]);
   const [refresh, setRefresh] = useState(true);
-  console.log(posts.map((item) => <Post key={item.id} posts={item} />));
 
   useEffect(() => {
     const config = {
@@ -27,7 +26,7 @@ export default function MyLikes() {
       config
     );
     request.then((response) => {
-      setPosts(response.data);
+      setPosts(response.data.posts);
       setRefresh(false);
     });
     request.catch(() =>
@@ -49,7 +48,11 @@ export default function MyLikes() {
           ) : posts.length === 0 ? (
             <p>Nenhum post encontrado</p>
           ) : (
-            ""
+            <>
+              {posts.map((item) => (
+                <Post key={item.id} posts={item} />
+              ))}
+            </>
           )}
         </Posts>
         <SideBar />

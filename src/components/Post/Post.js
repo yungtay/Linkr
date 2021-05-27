@@ -2,14 +2,15 @@ import styled from "styled-components";
 import { useContext, useState } from "react";
 import { useHistory } from "react-router";
 import UserContext from "../../context/UserContext";
-import { Trash, Create, Heart, HeartOutline } from "react-ionicons";
+import { Trash, Create } from "react-ionicons";
 import ReactHashtag from "react-hashtag";
-
+import Likepost from "./Likepost";
 
 export default function Post({ posts }) {
-  const [toggle, setToggle] = useState(false);
+  const [likes, setLikes] = useState(posts.likes.length);
   const history = useHistory();
   const { accountInformation } = useContext(UserContext);
+
   return (
     <Structure>
       <LeftContainer>
@@ -18,26 +19,8 @@ export default function Post({ posts }) {
           src={posts.user.avatar}
           alt="avatar do usuário"
         />
-        {!toggle ? (
-          <HeartOutline
-            onClick={() => setToggle(!toggle)}
-            color={"#ffffff"}
-            height="18px"
-            width="20px"
-          />
-        ) : (
-          <Heart
-            onClick={() => setToggle(!toggle)}
-            color={"#dc1818"}
-            height="18px"
-            width="20px"
-          />
-        )}
-        <p>
-          {posts.likes.length === 1
-            ? `${posts.likes.length} like`
-            : `${posts.likes.length} likes`}
-        </p>
+        <Likepost posts={posts} likes={likes} setLikes={setLikes} />
+        <p>{likes === 1 ? `${likes} like` : `${likes} likes`}</p>
       </LeftContainer>
       <RightContainer>
         <div>
@@ -66,9 +49,15 @@ export default function Post({ posts }) {
 
         <h2>
           <ReactHashtag
-            onHashtagClick={(hashtag) =>
-              history.push(`/hashtag/${hashtag.substring(1)}`)
-            }
+            renderHashtag={(hashtagValue) => (
+              <strong
+                onClick={() =>
+                  history.push(`/hashtag/${hashtagValue.substring(1)}`)
+                }
+              >
+                {hashtagValue}
+              </strong>
+            )}
           >
             {posts.text}
           </ReactHashtag>
@@ -111,10 +100,12 @@ const LeftContainer = styled.div`
 
     border-radius: 50%;
     margin-bottom: 19px;
+    cursor: pointer;
   }
 
   p {
     font-size: 11px;
+    cursor: default;
   }
 `;
 
@@ -136,12 +127,14 @@ const RightContainer = styled.div`
   h1 {
     font-size: 19px;
     margin-bottom: 7px;
+    cursor: pointer;
   }
 
   h2 {
     font-size: 17px;
     margin-bottom: 15px;
     color: #b7b7b7;
+    cursor: default;
   }
 `;
 
@@ -171,6 +164,7 @@ const LinkImage = styled.div`
 
 const LinkText = styled.div`
   width: 350px;
+  height: 100%;
   padding: 24px 10px 24px 20px;
   display: flex;
   flex-direction: column;
@@ -179,15 +173,24 @@ const LinkText = styled.div`
   h1 {
     font-size: 16px;
     color: #cecece;
+    max-height: 40px;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   h2 {
     font-size: 11px;
     color: #9b9595;
+    max-height: 33px;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   h3 {
     font-size: 11px;
     color: #cecece;
+    max-height: 33px;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 `;

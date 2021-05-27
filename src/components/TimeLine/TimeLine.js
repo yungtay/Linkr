@@ -51,5 +51,5 @@ const Posts = styled.div`
     width: 100%;
   }
 `;
-
 export { Application, Title, Container, Posts}
+

@@ -22,7 +22,9 @@ export default function NavBar() {
     return (
         <>
             <Topbar isOpened={isOpened}>
-                <div className="title">linkr</div>
+                <Link to={"timeline"}>
+                    <div className="title">linkr</div>
+                </Link>
                 <ClickAwayListener onClickAway={() => setIsOpened(false)}>
                     <div className="options">
                         <img
@@ -45,19 +47,13 @@ export default function NavBar() {
                     return (
                         <div key={i}>
                             {option.name === "Logout" ? (
-                                <Link
-                                    to={option.route}
-                                    style={{ textDecoration: "none" }}
-                                >
+                                <Link to={option.route}>
                                     <li key={i} onClick={() => Logout()}>
                                         {option.name}
                                     </li>
                                 </Link>
                             ) : (
-                                <Link
-                                    to={option.route}
-                                    style={{ textDecoration: "none" }}
-                                >
+                                <Link to={option.route}>
                                     <li key={i}>{option.name}</li>
                                 </Link>
                             )}
@@ -106,6 +102,9 @@ const Topbar = styled.div`
         border-radius: 26.5px;
         margin-left: 18px;
     }
+    a {
+        text-decoration: "none";
+    }
 `;
 const OptionsMenu = styled.ul`
     background-color: #171717;
@@ -128,5 +127,8 @@ const OptionsMenu = styled.ul`
     li {
         display: ${(props) => (props.isOpened ? "block" : "none")};
         color: #fff;
+    }
+    a {
+        text-decoration: "none";
     }
 `;

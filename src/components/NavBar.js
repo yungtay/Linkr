@@ -12,6 +12,7 @@ export default function NavBar() {
         { route: "/", name: "Logout" },
     ];
     const [isOpened, setIsOpened] = useState(false);
+
     const { accountInformation } = useContext(UserContext);
     function Logout() {
         localStorage.removeItem("user");
@@ -41,7 +42,6 @@ export default function NavBar() {
                     </div>
                 </ClickAwayListener>
             </Topbar>
-
             <OptionsMenu isOpened={isOpened}>
                 {menuOptions.map((option, i) => {
                     return (

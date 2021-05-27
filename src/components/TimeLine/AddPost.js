@@ -8,7 +8,6 @@ export default function AddPost() {
   const [text, setText] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const { accountInformation } = useContext(UserContext);
-  console.log(accountInformation);
 
   function submitPublish(e) {
     e.preventDefault();
@@ -27,8 +26,6 @@ export default function AddPost() {
       setSubmitting(false);
       setLink("");
       setText("");
-      //atualizar lista de posts;
-      console.log("Submit done");
     });
     request.catch(() => {
       setSubmitting(false);

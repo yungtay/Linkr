@@ -5,8 +5,6 @@ import styled from "styled-components";
 import UserContext from "../../context/UserContext";
 import Loader from "react-loader-spinner";
 
-//HARD-CODED SIDEBAR - ESPERANDO CORPO FICAR PRONTO
-
 export default function SideBar() {
   const { accountInformation } = useContext(UserContext);
   const [trendingHashs, setTrendingHashs] = useState([]);

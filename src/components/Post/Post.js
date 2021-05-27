@@ -65,13 +65,13 @@ export default function Post({ posts }) {
         </div>
 
         <h2>
-          <ReactHashtag
+          {false ? <ReactHashtag
             onHashtagClick={(hashtag) =>
               history.push(`/hashtag/${hashtag.substring(1)}`)
             }
           >
             {posts.text}
-          </ReactHashtag>
+          </ReactHashtag> : <Input value={posts.text}/>}
         </h2>
 
         <LinkSheet href={posts.link} target="_blank">
@@ -191,3 +191,13 @@ const LinkText = styled.div`
     color: #cecece;
   }
 `;
+
+const Input = styled.textarea`
+  width: 100%;
+  border-radius: 7px;
+
+  padding: 9px;
+
+  color: #4C4C4C;
+  font-size:14px;
+`

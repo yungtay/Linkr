@@ -52,14 +52,4 @@ const Posts = styled.div`
   }
 `;
 
-// const SideBar = styled.div`
-//   width: 301px;
-//   height: 200px;
-//   background-color: blue;
-
-//   @media (max-width: 640px) {
-//     display: none;
-//   }
-// `;
-
 export { Application, Title, Container, Posts}

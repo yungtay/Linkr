@@ -26,7 +26,7 @@ export default function MyLikes() {
       config
     );
     request.then((response) => {
-      setPosts(response.data);
+      setPosts(response.data.posts);
       setRefresh(false);
     });
     request.catch(() =>

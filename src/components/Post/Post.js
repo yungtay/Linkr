@@ -1,15 +1,15 @@
 import styled from "styled-components";
-import { HeartOutline } from "react-ionicons";
-import { Heart } from "react-ionicons";
 import { useContext, useState } from "react";
 import { useHistory } from "react-router";
 import UserContext from "../../context/UserContext";
+import { Trash, Create, Heart, HeartOutline } from "react-ionicons";
+import ReactHashtag from "react-hashtag";
+
 
 export default function Post({ posts }) {
   const [toggle, setToggle] = useState(false);
   const history = useHistory();
   const { accountInformation } = useContext(UserContext);
-
   return (
     <Structure>
       <LeftContainer>
@@ -40,10 +40,40 @@ export default function Post({ posts }) {
         </p>
       </LeftContainer>
       <RightContainer>
-        <h1 onClick={() => history.push(`/user/${posts.user.id}`)}>
-          {posts.user.username}
-        </h1>
-        <h2>{posts.text}</h2>
+        <div>
+          <h1 onClick={() => history.push(`/user/${posts.user.id}`)}>
+            {posts.user.username}
+          </h1>
+          {posts.user.id === accountInformation.user.id ? (
+            <div>
+              <Create
+                onClick={() => console.log(`editar ${posts.id}`)}
+                color={"#ffffff"}
+                height="18px"
+                width="18px"
+              />
+              <Trash
+                onClick={() => console.log(`excluir ${posts.id}`)}
+                color={"#ffffff"}
+                height="18px"
+                width="18px"
+              />
+            </div>
+          ) : (
+            ""
+          )}
+        </div>
+
+        <h2>
+          <ReactHashtag
+            onHashtagClick={(hashtag) =>
+              history.push(`/hashtag/${hashtag.substring(1)}`)
+            }
+          >
+            {posts.text}
+          </ReactHashtag>
+        </h2>
+
         <LinkSheet href={posts.link} target="_blank">
           <LinkText>
             <h1>{posts.linkTitle}</h1>
@@ -91,6 +121,17 @@ const LeftContainer = styled.div`
 const RightContainer = styled.div`
   width: 100%;
   margin-left: 19px;
+
+  > div {
+    display: flex;
+    justify-content: space-between;
+
+    div {
+      width: 45px;
+      display: flex;
+      justify-content: space-between;
+    }
+  }
 
   h1 {
     font-size: 19px;

@@ -14,8 +14,6 @@ export default function Login() {
   const [isLoading, setIsLoading] = useState("");
   const { setAccountInformation } = useContext(UserContext);
 
-  checkLocalStorage()
-
   function submitLogin(e) {
     e.preventDefault();
     for (const key in userLogInInformation) {
@@ -50,14 +48,6 @@ export default function Login() {
       alert("E-mail ou senha incorretos");
     } else {
       alert("Um erro desconhecido ocorreu, call reinforcements");
-    }
-  }
-
-  function checkLocalStorage() {
-    if(localStorage.getItem("user")){
-      const userSerializado = localStorage.getItem("user")
-      setAccountInformation(JSON.parse(userSerializado))
-      history.push("/timeline")
     }
   }
 
@@ -112,6 +102,7 @@ const LoginRegisterScreen = styled.div`
   height: 100vh;
   font-weight: 400;
   background: #333333;
+  margin-bottom: -125px;
 `;
 
 const LoginRegisterText = styled.div`

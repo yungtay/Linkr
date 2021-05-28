@@ -2,6 +2,7 @@ import { useState, useContext } from "react";
 import Modal from "react-modal";
 import UserContext from "../../context/UserContext";
 import styled from "styled-components";
+import axios from "axios";
 
 export default function DeletePost({ postsId, setModalIsOpen, modalIsOpen }) {
   const { accountInformation } = useContext(UserContext);
@@ -15,17 +16,16 @@ export default function DeletePost({ postsId, setModalIsOpen, modalIsOpen }) {
     console.log(postsId);
     setSentRequest(true);
 
-    // const config = {
-    //     headers: {
-    //         Authorization: `Bearer ${accountInformation.token}`,
-    //     },
-    // };
-    // const request = axios.delete(
-    //     `https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/posts/${idPost}`,
-    //     config
-    // );
+    const config = {
+      headers: {
+        Authorization: `Bearer ${accountInformation.token}`,
+      },
+    };
+    const request = axios.delete(
+      `https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/posts/${idPost}`,
+      config
+    );
   }
-  Modal.setAppElement("body");
   return (
     <>
       <Modal
@@ -40,7 +40,11 @@ export default function DeletePost({ postsId, setModalIsOpen, modalIsOpen }) {
               : "Tem certeza que deseja excluir essa publicação?"}
           </div>
           <div>
-            <button className="cancel" onClick={(e) => closeModal(e)}>
+            <button
+              className="cancel"
+              onClick={(e) => closeModal(e)}
+              disabled={sentRequest}
+            >
               Não, voltar
             </button>
             <button

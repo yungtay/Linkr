@@ -61,10 +61,13 @@ export default function TimeLine() {
 }
 
 const Application = styled.div`
-  width: 937px;
+  width: 100%;
   height: 100%;
   position: relative;
   margin: 0 auto;
+  @media (max-width: 640px) {
+    margin: 0;
+  }
 `;
 
 const Title = styled.div`
@@ -76,6 +79,11 @@ const Title = styled.div`
   font-family: "Oswald", sans-serif;
 
   color: #fff;
+
+  @media (max-width: 640px) {
+    font-size: 33px;
+    padding-left: 17px;
+  }
 `;
 
 const Container = styled.div`
@@ -100,6 +108,7 @@ const Posts = styled.div`
 
   @media (max-width: 640px) {
     width: 100%;
+    height: 100%;
   }
 `;
 

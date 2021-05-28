@@ -5,6 +5,7 @@ import UserContext from "../../context/UserContext";
 import { Trash, Create } from "react-ionicons";
 import ReactHashtag from "react-hashtag";
 import Likepost from "./Likepost";
+import ReactTooltip from "react-tooltip";
 
 export default function Post({ posts }) {
   const [likes, setLikes] = useState(posts.likes.length);
@@ -20,7 +21,24 @@ export default function Post({ posts }) {
           alt="avatar do usuário"
         />
         <Likepost posts={posts} likes={likes} setLikes={setLikes} />
-        <p>{likes === 1 ? `${likes} like` : `${likes} likes`}</p>
+        <p
+          data-tip={
+            posts.likes.length > 2
+              ? `${posts.likes[0]["user.username"]}, ${
+                  posts.likes[1]["user.username"]
+                } e mais ${posts.likes.length - 2} pessoas curtiram`
+              : posts.likes.map((item) => " " + item["user.username"])
+          }
+        >
+          {likes === 1 ? `${likes} like` : `${likes} likes`}
+        </p>
+        <ReactTooltip
+          textColor="#505050"
+          backgroundColor="#fff7"
+          place="bottom"
+          type="light"
+          effect="solid"
+        />
       </LeftContainer>
       <RightContainer>
         <div>
@@ -87,6 +105,11 @@ const Structure = styled.div`
   padding: 20px;
   background-color: #171717;
   display: flex;
+
+  @media (max-width: 640px) {
+    width: 100%;
+    border-radius: 0px;
+  }
 `;
 
 const LeftContainer = styled.div`
@@ -112,6 +135,8 @@ const LeftContainer = styled.div`
 const RightContainer = styled.div`
   width: 100%;
   margin-left: 19px;
+
+  overflow-x: hidden;
 
   > div {
     display: flex;
@@ -149,7 +174,7 @@ const LinkSheet = styled.a`
   justify-content: space-between;
 
   @media (max-width: 640px) {
-    width: calc(100vh - 20px);
+    width: 100%;
   }
 `;
 

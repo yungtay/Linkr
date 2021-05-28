@@ -24,11 +24,12 @@ export default function Likepost({ posts, likes, setLikes }) {
         [],
         config
       );
-      request.then();
+      request.then(() => ReactTooltip.rebuild());
       request.catch(() => {
         alert("Erro ao curtir");
         setToggle(!toggle);
         setLikes(likes - 1);
+        ReactTooltip.rebuild();
       });
     } else {
       setLikes(likes - 1);
@@ -37,11 +38,12 @@ export default function Likepost({ posts, likes, setLikes }) {
         [],
         config
       );
-      request.then();
+      request.then(() => ReactTooltip.rebuild());
       request.catch(() => {
         alert("Erro ao descurtir");
         setToggle(!toggle);
         setLikes(likes + 1);
+        ReactTooltip.rebuild();
       });
     }
   }
@@ -51,11 +53,6 @@ export default function Likepost({ posts, likes, setLikes }) {
     return arr;
   }
 
-  console.log(
-    posts.likes
-      .map((item) => item["user.username"])
-      .indexOf(`${accountInformation.user.username}`)
-  );
   let result;
   returnToolTip();
   function returnToolTip() {

@@ -174,7 +174,7 @@ const RightContainer = styled.div`
     }
   }
 
-  h1 {
+  > h1 {
     font-size: 19px;
     margin-bottom: 7px;
     cursor: pointer;
@@ -184,7 +184,7 @@ const RightContainer = styled.div`
     }
   }
 
-  h2 {
+  > h2 {
     font-size: 17px;
     margin-bottom: 15px;
     color: #b7b7b7;
@@ -231,37 +231,49 @@ const LinkText = styled.div`
 
   h1 {
     font-size: 16px;
+    line-height: 19px;
     color: #cecece;
-    max-height: 32px;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
     overflow: hidden;
+    text-overflow: ellipsis;
 
     @media (max-width: 640px) {
       font-size: 11px;
-      max-height: 33px;
     }
   }
 
   h2 {
     font-size: 11px;
+    line-height: 13px;
     color: #9b9595;
-    max-height: 33px;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
     overflow: hidden;
+    text-overflow: ellipsis;
 
     @media (max-width: 640px) {
       font-size: 9px;
-      max-height: 27px;
     }
   }
 
   h3 {
     font-size: 11px;
+    line-height: 13px;
     color: #cecece;
-    max-height: 33px;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
     overflow: hidden;
+    text-overflow: ellipsis;
 
     @media (max-width: 640px) {
       font-size: 9px;
-      max-height: 18px;
     }
   }
 `;

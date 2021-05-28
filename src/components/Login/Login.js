@@ -2,7 +2,7 @@ import styled from "styled-components";
 import axios from "axios";
 import { Link, useHistory } from "react-router-dom";
 import { useState, useContext } from "react";
-import UserContext from "../../context/UserContext";
+import UserContext from "../../context/UserContext"
 
 import Loader from "react-loader-spinner";
 
@@ -14,9 +14,7 @@ export default function Login() {
   });
   const [isLoading, setIsLoading] = useState("");
   const { setAccountInformation } = useContext(UserContext);
-
-
-  checkLocalStorage();
+  
   function submitLogin(e) {
     e.preventDefault();
     for (const key in userLogInInformation) {
@@ -35,8 +33,7 @@ export default function Login() {
   }
 
   function submitLoginSucess(response) {
-    setIsLoading("");
-    alert("Parabéns você logou neste lindo site !");
+    setIsLoading("")
     setUserLogInInformation({ email: "", password: "" });
     setAccountInformation(response.data);
     const userSerializados = JSON.stringify(response.data);
@@ -50,14 +47,6 @@ export default function Login() {
       alert("E-mail ou senha incorretos");
     } else {
       alert("Um erro desconhecido ocorreu, call reinforcements");
-    }
-  }
-
-  function checkLocalStorage() {
-    if (localStorage.getItem("user")) {
-      const userSerializado = localStorage.getItem("user");
-      setAccountInformation(JSON.parse(userSerializado));
-      history.push("/timeline");
     }
   }
 
@@ -112,21 +101,40 @@ const LoginRegisterScreen = styled.div`
   height: 100vh;
   font-weight: 400;
   background: #333333;
+  margin-bottom: -125px;
+
+  @media (max-width: 1000px){
+    flex-direction: column;
+  }
 `;
 
 const LoginRegisterText = styled.div`
   width: 62.85%;
   background: #151515;
   color: white;
-
   padding: 301px 0 0 144px;
+
+  @media (max-width: 1000px){
+    display:column;
+    align-items: center;
+    width: 100%;
+    padding: 10px 0 27px 0;
+    margin: 0 auto;
+  }
 `;
 
 const LoginRegisterLogo = styled.div`
   font-size: 106px;
   font-family: "Passion One", cursive;
-  line-height: 117px;
   letter-spacing: 0.05em;
+
+  @media (max-width: 1000px){
+    display:flex;
+    justify-content: center;
+    font-size: 76px;
+    padding: 0 28.27%;
+  }
+
 `;
 
 const LoginRegisterSubTitle = styled.div`
@@ -135,51 +143,55 @@ const LoginRegisterSubTitle = styled.div`
   font-weight: 700;
   font-family: "Oswald";
   line-height: 64px;
+
+  @media (max-width: 1000px){
+    width: 100%;
+    line-height: 34px;
+    font-size: 23px;
+    padding: 0 21.33%;
+    display: flex;
+    justify-content: center;
+  }
 `;
 
 const LoginRegisterContainerForms = styled.div`
   width: 37.15%;
-
   padding: 317px 2.57% 0 2.57%;
+
+  @media (max-width: 1000px){
+    padding: 40px 2.57% 0 2.57%;
+    width: 100%;
+  }
 `;
 
 const Form = styled.form`
   display: flex;
   flex-direction: column;
-
   align-items: center;
-
   input,
   button {
     width: 100%;
     height: 65px;
-
     border: 0px solid;
     border-radius: 6px;
-
     margin-bottom: 13px;
     padding: 0 0 0 17px;
-
     font-size: 27px;
     font-weight: 700;
     font-family: "Oswald";
-
-    opacity: ${(prop) => (prop.loading ? 0.35 : 1)};
-    background: ${(prop) => (prop.loading ? "#F2F2F2" : "white")};
-    pointer-events: ${(prop) => (prop.loading ? "none" : "initial")};
+    opacity: ${prop => prop.loading ? 0.35 : 1};
+    background: ${prop => prop.loading ? "#F2F2F2" : "white"};
+    pointer-events: ${prop => prop.loading ? "none" : "initial"};
 
     &::placeholder {
       color: #9f9f9f;
     }
   }
-
   button {
     color: white;
     background: #1877f2;
-
     margin-bottom: 22px;
   }
-
   a {
     color: white;
     font-family: Lato;
@@ -187,7 +199,7 @@ const Form = styled.form`
     text-decoration: none;
     border-bottom: 1px solid #fff;
     padding-bottom: 2px;
-    pointer-events: ${(prop) => (prop.loading ? "none" : "initial")};
+    pointer-events: ${prop => prop.loading ? "none" : "initial"};
   }
 `;
 

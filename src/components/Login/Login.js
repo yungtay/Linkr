@@ -1,8 +1,9 @@
 import styled from "styled-components";
-import axios from 'axios'
+import axios from "axios";
 import { Link, useHistory } from "react-router-dom";
 import { useState, useContext } from "react";
 import UserContext from "../../context/UserContext"
+
 import Loader from "react-loader-spinner";
 
 export default function Login() {
@@ -13,12 +14,12 @@ export default function Login() {
   });
   const [isLoading, setIsLoading] = useState("");
   const { setAccountInformation } = useContext(UserContext);
-
+  
   function submitLogin(e) {
     e.preventDefault();
     for (const key in userLogInInformation) {
       if (!userLogInInformation[key]) {
-        setIsLoading("")
+        setIsLoading("");
         alert(`Por favor, preencha o campo: ${key}`);
         return;
       }
@@ -36,14 +37,13 @@ export default function Login() {
     setUserLogInInformation({ email: "", password: "" });
     setAccountInformation(response.data);
     const userSerializados = JSON.stringify(response.data);
-    localStorage.setItem("user", userSerializados)
+    localStorage.setItem("user", userSerializados);
     history.push("/timeline");
   }
 
   function submitLoginFail(error) {
-    console.log(error.response.status)
-    setIsLoading("")
-    if(error.response.status === 403){
+    setIsLoading("");
+    if (error.response.status === 403) {
       alert("E-mail ou senha incorretos");
     } else {
       alert("Um erro desconhecido ocorreu, call reinforcements");
@@ -182,6 +182,7 @@ const Form = styled.form`
     opacity: ${prop => prop.loading ? 0.35 : 1};
     background: ${prop => prop.loading ? "#F2F2F2" : "white"};
     pointer-events: ${prop => prop.loading ? "none" : "initial"};
+
     &::placeholder {
       color: #9f9f9f;
     }

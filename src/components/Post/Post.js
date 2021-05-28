@@ -167,20 +167,21 @@ const RightContainer = styled.div`
     display: flex;
     justify-content: space-between;
 
+    > h1 {
+      font-size: 19px;
+      margin-bottom: 7px;
+      cursor: pointer;
+
+      @media (max-width: 640px) {
+        font-size: 17px;
+      }
+    }
+
     div {
       width: 45px;
       display: flex;
       justify-content: space-between;
-    }
-  }
-
-  > h1 {
-    font-size: 19px;
-    margin-bottom: 7px;
-    cursor: pointer;
-
-    @media (max-width: 640px) {
-      font-size: 17px;
+      cursor: pointer;
     }
   }
 
@@ -189,6 +190,10 @@ const RightContainer = styled.div`
     margin-bottom: 15px;
     color: #b7b7b7;
     cursor: default;
+
+    strong {
+      cursor: pointer;
+    }
 
     @media (max-width: 640px) {
       font-size: 15px;

@@ -1,8 +1,15 @@
-import axios from 'axios'
+
+import axios from "axios";
 import { useParams } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
-import UserContext from "../../context/UserContext"
-import { Application, Title, Container, Posts, PositionLoader} from '../TimeLine/TimeLine'
+import UserContext from "../../context/UserContext";
+import {
+  Application,
+  Title,
+  Container,
+  Posts,
+  PositionLoader,
+} from "../TimeLine/TimeLine";
 import Loader from "react-loader-spinner";
 import SideBar from "../SideBar/Sidebar";
 import Post from "../Post/Post";

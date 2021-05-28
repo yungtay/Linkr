@@ -15,7 +15,6 @@ export default function DeletePost({ postsId, setModalIsOpen, modalIsOpen }) {
 
   function deletePost(e, idPost) {
     e.stopPropagation();
-    console.log(idPost);
     setSentRequest(true);
     const config = {
       headers: {

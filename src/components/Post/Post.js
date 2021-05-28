@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import axios from 'axios'
 import { useContext, useState, useRef, useEffect } from "react";
 import { useHistory } from "react-router";
 import UserContext from "../../context/UserContext";
+import Edit from "./Edit"
 import { Trash, Create, Heart, HeartOutline } from "react-ionicons";
 import ReactHashtag from "react-hashtag";
 
@@ -15,30 +15,6 @@ export default function Post({ posts }) {
   const inputRef = useRef(null);
   const history = useHistory();
   const { accountInformation } = useContext(UserContext);
-
-  function escape(e) {
-    if(e.key === "Escape"){
-      setEdit(false)
-      setMessage({text: posts.text})
-    }
-    if(e.key === "Enter"){
-      setIsLoading(true)
-      e.preventDefault();
-      const request = axios({
-        method: 'put',
-        url: `https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/posts/${posts.id}`,
-        data: message,
-        headers: { Authorization: `Bearer ${accountInformation.token}`}
-      })
-      request.then(() => {
-        setIsLoading(false);
-        setEdit(false);
-        setEditSucess(true);
-      });
-      request.catch(() => {alert('Não foi possível salvar as alterações ;(');
-      setIsLoading(false);})
-    }
-  }
 
   useEffect(() => {
     if (edit) {
@@ -83,7 +59,10 @@ export default function Post({ posts }) {
           {posts.user.id === accountInformation.user.id ? (
             <div>
               <Create
-                onClick={() => {setEdit(!edit); setMessage({text: posts.text})}}
+                onClick={() => {
+                  setEdit(!edit);
+                  setMessage(message);
+                }}
                 color={"#ffffff"}
                 height="18px"
                 width="18px"
@@ -102,12 +81,12 @@ export default function Post({ posts }) {
 
         <h2>
           {edit ? (
-            <Text
-              onChange={(e) => setMessage({ ...message, text: e.target.value })}
-              isLoading={isLoading}
-              onKeyDown={(e) => escape(e)}
-              ref={inputRef}
-              value={message.text}
+            <Edit
+              message={message} setMessage={setMessage}
+              accountInformation={accountInformation} posts={posts}
+              inputRef={inputRef} isLoading={isLoading}
+              setIsLoading={setIsLoading} setEditSucess={setEditSucess}
+              setEdit={setEdit}
             />
           ) : (
             <ReactHashtag
@@ -115,7 +94,7 @@ export default function Post({ posts }) {
                 history.push(`/hashtag/${hashtag.substring(1)}`)
               }
             >
-              { (editSucess && message.text) || posts.text}
+              {(editSucess && message.text) || posts.text}
             </ReactHashtag>
           )}
         </h2>
@@ -237,21 +216,3 @@ const LinkText = styled.div`
     color: #cecece;
   }
 `;
-
-const Text = styled.textarea`
-  width: 100%;
-  border-radius: 7px;
-
-  padding: 9px;
-
-  color: #4C4C4C;
-  font-size:14px;
-  height: 44px;
-
-  opacity: ${prop => prop.isLoading ? 0.35 : 1};
-  background: ${prop => prop.isLoading ? "#F2F2F2" : "white"};
-  pointer-events: ${prop => prop.isLoading ? "none" : "initial"};
-
-  overflow: hidden;
-  resize: none;
-`

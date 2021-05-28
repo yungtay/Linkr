@@ -12,6 +12,8 @@ export default function Post({ posts }) {
   const history = useHistory();
   const { accountInformation } = useContext(UserContext);
 
+  console.log(posts.likes[0]);
+
   return (
     <Structure>
       <LeftContainer>
@@ -24,10 +26,18 @@ export default function Post({ posts }) {
         <p
           data-tip={
             posts.likes.length > 2
-              ? `${posts.likes[0]["user.username"]}, ${
-                  posts.likes[1]["user.username"]
+              ? `${
+                  posts.likes[0]["user.username"] === undefined
+                    ? posts.likes[0].username
+                    : posts.likes[0]["user.username"]
+                }, ${
+                  posts.likes[1]["user.username"] === undefined
+                    ? posts.likes[1].username
+                    : posts.likes[1]["user.username"]
                 } e outras ${posts.likes.length - 2} pessoas`
-              : posts.likes.map((item) => " " + item["user.username"])
+              : posts.likes.map(
+                  (item) => " " + (item["user.username"] || item.username)
+                )
           }
         >
           {likes === 1 ? `${likes} like` : `${likes} likes`}

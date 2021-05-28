@@ -6,7 +6,9 @@ import UserContext from "../../context/UserContext";
 export default function Likepost({ posts, likes, setLikes }) {
   const { accountInformation } = useContext(UserContext);
   const [toggle, setToggle] = useState(
-    posts.likes.map((item) => item.userId).includes(accountInformation.user.id)
+    posts.likes
+      .map((item) => item.userId || item.id)
+      .includes(accountInformation.user.id)
   );
 
   function toggleHeart() {

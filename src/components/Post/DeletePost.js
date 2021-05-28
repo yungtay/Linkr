@@ -12,19 +12,30 @@ export default function DeletePost({ postsId, setModalIsOpen, modalIsOpen }) {
     e.stopPropagation();
     setModalIsOpen(false);
   }
-  function deletePost(idPost) {
-    console.log(postsId);
-    setSentRequest(true);
 
+  function deletePost(e, idPost) {
+    e.stopPropagation();
+    console.log(idPost);
+    setSentRequest(true);
     const config = {
       headers: {
         Authorization: `Bearer ${accountInformation.token}`,
       },
     };
+    const data = {};
     const request = axios.delete(
       `https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/posts/${idPost}`,
       config
     );
+    request.then(() => {
+      setModalIsOpen(false);
+      setSentRequest(false);
+    });
+    request.catch(() => {
+      setModalIsOpen(false);
+      setSentRequest(false);
+      alert("Não foi possível excluir o post");
+    });
   }
   Modal.setAppElement("body");
 
@@ -51,7 +62,7 @@ export default function DeletePost({ postsId, setModalIsOpen, modalIsOpen }) {
             </button>
             <button
               className="confirm"
-              onClick={(e) => deletePost(e)}
+              onClick={(e) => deletePost(e, postsId)}
               disabled={sentRequest}
             >
               Sim, excluir

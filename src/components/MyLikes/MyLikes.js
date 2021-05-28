@@ -28,7 +28,6 @@ export default function MyLikes() {
     request.then((response) => {
       setPosts(response.data.posts);
       setRefresh(false);
-      console.log(response.data);
     });
     request.catch(() =>
       alert(

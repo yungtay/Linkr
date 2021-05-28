@@ -5,7 +5,6 @@ import UserContext from "../../context/UserContext";
 import { Trash, Create } from "react-ionicons";
 import ReactHashtag from "react-hashtag";
 import Likepost from "./Likepost";
-import ReactTooltip from "react-tooltip";
 
 export default function Post({ posts }) {
   const [likes, setLikes] = useState(posts.likes.length);
@@ -21,31 +20,6 @@ export default function Post({ posts }) {
           alt="avatar do usuário"
         />
         <Likepost posts={posts} likes={likes} setLikes={setLikes} />
-        <p
-          data-tip={
-            posts.likes.length > 2
-              ? `${
-                  posts.likes[0]["user.username"] === undefined
-                    ? posts.likes[0].username
-                    : posts.likes[0]["user.username"]
-                }, ${
-                  posts.likes[1]["user.username"] === undefined
-                    ? posts.likes[1].username
-                    : posts.likes[1]["user.username"]
-                } e outras ${posts.likes.length - 2} pessoas`
-              : posts.likes.map(
-                  (item) => " " + (item["user.username"] || item.username)
-                )
-          }
-        >
-          {likes === 1 ? `${likes} like` : `${likes} likes`}
-        </p>
-        <ReactTooltip
-          className="tool-tip-custom"
-          place="bottom"
-          type="light"
-          effect="solid"
-        />
       </LeftContainer>
       <RightContainer>
         <div>

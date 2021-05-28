@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import axios from 'axios'
+import axios from "axios";
 import { Link, useHistory } from "react-router-dom";
 import { useState, useContext } from "react";
-import UserContext from "../../context/UserContext"
+import UserContext from "../../context/UserContext";
 import Loader from "react-loader-spinner";
 
 export default function Login() {
@@ -14,11 +14,13 @@ export default function Login() {
   const [isLoading, setIsLoading] = useState("");
   const { setAccountInformation } = useContext(UserContext);
 
+
+  checkLocalStorage();
   function submitLogin(e) {
     e.preventDefault();
     for (const key in userLogInInformation) {
       if (!userLogInInformation[key]) {
-        setIsLoading("")
+        setIsLoading("");
         alert(`Por favor, preencha o campo: ${key}`);
         return;
       }
@@ -32,22 +34,29 @@ export default function Login() {
   }
 
   function submitLoginSucess(response) {
-    setIsLoading("")
+    setIsLoading("");
     alert("Parabéns você logou neste lindo site !");
     setUserLogInInformation({ email: "", password: "" });
     setAccountInformation(response.data);
     const userSerializados = JSON.stringify(response.data);
-    localStorage.setItem("user", userSerializados)
+    localStorage.setItem("user", userSerializados);
     history.push("/timeline");
   }
 
   function submitLoginFail(error) {
-    console.log(error.response.status)
-    setIsLoading("")
-    if(error.response.status === 403){
+    setIsLoading("");
+    if (error.response.status === 403) {
       alert("E-mail ou senha incorretos");
     } else {
       alert("Um erro desconhecido ocorreu, call reinforcements");
+    }
+  }
+
+  function checkLocalStorage() {
+    if (localStorage.getItem("user")) {
+      const userSerializado = localStorage.getItem("user");
+      setAccountInformation(JSON.parse(userSerializado));
+      history.push("/timeline");
     }
   }
 
@@ -102,7 +111,6 @@ const LoginRegisterScreen = styled.div`
   height: 100vh;
   font-weight: 400;
   background: #333333;
-  margin-bottom: -125px;
 `;
 
 const LoginRegisterText = styled.div`
@@ -155,9 +163,9 @@ const Form = styled.form`
     font-weight: 700;
     font-family: "Oswald";
 
-    opacity: ${prop => prop.loading ? 0.35 : 1};
-    background: ${prop => prop.loading ? "#F2F2F2" : "white"};
-    pointer-events: ${prop => prop.loading ? "none" : "initial"};
+    opacity: ${(prop) => (prop.loading ? 0.35 : 1)};
+    background: ${(prop) => (prop.loading ? "#F2F2F2" : "white")};
+    pointer-events: ${(prop) => (prop.loading ? "none" : "initial")};
 
     &::placeholder {
       color: #9f9f9f;
@@ -178,7 +186,7 @@ const Form = styled.form`
     text-decoration: none;
     border-bottom: 1px solid #fff;
     padding-bottom: 2px;
-    pointer-events: ${prop => prop.loading ? "none" : "initial"};
+    pointer-events: ${(prop) => (prop.loading ? "none" : "initial")};
   }
 `;
 

@@ -1,15 +1,31 @@
 import styled from "styled-components";
-import { useContext, useState } from "react";
+import { useContext, useState, useRef, useEffect } from "react";
 import { useHistory } from "react-router";
 import UserContext from "../../context/UserContext";
-import { Trash, Create } from "react-ionicons";
+import Edit from "./Edit";
+import { Trash, Create, Heart, HeartOutline } from "react-ionicons";
 import ReactHashtag from "react-hashtag";
+import DeletePost from "./DeletePost";
 import Likepost from "./Likepost";
 
 export default function Post({ posts }) {
   const [likes, setLikes] = useState(posts.likes.length);
+  const [toggle, setToggle] = useState(false);
+  const [message, setMessage] = useState({ text: posts.text });
+  const [edit, setEdit] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [editSucess, setEditSucess] = useState(false);
+  const inputRef = useRef(null);
   const history = useHistory();
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+
   const { accountInformation } = useContext(UserContext);
+
+  useEffect(() => {
+    if (edit) {
+      inputRef.current.focus();
+    }
+  }, [edit]);
 
   return (
     <Structure>
@@ -29,16 +45,24 @@ export default function Post({ posts }) {
           {posts.user.id === accountInformation.user.id ? (
             <div>
               <Create
-                onClick={() => console.log(`editar ${posts.id}`)}
+                onClick={() => {
+                  setEdit(!edit);
+                  setMessage(message);
+                }}
                 color={"#ffffff"}
                 height="18px"
                 width="18px"
               />
               <Trash
-                onClick={() => console.log(`excluir ${posts.id}`)}
+                onClick={() => setModalIsOpen(true)}
                 color={"#ffffff"}
                 height="18px"
                 width="18px"
+              />
+              <DeletePost
+                postsId={posts.id}
+                modalIsOpen={modalIsOpen}
+                setModalIsOpen={setModalIsOpen}
               />
             </div>
           ) : (
@@ -47,19 +71,27 @@ export default function Post({ posts }) {
         </div>
 
         <h2>
-          <ReactHashtag
-            renderHashtag={(hashtagValue) => (
-              <strong
-                onClick={() =>
-                  history.push(`/hashtag/${hashtagValue.substring(1)}`)
-                }
-              >
-                {hashtagValue}
-              </strong>
-            )}
-          >
-            {posts.text}
-          </ReactHashtag>
+          {edit ? (
+            <Edit
+              message={message}
+              setMessage={setMessage}
+              accountInformation={accountInformation}
+              posts={posts}
+              inputRef={inputRef}
+              isLoading={isLoading}
+              setIsLoading={setIsLoading}
+              setEditSucess={setEditSucess}
+              setEdit={setEdit}
+            />
+          ) : (
+            <ReactHashtag
+              onHashtagClick={(hashtag) =>
+                history.push(`/hashtag/${hashtag.substring(1)}`)
+              }
+            >
+              {(editSucess && message.text) || posts.text}
+            </ReactHashtag>
+          )}
         </h2>
 
         <LinkSheet href={posts.link} target="_blank">

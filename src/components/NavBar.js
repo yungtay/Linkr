@@ -21,7 +21,11 @@ export default function NavBar() {
   return (
     <>
       <Topbar isOpened={isOpened}>
+<<<<<<< HEAD
         <Link to="/timeline" style={{ textDecoration: "none" }}>
+=======
+        <Link to={"/timeline"}>
+>>>>>>> main
           <div className="title">linkr</div>
         </Link>
         <ClickAwayListener onClickAway={() => setIsOpened(false)}>
@@ -41,19 +45,30 @@ export default function NavBar() {
           </div>
         </ClickAwayListener>
       </Topbar>
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
       <OptionsMenu isOpened={isOpened}>
         {menuOptions.map((option, i) => {
           return (
             <div key={i}>
               {option.name === "Logout" ? (
+<<<<<<< HEAD
                 <Link to={option.route} style={{ textDecoration: "none" }}>
+=======
+                <Link to={option.route}>
+>>>>>>> main
                   <li key={i} onClick={() => Logout()}>
                     {option.name}
                   </li>
                 </Link>
               ) : (
+<<<<<<< HEAD
                 <Link to={option.route} style={{ textDecoration: "none" }}>
+=======
+                <Link to={option.route}>
+>>>>>>> main
                   <li key={i}>{option.name}</li>
                 </Link>
               )}
@@ -103,6 +118,12 @@ const Topbar = styled.div`
     border-radius: 26.5px;
     margin-left: 18px;
   }
+<<<<<<< HEAD
+=======
+  a {
+    text-decoration: "none";
+  }
+>>>>>>> main
 `;
 const OptionsMenu = styled.ul`
   background-color: #171717;
@@ -126,4 +147,10 @@ const OptionsMenu = styled.ul`
     display: ${(props) => (props.isOpened ? "block" : "none")};
     color: #fff;
   }
+<<<<<<< HEAD
+=======
+  a {
+    text-decoration: "none";
+  }
+>>>>>>> main
 `;

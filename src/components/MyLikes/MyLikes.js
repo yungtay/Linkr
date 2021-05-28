@@ -48,7 +48,11 @@ export default function MyLikes() {
           ) : posts.length === 0 ? (
             <p>Nenhum post encontrado</p>
           ) : (
-            posts.map((item) => <Post key={item.id} posts={item} />)
+            <>
+              {posts.map((item) => (
+                <Post key={item.id} posts={item} />
+              ))}
+            </>
           )}
         </Posts>
         <SideBar />

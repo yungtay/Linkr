@@ -3,14 +3,13 @@ import { useContext, useState, useRef, useEffect } from "react";
 import { useHistory } from "react-router";
 import UserContext from "../../context/UserContext";
 import Edit from "./Edit";
-import { Trash, Create, Heart, HeartOutline } from "react-ionicons";
+import { Trash, Create } from "react-ionicons";
 import ReactHashtag from "react-hashtag";
 import DeletePost from "./DeletePost";
 import Likepost from "./Likepost";
 
 export default function Post({ posts }) {
   const [likes, setLikes] = useState(posts.likes.length);
-  const [toggle, setToggle] = useState(false);
   const [message, setMessage] = useState({ text: posts.text });
   const [edit, setEdit] = useState(false);
   const [isLoading, setIsLoading] = useState(false);

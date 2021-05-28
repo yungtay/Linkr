@@ -26,15 +26,14 @@ export default function Post({ posts }) {
             posts.likes.length > 2
               ? `${posts.likes[0]["user.username"]}, ${
                   posts.likes[1]["user.username"]
-                } e mais ${posts.likes.length - 2} pessoas curtiram`
+                } e outras ${posts.likes.length - 2} pessoas`
               : posts.likes.map((item) => " " + item["user.username"])
           }
         >
           {likes === 1 ? `${likes} like` : `${likes} likes`}
         </p>
         <ReactTooltip
-          textColor="#505050"
-          backgroundColor="#fff7"
+          className="tool-tip-custom"
           place="bottom"
           type="light"
           effect="solid"
@@ -139,6 +138,14 @@ const LeftContainer = styled.div`
     @media (max-width: 640px) {
       font-size: 9px;
     }
+  }
+  .tool-tip-custom {
+    height: 24px;
+    font-weight: bold;
+    color: #505050;
+    background-color: rgba(255, 255, 255, 0.9);
+    font-size: 11px;
+    border-radius: 10px;
   }
 `;
 

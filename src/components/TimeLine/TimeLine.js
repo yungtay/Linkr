@@ -65,6 +65,7 @@ const Application = styled.div`
   height: 100%;
   position: relative;
   margin: 0 auto;
+
   @media (max-width: 640px) {
     width: 100%;
     margin: 0;
@@ -95,7 +96,7 @@ const Container = styled.div`
 
 const Posts = styled.div`
   width: 611px;
-  height: 200px;
+  height: 100%;
   background-color: #333;
 
   display: flex;

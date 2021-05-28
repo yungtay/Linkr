@@ -21,7 +21,6 @@ export default function DeletePost({ postsId, setModalIsOpen, modalIsOpen }) {
         Authorization: `Bearer ${accountInformation.token}`,
       },
     };
-    const data = {};
     const request = axios.delete(
       `https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/posts/${idPost}`,
       config

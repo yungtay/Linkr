@@ -1,7 +1,17 @@
 import styled from "styled-components";
-import axios from 'axios'
+import axios from "axios";
 
-export default function Edit({message, setMessage, accountInformation, posts, inputRef, isLoading, setIsLoading, setEditSucess, setEdit}) {
+export default function Edit({
+  message,
+  setMessage,
+  accountInformation,
+  posts,
+  inputRef,
+  isLoading,
+  setIsLoading,
+  setEditSucess,
+  setEdit,
+}) {
   function pressKey(e) {
     if (e.key === "Escape") {
       setEdit(false);
@@ -34,6 +44,7 @@ export default function Edit({message, setMessage, accountInformation, posts, in
       value={message.text}
       onChange={(e) => setMessage({ ...message, text: e.target.value })}
       isLoading={isLoading}
+      disabled={isLoading}
       onKeyDown={(e) => pressKey(e)}
       ref={inputRef}
     />

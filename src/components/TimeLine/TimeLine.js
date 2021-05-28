@@ -65,6 +65,11 @@ const Application = styled.div`
   height: 100%;
   position: relative;
   margin: 0 auto;
+
+  @media (max-width: 640px) {
+    width: 100%;
+    margin: 0;
+  }
 `;
 
 const Title = styled.div`
@@ -76,6 +81,11 @@ const Title = styled.div`
   font-family: "Oswald", sans-serif;
 
   color: #fff;
+
+  @media (max-width: 640px) {
+    font-size: 33px;
+    padding-left: 17px;
+  }
 `;
 
 const Container = styled.div`
@@ -86,7 +96,7 @@ const Container = styled.div`
 
 const Posts = styled.div`
   width: 611px;
-  height: 200px;
+  height: 100%;
   background-color: #333;
 
   display: flex;
@@ -100,6 +110,7 @@ const Posts = styled.div`
 
   @media (max-width: 640px) {
     width: 100%;
+    height: 100%;
   }
 `;
 

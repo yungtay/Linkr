@@ -6,45 +6,41 @@ import UserContext from "../../context/UserContext";
 import Post from "../Post/Post";
 
 export default function MyPosts() {
-    const { accountInformation } = useContext(UserContext);
-    const [myPosts, setMyPosts] = useState([]);
-    useEffect(() => {
-        const config = {
-            headers: {
-                Authorization: `Bearer ${accountInformation.token}`,
-            },
-        };
-        const request = axios.get(
-            `https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/users/${accountInformation.user.id}/posts`,
-            config
-        );
-        request.then((resp) => {
-            setMyPosts(resp.data.posts);
-        });
-    }, [accountInformation.token, accountInformation.user.id]);
-    return (
-        <>
-            <Application>
-                <Title>my posts</Title>
-                <Container>
-                    {myPosts ? (
-                        <>
-                            {myPosts.map((myPost) => {
-                                return (
-                                    <Post key={myPost.id} posts={myPost}></Post>
-                                );
-                            })}
-                        </>
-                    ) : (
-                        <div>Carregando</div>
-                    )}
+  const { accountInformation } = useContext(UserContext);
+  const [myPosts, setMyPosts] = useState([]);
+  useEffect(() => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${accountInformation.token}`,
+      },
+    };
+    const request = axios.get(
+      `https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/users/${accountInformation.user.id}/posts`,
+      config
+    );
+    request.then((resp) => {
+      setMyPosts(resp.data.posts);
+    });
+  }, [accountInformation.token, accountInformation.user.id]);
+  return (
+    <>
+      <Application>
+        <Title>my posts</Title>
+        <Container>
+          {myPosts ? (
+            <>
+              {myPosts.map((myPost) => {
+                return <Post key={myPost.id} posts={myPost}></Post>;
+              })}
+            </>
+          ) : (
+            <div>Carregando</div>
+          )}
 
-                    <SideBar />
-                </Container>
-            </Application>
-        </>
-
- 
+          <SideBar />
+        </Container>
+      </Application>
+    </>
   );
 }
 
@@ -67,23 +63,11 @@ const Title = styled.div`
 `;
 
 const Container = styled.div`
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    flex-direction: column;
-    width: 611px;
-    @media (max-width: 640px) {
-        width: 100%;
-    }
-
-`;
-
-const Posts = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
   width: 611px;
-  height: 276px;
-  background-color: #171717;
-  border-radius: 16px;
-
   @media (max-width: 640px) {
     width: 100%;
   }

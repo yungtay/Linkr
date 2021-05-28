@@ -27,7 +27,6 @@ export default function AddPost({ setRefresh }) {
       setLink("");
       setText("");
       setRefresh(false);
-
     });
     request.catch(() => {
       setSubmitting(false);
@@ -106,6 +105,7 @@ const Inputs = styled.div`
     color: #707070;
 
     @media (max-width: 640px) {
+      font-size: 17px;
       display: flex;
       justify-content: center;
     }
@@ -127,6 +127,10 @@ const URL = styled.input`
   ::placeholder {
     font-size: 15px;
     color: #949494;
+
+    @media (max-width: 640px) {
+      font-size: 13px;
+    }
   }
 `;
 
@@ -147,6 +151,9 @@ const Coment = styled.textarea`
     font-size: 15px;
     color: #949494;
     margin-bottom: 20px;
+    @media (max-width: 640px) {
+      font-size: 13px;
+    }
   }
 
   @media (max-width: 640px) {
@@ -164,6 +171,11 @@ const Button = styled.button`
   border-radius: 5px;
   border: none;
   background-color: #1877f2;
+  @media (max-width: 640px) {
+    font-size: 13px;
+    height: 22px;
+    width: 112px;
+  }
 `;
 
 const PositionButton = styled.div`

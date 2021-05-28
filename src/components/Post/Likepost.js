@@ -24,7 +24,7 @@ export default function Likepost({ posts, likes, setLikes }) {
         [],
         config
       );
-      request.then();
+      request.then("");
       request.catch(() => {
         alert("Erro ao curtir");
         setToggle(!toggle);
@@ -37,7 +37,7 @@ export default function Likepost({ posts, likes, setLikes }) {
         [],
         config
       );
-      request.then();
+      request.then("");
       request.catch(() => {
         alert("Erro ao descurtir");
         setToggle(!toggle);

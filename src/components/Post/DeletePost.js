@@ -26,6 +26,8 @@ export default function DeletePost({ postsId, setModalIsOpen, modalIsOpen }) {
       config
     );
   }
+  Modal.setAppElement("body");
+
   return (
     <>
       <Modal

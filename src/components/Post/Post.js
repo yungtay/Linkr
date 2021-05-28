@@ -12,8 +12,6 @@ export default function Post({ posts }) {
   const history = useHistory();
   const { accountInformation } = useContext(UserContext);
 
-  console.log(posts.likes[0]);
-
   return (
     <Structure>
       <LeftContainer>

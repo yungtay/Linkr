@@ -109,6 +109,7 @@ const Structure = styled.div`
   @media (max-width: 640px) {
     width: 100%;
     border-radius: 0px;
+    padding: 9px 15px 15px 15px;
   }
 `;
 
@@ -123,12 +124,21 @@ const LeftContainer = styled.div`
 
     border-radius: 50%;
     margin-bottom: 19px;
+
     cursor: pointer;
+    @media (max-width: 640px) {
+      width: 40px;
+      height: 40px;
+    }
   }
 
   p {
     font-size: 11px;
     cursor: default;
+
+    @media (max-width: 640px) {
+      font-size: 9px;
+    }
   }
 `;
 
@@ -153,6 +163,10 @@ const RightContainer = styled.div`
     font-size: 19px;
     margin-bottom: 7px;
     cursor: pointer;
+
+    @media (max-width: 640px) {
+      font-size: 17px;
+    }
   }
 
   h2 {
@@ -160,6 +174,10 @@ const RightContainer = styled.div`
     margin-bottom: 15px;
     color: #b7b7b7;
     cursor: default;
+
+    @media (max-width: 640px) {
+      font-size: 15px;
+    }
   }
 `;
 
@@ -194,13 +212,18 @@ const LinkText = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  overflow: hidden;
 
   h1 {
     font-size: 16px;
     color: #cecece;
-    max-height: 40px;
+    max-height: 32px;
     overflow: hidden;
-    text-overflow: ellipsis;
+
+    @media (max-width: 640px) {
+      font-size: 11px;
+      max-height: 33px;
+    }
   }
 
   h2 {
@@ -208,7 +231,11 @@ const LinkText = styled.div`
     color: #9b9595;
     max-height: 33px;
     overflow: hidden;
-    text-overflow: ellipsis;
+
+    @media (max-width: 640px) {
+      font-size: 9px;
+      max-height: 27px;
+    }
   }
 
   h3 {
@@ -216,6 +243,10 @@ const LinkText = styled.div`
     color: #cecece;
     max-height: 33px;
     overflow: hidden;
-    text-overflow: ellipsis;
+
+    @media (max-width: 640px) {
+      font-size: 9px;
+      max-height: 18px;
+    }
   }
 `;

@@ -61,11 +61,12 @@ export default function TimeLine() {
 }
 
 const Application = styled.div`
-  width: 100%;
+  width: 937px;
   height: 100%;
   position: relative;
   margin: 0 auto;
   @media (max-width: 640px) {
+    width: 100%;
     margin: 0;
   }
 `;

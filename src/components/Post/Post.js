@@ -4,10 +4,13 @@ import { useHistory } from "react-router";
 import UserContext from "../../context/UserContext";
 import { Trash, Create, Heart, HeartOutline } from "react-ionicons";
 import ReactHashtag from "react-hashtag";
+import DeletePost from "./DeletePost";
 
 export default function Post({ posts }) {
   const [toggle, setToggle] = useState(false);
   const history = useHistory();
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+
   const { accountInformation } = useContext(UserContext);
   return (
     <Structure>
@@ -52,10 +55,15 @@ export default function Post({ posts }) {
                 width="18px"
               />
               <Trash
-                onClick={() => console.log(`excluir ${posts.id}`)}
+                onClick={() => setModalIsOpen(true)}
                 color={"#ffffff"}
                 height="18px"
                 width="18px"
+              />
+              <DeletePost
+                postsId={posts.id}
+                modalIsOpen={modalIsOpen}
+                setModalIsOpen={setModalIsOpen}
               />
             </div>
           ) : (

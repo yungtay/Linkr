@@ -15,8 +15,8 @@ export default function Login() {
   const [isLoading, setIsLoading] = useState("");
   const { setAccountInformation } = useContext(UserContext);
 
-  checkLocalStorage();
 
+  checkLocalStorage();
   function submitLogin(e) {
     e.preventDefault();
     for (const key in userLogInInformation) {

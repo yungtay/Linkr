@@ -110,4 +110,3 @@ const PositionLoader = styled.div`
   justify-content: center;
 `;
 export { Application, Title, Container, Posts, PositionLoader };
-

@@ -1,15 +1,51 @@
 import styled from "styled-components";
-import { useContext, useState } from "react";
+import axios from 'axios'
+import { useContext, useState, useRef, useEffect } from "react";
 import { useHistory } from "react-router";
 import UserContext from "../../context/UserContext";
 import { Trash, Create, Heart, HeartOutline } from "react-ionicons";
 import ReactHashtag from "react-hashtag";
 
-
 export default function Post({ posts }) {
   const [toggle, setToggle] = useState(false);
+  const [message, setMessage] = useState({text: posts.text});
+  const [edit, setEdit] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
+  const [editSucess, setEditSucess] = useState(false);
+  const inputRef = useRef(null);
   const history = useHistory();
   const { accountInformation } = useContext(UserContext);
+
+  function escape(e) {
+    if(e.key === "Escape"){
+      setEdit(false)
+      setMessage({text: posts.text})
+    }
+    if(e.key === "Enter"){
+      setIsLoading(true)
+      e.preventDefault();
+      const request = axios({
+        method: 'put',
+        url: `https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/posts/${posts.id}`,
+        data: message,
+        headers: { Authorization: `Bearer ${accountInformation.token}`}
+      })
+      request.then(() => {
+        setIsLoading(false);
+        setEdit(false);
+        setEditSucess(true);
+      });
+      request.catch(() => {alert('Não foi possível salvar as alterações ;(');
+      setIsLoading(false);})
+    }
+  }
+
+  useEffect(() => {
+    if (edit) {
+      inputRef.current.focus();
+    }
+  }, [edit]);
+
   return (
     <Structure>
       <LeftContainer>
@@ -47,7 +83,7 @@ export default function Post({ posts }) {
           {posts.user.id === accountInformation.user.id ? (
             <div>
               <Create
-                onClick={() => console.log(`editar ${posts.id}`)}
+                onClick={() => {setEdit(!edit); setMessage({text: posts.text})}}
                 color={"#ffffff"}
                 height="18px"
                 width="18px"
@@ -65,13 +101,23 @@ export default function Post({ posts }) {
         </div>
 
         <h2>
-          {false ? <ReactHashtag
-            onHashtagClick={(hashtag) =>
-              history.push(`/hashtag/${hashtag.substring(1)}`)
-            }
-          >
-            {posts.text}
-          </ReactHashtag> : <Input value={posts.text}/>}
+          {edit ? (
+            <Text
+              onChange={(e) => setMessage({ ...message, text: e.target.value })}
+              isLoading={isLoading}
+              onKeyDown={(e) => escape(e)}
+              ref={inputRef}
+              value={message.text}
+            />
+          ) : (
+            <ReactHashtag
+              onHashtagClick={(hashtag) =>
+                history.push(`/hashtag/${hashtag.substring(1)}`)
+              }
+            >
+              { (editSucess && message.text) || posts.text}
+            </ReactHashtag>
+          )}
         </h2>
 
         <LinkSheet href={posts.link} target="_blank">
@@ -192,7 +238,7 @@ const LinkText = styled.div`
   }
 `;
 
-const Input = styled.textarea`
+const Text = styled.textarea`
   width: 100%;
   border-radius: 7px;
 
@@ -200,4 +246,12 @@ const Input = styled.textarea`
 
   color: #4C4C4C;
   font-size:14px;
+  height: 44px;
+
+  opacity: ${prop => prop.isLoading ? 0.35 : 1};
+  background: ${prop => prop.isLoading ? "#F2F2F2" : "white"};
+  pointer-events: ${prop => prop.isLoading ? "none" : "initial"};
+
+  overflow: hidden;
+  resize: none;
 `

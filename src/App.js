@@ -15,7 +15,8 @@ import "./styles/reset.css";
 import UserContext from "./context/UserContext";
 
 export default function App() {
-    const [accountInformation, setAccountInformation] = useState(null);
+    const userSerializado = localStorage.getItem("user")
+    const [accountInformation, setAccountInformation] = useState(JSON.parse(userSerializado));
 
     return (
         <BrowserRouter>

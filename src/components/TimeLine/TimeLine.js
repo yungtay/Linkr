@@ -109,6 +109,5 @@ const PositionLoader = styled.div`
   display: flex;
   justify-content: center;
 `;
-
 export { Application, Title, Container, Posts, PositionLoader };
 

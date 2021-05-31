@@ -9,7 +9,7 @@ export default function SideBar() {
   const { accountInformation } = useContext(UserContext);
   const [trendingHashs, setTrendingHashs] = useState([]);
   const [inputedHashtag, setInputedHashtag] = useState();
-  const [flag, setFlag] = useState(false);
+  const [loading, setLoading] = useState(false);
   const history = useHistory();
 
   useEffect(() => {
@@ -24,13 +24,13 @@ export default function SideBar() {
     );
     request.then((resp) => {
       setTrendingHashs(resp.data.hashtags);
-      setFlag(true);
+      setLoading(true);
     });
-  }, [flag, accountInformation.token]);
+  }, [loading, accountInformation.token]);
 
   return (
     <>
-      {flag ? (
+      {loading ? (
         <TrendingMenu>
           <Title>trending</Title>
           <TrendingList>

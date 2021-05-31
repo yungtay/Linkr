@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import axios from "axios";
+import { useEffect } from 'react'
 
 export default function Edit({
   message,
@@ -11,11 +12,18 @@ export default function Edit({
   setIsLoading,
   setEditSucess,
   setEdit,
+  setRefresh
 }) {
+
+  useEffect(() => {
+    setEditSucess(false)
+    setMessage({ text: posts.text });
+  },[setEditSucess, setMessage, posts.text])
+  
+
   function pressKey(e) {
     if (e.key === "Escape") {
       setEdit(false);
-      setMessage({ text: posts.text });
     }
     if (e.key === "Enter") {
       setIsLoading(true);
@@ -30,6 +38,7 @@ export default function Edit({
         setIsLoading(false);
         setEdit(false);
         setEditSucess(true);
+        setRefresh(true)
       });
       request.catch(() => {
         alert("Não foi possível salvar as alterações ;(");

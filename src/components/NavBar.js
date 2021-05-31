@@ -15,16 +15,16 @@ export default function NavBar() {
   const { accountInformation } = useContext(UserContext);
   function Logout() {
     localStorage.removeItem("user");
-    alert("clicou pra deslogar");
+    alert(`Até logo ${accountInformation.user.username}!`);
   }
-
   return (
     <>
-      <Topbar isOpened={isOpened}>
-        <Link to={"/timeline"}>
-          <div className="title">linkr</div>
-        </Link>
-        <ClickAwayListener onClickAway={() => setIsOpened(false)}>
+      <ClickAwayListener onClickAway={() => setIsOpened(false)}>
+        <Topbar isOpened={isOpened}>
+          <Link to={"/timeline"}>
+            <div className="title">linkr</div>
+          </Link>
+
           <div className="options">
             <img
               className="menu"
@@ -39,27 +39,27 @@ export default function NavBar() {
               onClick={() => setIsOpened(!isOpened)}
             />
           </div>
-        </ClickAwayListener>
-      </Topbar>
-      <OptionsMenu isOpened={isOpened}>
-        {menuOptions.map((option, i) => {
-          return (
-            <div key={i}>
-              {option.name === "Logout" ? (
-                <Link to={option.route}>
-                  <li key={i} onClick={() => Logout()}>
-                    {option.name}
-                  </li>
-                </Link>
-              ) : (
-                <Link to={option.route}>
-                  <li key={i}>{option.name}</li>
-                </Link>
-              )}
-            </div>
-          );
-        })}
-      </OptionsMenu>
+          <OptionsMenu isOpened={isOpened}>
+            {menuOptions.map((option, i) => {
+              return (
+                <div key={i}>
+                  {option.name === "Logout" ? (
+                    <Link to={option.route}>
+                      <li key={i} onClick={() => Logout()}>
+                        {option.name}
+                      </li>
+                    </Link>
+                  ) : (
+                    <Link to={option.route}>
+                      <li key={i}>{option.name}</li>
+                    </Link>
+                  )}
+                </div>
+              );
+            })}
+          </OptionsMenu>
+        </Topbar>
+      </ClickAwayListener>
     </>
   );
 }
@@ -110,11 +110,11 @@ const OptionsMenu = styled.ul`
   background-color: #171717;
   height: ${(props) => (props.isOpened ? "109px" : "0px")};
   width: ${(props) => (props.isOpened ? "150px" : "0px")};
+  border-bottom-left-radius: 20px;
+  display: flex;
   position: fixed;
   top: 72px;
   right: 0px;
-  border-bottom-left-radius: 20px;
-  display: flex;
   flex-direction: column;
   justify-content: space-around;
   align-items: center;

@@ -15,9 +15,8 @@ export default function NavBar() {
   const { accountInformation } = useContext(UserContext);
   function Logout() {
     localStorage.removeItem("user");
-    alert("clicou pra deslogar");
+    alert(`Até logo ${accountInformation.user.username} e volte sempre`);
   }
-
   return (
     <>
       <ClickAwayListener onClickAway={() => setIsOpened(false)}>

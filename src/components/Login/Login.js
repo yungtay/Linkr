@@ -14,6 +14,10 @@ export default function Login() {
   });
   const [isLoading, setIsLoading] = useState("");
   const { setAccountInformation } = useContext(UserContext);
+
+  if(localStorage.getItem("user")){
+    history.push("/timeline")
+  }
   
   function submitLogin(e) {
     e.preventDefault();

@@ -8,7 +8,9 @@ import Post from "../Post/Post";
 export default function MyPosts() {
   const { accountInformation } = useContext(UserContext);
   const [myPosts, setMyPosts] = useState([]);
+  const [refresh, setRefresh] = useState(false);
   useEffect(() => {
+    setRefresh(false);
     const config = {
       headers: {
         Authorization: `Bearer ${accountInformation.token}`,
@@ -21,7 +23,7 @@ export default function MyPosts() {
     request.then((resp) => {
       setMyPosts(resp.data.posts);
     });
-  }, [accountInformation.token, accountInformation.user.id]);
+  }, [accountInformation.token, accountInformation.user.id, refresh]);
   return (
     <>
       <Application>
@@ -30,7 +32,7 @@ export default function MyPosts() {
           {myPosts ? (
             <>
               {myPosts.map((myPost) => {
-                return <Post key={myPost.id} posts={myPost}></Post>;
+                return <Post key={myPost.id} posts={myPost} setRefresh={setRefresh}></Post>;
               })}
             </>
           ) : (

@@ -8,7 +8,7 @@ import ReactHashtag from "react-hashtag";
 import DeletePost from "./DeletePost";
 import Likepost from "./Likepost";
 
-export default function Post({ posts }) {
+export default function Post({ posts, setRefresh}) {
   const [likes, setLikes] = useState(posts.likes.length);
   const [message, setMessage] = useState({ text: posts.text });
   const [edit, setEdit] = useState(false);
@@ -19,6 +19,9 @@ export default function Post({ posts }) {
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const { accountInformation } = useContext(UserContext);
+
+  console.log(message)
+  console.log(editSucess)
 
   useEffect(() => {
     if (edit) {
@@ -81,6 +84,7 @@ export default function Post({ posts }) {
               setIsLoading={setIsLoading}
               setEditSucess={setEditSucess}
               setEdit={setEdit}
+              setRefresh={setRefresh}
             />
           ) : (
             <ReactHashtag
@@ -88,7 +92,7 @@ export default function Post({ posts }) {
                 history.push(`/hashtag/${hashtag.substring(1)}`)
               }
             >
-              {(editSucess && message.text) || posts.text}
+              {editSucess ? message.text : posts.text}
             </ReactHashtag>
           )}
         </h2>

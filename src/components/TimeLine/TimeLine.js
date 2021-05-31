@@ -48,7 +48,7 @@ export default function TimeLine() {
               <>
                 <AddPost setRefresh={setRefresh} />
                 {posts.map((item) => (
-                  <Post key={item.id} posts={item} />
+                  <Post key={item.id} posts={item} setRefresh={setRefresh}/>
                 ))}
               </>
             )}

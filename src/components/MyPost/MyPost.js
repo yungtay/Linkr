@@ -23,7 +23,7 @@ export default function MyPosts() {
     request.then((resp) => {
       setMyPosts(resp.data.posts);
     });
-  }, [accountInformation.token, accountInformation.user.id, refresh]);
+  }, [accountInformation.token, accountInformation.user.id]);
   return (
     <>
       <Application>

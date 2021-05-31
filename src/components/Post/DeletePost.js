@@ -28,6 +28,7 @@ export default function DeletePost({ postsId, setModalIsOpen, modalIsOpen }) {
     request.then(() => {
       setModalIsOpen(false);
       setSentRequest(false);
+      window.location.reload();
     });
     request.catch(() => {
       setModalIsOpen(false);
@@ -77,7 +78,9 @@ const ConfirmDelete = styled.div`
   width: 597px;
   position: fixed;
   top: 35%;
-  left: 35%;
+  margin: 5% auto;
+  left: 0;
+  right: 0;
   color: #fff;
   border-radius: 50px;
   display: flex;
@@ -89,6 +92,12 @@ const ConfirmDelete = styled.div`
   font-family: "Lato", sans-serif;
   font-weight: 700;
   padding: 10px 100px;
+  @media (max-width: 640px) {
+    width: 100%;
+    left: 0%;
+    font-size: 25px;
+    padding: 10px 10px;
+  }
   div {
     display: flex;
     justify-content: center;

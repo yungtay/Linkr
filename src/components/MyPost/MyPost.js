@@ -49,17 +49,23 @@ const Application = styled.div`
   height: 100%;
   position: relative;
   margin: 0 auto;
+  @media (max-width: 640px) {
+    width: 100%;
+    padding: 0px 10px;
+  }
 `;
 
 const Title = styled.div`
   width: 100%;
   margin-bottom: 43px;
   font-size: 43px;
-
   font-weight: bold;
   font-family: "Oswald", sans-serif;
-
   color: #fff;
+  @media (max-width: 640px) {
+    width: 100%;
+    padding: 0px 10px;
+  }
 `;
 
 const Container = styled.div`
@@ -70,5 +76,6 @@ const Container = styled.div`
   width: 611px;
   @media (max-width: 640px) {
     width: 100%;
+    padding: 0px 10px;
   }
 `;

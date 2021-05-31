@@ -18,6 +18,7 @@ export default function App() {
     const userSerializado = localStorage.getItem("user")
     const [accountInformation, setAccountInformation] = useState(JSON.parse(userSerializado));
 
+
     return (
         <BrowserRouter>
             <Switch>

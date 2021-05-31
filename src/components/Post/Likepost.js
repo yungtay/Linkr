@@ -1,6 +1,6 @@
 import axios from "axios";
-import { useContext, useState } from "react";
-import { Heart, HeartOutline } from "react-ionicons";
+import { useContext, useEffect, useState } from "react";
+import { Heart, HeartOutline, LogoFacebook } from "react-ionicons";
 import UserContext from "../../context/UserContext";
 import ReactTooltip from "react-tooltip";
 
@@ -11,6 +11,7 @@ export default function Likepost({ posts, likes, setLikes }) {
       .map((item) => item.userId || item.id)
       .includes(accountInformation.user.id)
   );
+  const [array, setArray] = useState([]);
 
   function toggleHeart() {
     setToggle(!toggle);
@@ -24,7 +25,10 @@ export default function Likepost({ posts, likes, setLikes }) {
         [],
         config
       );
-      request.then("");
+      request.then((response) => {
+        setArray(response.data.post.likes.map((item) => item.username));
+        createArray();
+      });
       request.catch(() => {
         alert("Erro ao curtir");
         setToggle(!toggle);
@@ -37,13 +41,45 @@ export default function Likepost({ posts, likes, setLikes }) {
         [],
         config
       );
-      request.then("");
+      request.then((response) => {
+        setArray(response.data.post.likes.map((item) => item.username));
+        createArray();
+      });
       request.catch(() => {
         alert("Erro ao descurtir");
         setToggle(!toggle);
         setLikes(likes + 1);
       });
     }
+  }
+
+  function changePosition(arr, from, to) {
+    arr.splice(to, 0, arr.splice(from, 1)[0]);
+    return arr;
+  }
+
+  useEffect(createArray, []);
+
+  if (array.length > posts.likes.length) {
+    createArray();
+  }
+  function createArray() {
+    let likesArray = array;
+    if (posts.likes.length !== 0) {
+      likesArray = posts.likes.map(
+        (item) => item.username || item["user.username"]
+      );
+      if (likesArray.indexOf(`${accountInformation.user.username}`) !== -1) {
+        likesArray = changePosition(
+          likesArray,
+          likesArray.indexOf(`${accountInformation.user.username}`),
+          0
+        );
+        likesArray[0] = "Você";
+      }
+      setArray(likesArray);
+    }
+    console.log(array);
   }
 
   return (
@@ -66,18 +102,10 @@ export default function Likepost({ posts, likes, setLikes }) {
       <p
         data-tip={
           posts.likes.length > 2
-            ? `${
-                posts.likes[0]["user.username"] === undefined
-                  ? posts.likes[0].username
-                  : posts.likes[0]["user.username"]
-              }, ${
-                posts.likes[1]["user.username"] === undefined
-                  ? posts.likes[1].username
-                  : posts.likes[1]["user.username"]
-              } e outras ${posts.likes.length - 2} pessoas`
-            : posts.likes.map(
-                (item) => " " + (item["user.username"] || item.username)
-              )
+            ? `${array[0]}, ${array[1]} e outras ${
+                posts.likes.length - 2
+              } pessoas`
+            : array
         }
       >
         {likes === 1 ? `${likes} like` : `${likes} likes`}

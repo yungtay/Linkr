@@ -15,7 +15,7 @@ export default function NavBar() {
   const { accountInformation } = useContext(UserContext);
   function Logout() {
     localStorage.removeItem("user");
-    alert(`Até logo ${accountInformation.user.username} e volte sempre`);
+    alert(`Até logo ${accountInformation.user.username}!`);
   }
   return (
     <>

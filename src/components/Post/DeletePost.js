@@ -28,6 +28,7 @@ export default function DeletePost({ postsId, setModalIsOpen, modalIsOpen }) {
     request.then(() => {
       setModalIsOpen(false);
       setSentRequest(false);
+      window.location.reload();
     });
     request.catch(() => {
       setModalIsOpen(false);

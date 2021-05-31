@@ -20,9 +20,6 @@ export default function Post({ posts, setRefresh}) {
 
   const { accountInformation } = useContext(UserContext);
 
-  console.log(message)
-  console.log(editSucess)
-
   useEffect(() => {
     if (edit) {
       inputRef.current.focus();

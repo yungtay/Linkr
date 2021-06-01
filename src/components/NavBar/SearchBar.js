@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import axios from "axios";
+import { useHistory } from "react-router-dom";
 import { SearchOutline } from "react-ionicons";
 import { DebounceInput } from "react-debounce-input";
 import { useEffect, useState, useContext } from "react";
@@ -7,6 +8,7 @@ import UserContext from "../../context/UserContext";
 
 export default function SearchBar() {
   const { accountInformation } = useContext(UserContext);
+  const history = useHistory();
   const [search, setSearch] = useState("");
   const [searchResult, setSearchResult] = useState([]);
   const followedProfile = searchResult
@@ -15,7 +17,6 @@ export default function SearchBar() {
   const unfollowedProfile = searchResult
     ? searchResult.filter((result) => !result.isFollowingLoggedUser)
     : [];
-  console.log(followedProfile);
   useEffect(() => {
     setSearchResult([]);
     if (search !== "") {
@@ -32,7 +33,7 @@ export default function SearchBar() {
         setSearchResult(resp.data.users);
       });
     }
-  }, [search]);
+  }, [search, accountInformation.token]);
   return (
     <>
       <Form onSubmit={(e) => e.preventDefault()}>
@@ -57,7 +58,13 @@ export default function SearchBar() {
             <>
               {followedProfile.map((result) => {
                 return (
-                  <li>
+                  <li
+                    onClick={() => {
+                      history.push(`/user/${result.id}`);
+                      setSearch("");
+                      window.location.reload();
+                    }}
+                  >
                     <div>
                       <img src={result.avatar} />
                     </div>
@@ -70,7 +77,13 @@ export default function SearchBar() {
           )}
           {unfollowedProfile.map((result) => {
             return (
-              <li>
+              <li
+                onClick={() => {
+                  history.push(`/user/${result.id}`);
+                  setSearch("");
+                  window.location.reload();
+                }}
+              >
                 <div>
                   <img src={result.avatar} />
                 </div>
@@ -160,6 +173,7 @@ const SearchList = styled.ul`
   }
   .following {
     color: #c5c5c5;
+    margin-left: 15px;
   }
   li {
     display: flex;

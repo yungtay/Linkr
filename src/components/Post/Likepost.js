@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
-import { Heart, HeartOutline, LogoFacebook } from "react-ionicons";
+import { Heart, HeartOutline } from "react-ionicons";
 import UserContext from "../../context/UserContext";
 import ReactTooltip from "react-tooltip";
 
@@ -26,8 +26,7 @@ export default function Likepost({ posts, likes, setLikes }) {
         config
       );
       request.then((response) => {
-        setArray(response.data.post.likes.map((item) => item.username));
-        createArray();
+        createArray(response.data.post.likes.map((item) => item.username));
       });
       request.catch(() => {
         alert("Erro ao curtir");
@@ -42,8 +41,7 @@ export default function Likepost({ posts, likes, setLikes }) {
         config
       );
       request.then((response) => {
-        setArray(response.data.post.likes.map((item) => item.username));
-        createArray();
+        createArray(response.data.post.likes.map((item) => item.username));
       });
       request.catch(() => {
         alert("Erro ao descurtir");
@@ -58,17 +56,16 @@ export default function Likepost({ posts, likes, setLikes }) {
     return arr;
   }
 
-  useEffect(createArray, []);
+  useEffect(() => {
+    createArray(posts.likes.map((item) => item["user.username"]));
+  }, []);
 
-  if (array.length > posts.likes.length) {
-    createArray();
-  }
-  function createArray() {
+  function createArray(array) {
+    if (array === undefined) {
+      return;
+    }
     let likesArray = array;
-    if (posts.likes.length !== 0) {
-      likesArray = posts.likes.map(
-        (item) => item.username || item["user.username"]
-      );
+    if (array.length !== 0) {
       if (likesArray.indexOf(`${accountInformation.user.username}`) !== -1) {
         likesArray = changePosition(
           likesArray,
@@ -77,9 +74,8 @@ export default function Likepost({ posts, likes, setLikes }) {
         );
         likesArray[0] = "Você";
       }
-      setArray(likesArray);
     }
-    console.log(array);
+    setArray(likesArray);
   }
 
   return (
@@ -102,9 +98,9 @@ export default function Likepost({ posts, likes, setLikes }) {
       <p
         data-tip={
           posts.likes.length > 2
-            ? `${array[0]}, ${array[1]} e outras ${
-                posts.likes.length - 2
-              } pessoas`
+            ? `${array[0]}, ${array[1]} e outras ${array.length - 2} ${
+                array.length === 1 ? "pesssoa" : "pessoas"
+              }`
             : array
         }
       >

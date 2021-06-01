@@ -1,9 +1,10 @@
 import { useState, useContext } from "react";
-import Arrow from "../images/Vector.png";
+import Arrow from "../../images/Vector.png";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import UserContext from "../context/UserContext";
+import UserContext from "../../context/UserContext";
 import ClickAwayListener from "react-click-away-listener";
+import SearchBar from "./SearchBar";
 
 export default function NavBar() {
   const menuOptions = [
@@ -24,7 +25,7 @@ export default function NavBar() {
           <Link to={"/timeline"}>
             <div className="title">linkr</div>
           </Link>
-
+          <SearchBar />
           <div className="options">
             <img
               className="menu"

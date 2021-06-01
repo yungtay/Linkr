@@ -25,7 +25,6 @@ export default function MyFriendPosts() {
       );
       request.then((r) => {
         setFollow(r.data.users.map((users) => users.id).includes(parseInt(id)))
-        console.log(r.data.users.map((users) => users.id))
       });
 
       request.catch(() => alert("Não foi possível checar quem você segue"));

@@ -3,12 +3,13 @@ import { useContext, useState, useRef, useEffect } from "react";
 import { useHistory } from "react-router";
 import UserContext from "../../context/UserContext";
 import Edit from "./Edit";
-import { Trash, Create } from "react-ionicons";
+import { Trash, Create, LocationSharp } from "react-ionicons";
 import ReactHashtag from "react-hashtag";
 import DeletePost from "./DeletePost";
 import Likepost from "./Likepost";
+import ModalMaps from "./ModalMaps";
 
-export default function Post({ posts, setRefresh}) {
+export default function Post({ posts, setRefresh }) {
   const [likes, setLikes] = useState(posts.likes.length);
   const [message, setMessage] = useState({ text: posts.text });
   const [edit, setEdit] = useState(false);
@@ -17,6 +18,7 @@ export default function Post({ posts, setRefresh}) {
   const inputRef = useRef(null);
   const history = useHistory();
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [openMaps, setOpenMaps] = useState(false);
 
   const { accountInformation } = useContext(UserContext);
 
@@ -38,9 +40,29 @@ export default function Post({ posts, setRefresh}) {
       </LeftContainer>
       <RightContainer>
         <div>
-          <h1 onClick={() => history.push(`/user/${posts.user.id}`)}>
-            {posts.user.username}
-          </h1>
+          <div>
+            <h1 onClick={() => history.push(`/user/${posts.user.id}`)}>
+              {posts.user.username}
+            </h1>
+            {posts.geolocation !== undefined ? (
+              <>
+                <LocationSharp
+                  onClick={() => console.log("cliquei")}
+                  color={"#ffffff"}
+                  height="16px"
+                  width="16px"
+                />
+                <ModalMaps
+                  posts={posts}
+                  openMaps={openMaps}
+                  setOpenMaps={setOpenMaps}
+                />
+              </>
+            ) : (
+              ""
+            )}
+          </div>
+
           {posts.user.id === accountInformation.user.id ? (
             <div>
               <Create
@@ -173,13 +195,19 @@ const RightContainer = styled.div`
     display: flex;
     justify-content: space-between;
 
-    > h1 {
-      font-size: 19px;
-      margin-bottom: 7px;
-      cursor: pointer;
+    > div {
+      display: flex;
+      align-items: center;
 
-      @media (max-width: 640px) {
-        font-size: 17px;
+      h1 {
+        font-size: 19px;
+        margin-bottom: 7px;
+        margin-right: 7px;
+        cursor: pointer;
+
+        @media (max-width: 640px) {
+          font-size: 17px;
+        }
       }
     }
 

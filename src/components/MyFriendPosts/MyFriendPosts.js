@@ -14,12 +14,25 @@ export default function MyFriendPosts() {
     const [refresh, setRefresh] = useState(false);
     const [follow, setFollow] = useState(false);
     const [loadingFollow, setLoadingFollow] = useState(false)
+    const config = {
+      headers: { Authorization: `Bearer ${accountInformation.token}` },
+    };
+
+    useEffect(() => {
+      const request = axios.get(
+        "https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/users/follows",
+        config
+      );
+      request.then((r) => {
+        setFollow(r.data.users.map((users) => users.id).includes(parseInt(id)))
+        console.log(r.data.users.map((users) => users.id))
+      });
+
+      request.catch(() => alert("Não foi possível checar quem você segue"));
+    }, [])
 
     useEffect(() => {
       setRefresh(false);
-      const config = {
-        headers: { Authorization: `Bearer ${accountInformation.token}` },
-      };
       const request = axios.get(
         `https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/users/${id}/posts`,
         config

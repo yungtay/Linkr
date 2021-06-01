@@ -8,7 +8,7 @@ import SideBar from "../SideBar/Sidebar";
 import AddPost from "./AddPost";
 
 export default function TimeLine() {
-  const { accountInformation } = useContext(UserContext);
+  const { accountInformation, whoYouFollow } = useContext(UserContext);
   const [posts, setPosts] = useState([]);
   const [refresh, setRefresh] = useState(false);
 
@@ -17,7 +17,7 @@ export default function TimeLine() {
       headers: { Authorization: `Bearer ${accountInformation.token}` },
     };
     const request = axios.get(
-      "https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/posts",
+      "https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/following/posts",
       config
     );
     request.then((response) => {
@@ -42,7 +42,7 @@ export default function TimeLine() {
             ) : posts.length === 0 ? (
               <>
                 <AddPost setRefresh={setRefresh} />
-                <p>Nenhum post encontrado</p>
+                <p>{whoYouFollow?.length === 0 ? "Você não segue ninguém ainda, procure por perfis na busca" : "Nenhuma publicação encontrada"}</p>
               </>
             ) : (
               <>

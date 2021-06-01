@@ -8,49 +8,59 @@ import SideBar from "../SideBar/Sidebar";
 import Post from "../Post/Post";
 import FollowOrUnfollow from "./FollowOrUnfollow"
 export default function MyFriendPosts() {
-    const { accountInformation } = useContext(UserContext);
+    const { accountInformation, whoYouFollow, setRefreshWhoYouFollow} = useContext(UserContext);
     const { id } = useParams();
     const [posts, setPosts] = useState([]);
     const [refresh, setRefresh] = useState(false);
     const [follow, setFollow] = useState(false);
     const [loadingFollow, setLoadingFollow] = useState(false)
-    const config = {
-      headers: { Authorization: `Bearer ${accountInformation.token}` },
-    };
+    const [name, setName] = useState(null);
 
     useEffect(() => {
-      const request = axios.get(
-        "https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/users/follows",
-        config
-      );
-      request.then((r) => {
-        setFollow(r.data.users.map((users) => users.id).includes(parseInt(id)))
-      });
-
-      request.catch(() => alert("Não foi possível checar quem você segue"));
-    }, [])
+        setFollow(whoYouFollow?.includes(parseInt(id)))
+      }
+    , [id, whoYouFollow])
 
     useEffect(() => {
       setRefresh(false);
       const request = axios.get(
         `https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/users/${id}/posts`,
-        config
+        { headers: { Authorization: `Bearer ${accountInformation.token}` } }
       );
+
       request.then((r) => {
         setPosts(r.data.posts);
         setRefresh(true);
       });
 
-      request.catch(() => alert("Houve uma falha ao obter os posts, por favor atualize a página"));
+      request.catch(() =>
+        alert("Houve uma falha ao obter os posts, por favor atualize a página")
+      );
+
+      const requestName = axios.get(
+        `https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/users/${id}`,
+        { headers: { Authorization: `Bearer ${accountInformation.token}` } }
+      );
+
+      requestName.then((s) => {
+        setName(s.data.user.username);
+        setRefresh(true);
+      });
+
+      requestName.catch(() =>
+        alert("Houve uma falha ao obter os posts, por favor atualize a página")
+      );
     }, [id, accountInformation]);
+
+    console.log(name);
+    console.log(posts)
 
     return (
       <>
         <Application>
           <Title>
-            {posts[0] ? `${posts[0].user.username}'s posts` : ""}{" "}
-            {posts[0]?.user.id !== undefined &&
-            posts[0]?.user.id !== accountInformation.user.id ? (
+            {name ? `${name}'s posts` : ""}{" "}
+            {name && parseInt(id) !== accountInformation.user.id ? (
               <FollowUnFollow
                 follow={follow}
                 loadingFollow={loadingFollow}
@@ -58,9 +68,10 @@ export default function MyFriendPosts() {
                   FollowOrUnfollow(
                     follow,
                     setFollow,
-                    posts[0]?.user.id,
+                    id,
                     accountInformation,
-                    setLoadingFollow
+                    setLoadingFollow,
+                    setRefreshWhoYouFollow
                   )
                 }
               >

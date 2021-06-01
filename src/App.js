@@ -1,6 +1,7 @@
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
+import axios from 'axios'
 
 import Login from "./components/Login/Login";
 import Registration from "./components/Registration/Registration";
@@ -18,12 +19,27 @@ export default function App() {
     const userSerializado = localStorage.getItem("user")
     const [accountInformation, setAccountInformation] = useState(JSON.parse(userSerializado));
 
+    const [refreshWhoYouFollow, setRefreshWhoYouFollow] = useState(false);
+    const [whoYouFollow, setWhoYouFollow] = useState(null)
+    useEffect(() => {
+        setRefreshWhoYouFollow(false)      
+        const request = axios.get(
+          "https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/users/follows",
+          {
+            headers: { Authorization: `Bearer ${accountInformation.token}` }}
+        );
+        request.then((r) => {
+          setWhoYouFollow(r.data.users.map((users) => users.id))
+        });
+    
+        request.catch(() => alert("Não foi possível checar quem você segue"));
+      }, [accountInformation.token, refreshWhoYouFollow ])
 
     return (
         <BrowserRouter>
             <Switch>
                 <UserContext.Provider
-                    value={{ accountInformation, setAccountInformation }}
+                    value={{ accountInformation, setAccountInformation, whoYouFollow, setWhoYouFollow, setRefreshWhoYouFollow }}
                 >
                     <Route path="/" exact>
                         <Login />

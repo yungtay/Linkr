@@ -44,13 +44,21 @@ export default function Post({ posts, setRefresh }) {
             <h1 onClick={() => history.push(`/user/${posts.user.id}`)}>
               {posts.user.username}
             </h1>
+            <ModalMaps geolocation={posts.geolocation} />
             {posts.geolocation !== undefined ? (
-              <LocationSharp
-                onClick={() => ModalMaps({ posts })}
-                color={"#ffffff"}
-                height="16px"
-                width="16px"
-              />
+              <>
+                <LocationSharp
+                  onClick={() => setOpenMaps(true)}
+                  color={"#ffffff"}
+                  height="16px"
+                  width="16px"
+                />
+                <ModalMaps
+                  openMaps={openMaps}
+                  setOpenMaps={setOpenMaps}
+                  posts={posts}
+                />
+              </>
             ) : (
               ""
             )}

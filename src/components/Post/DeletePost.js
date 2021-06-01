@@ -41,6 +41,7 @@ export default function DeletePost({ postsId, setModalIsOpen, modalIsOpen }) {
   return (
     <>
       <Modal
+        className="content"
         isOpen={modalIsOpen}
         animationType="fade"
         contentLabel="Deleting post modal"

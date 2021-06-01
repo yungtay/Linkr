@@ -2,16 +2,18 @@ import axios from 'axios'
 import { useParams } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import UserContext from "../../context/UserContext"
-import { Application, Title, Container, Posts, PositionLoader} from '../TimeLine/TimeLine'
+import { Application, Title, FollowUnFollow, Container, Posts, PositionLoader} from '../TimeLine/TimeLine'
 import Loader from "react-loader-spinner";
 import SideBar from "../SideBar/Sidebar";
 import Post from "../Post/Post";
+import FollowOrUnfollow from "./FollowOrUnfollow"
 export default function MyFriendPosts() {
     const { accountInformation } = useContext(UserContext);
     const { id } = useParams();
     const [posts, setPosts] = useState([]);
     const [refresh, setRefresh] = useState(false);
-    
+    const [follow, setFollow] = useState(false);
+    const [loadingFollow, setLoadingFollow] = useState(false)
 
     useEffect(() => {
       setRefresh(false);
@@ -33,7 +35,29 @@ export default function MyFriendPosts() {
     return (
       <>
         <Application>
-          <Title>{posts[0] ? `${posts[0].user.username}'s posts` : ""}</Title>
+          <Title>
+            {posts[0] ? `${posts[0].user.username}'s posts` : ""}{" "}
+            {posts[0]?.user.id !== undefined &&
+            posts[0]?.user.id !== accountInformation.user.id ? (
+              <FollowUnFollow
+                follow={follow}
+                loadingFollow={loadingFollow}
+                onClick={() =>
+                  FollowOrUnfollow(
+                    follow,
+                    setFollow,
+                    posts[0]?.user.id,
+                    accountInformation,
+                    setLoadingFollow
+                  )
+                }
+              >
+                {follow ? "Unfollow" : "Follow"}
+              </FollowUnFollow>
+            ) : (
+              ""
+            )}
+          </Title>
           <Container>
             <Posts>
               {!refresh ? (

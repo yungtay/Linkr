@@ -9,6 +9,13 @@ export default function SearchBar() {
   const { accountInformation } = useContext(UserContext);
   const [search, setSearch] = useState("");
   const [searchResult, setSearchResult] = useState([]);
+  const followedProfile = searchResult
+    ? searchResult.filter((result) => result.isFollowingLoggedUser)
+    : [];
+  const unfollowedProfile = searchResult
+    ? searchResult.filter((result) => !result.isFollowingLoggedUser)
+    : [];
+  console.log(followedProfile);
   useEffect(() => {
     setSearchResult([]);
     if (search !== "") {
@@ -22,7 +29,6 @@ export default function SearchBar() {
         config
       );
       request.then((resp) => {
-        console.log(resp.data.users);
         setSearchResult(resp.data.users);
       });
     }
@@ -43,16 +49,31 @@ export default function SearchBar() {
       </Form>
       {searchResult !== [] && search !== "" ? (
         <SearchList>
-          {searchResult.map((result) => {
-            console.log(result.username);
+          {followedProfile.length === 0 ? (
+            <li className="not-follow">
+              You do not follow anyone with this description at the momment
+            </li>
+          ) : (
+            <>
+              {followedProfile.map((result) => {
+                return (
+                  <li>
+                    <div>
+                      <img src={result.avatar} />
+                    </div>
+                    <span>{result.username}</span>
+                    <span className="following">• following</span>
+                  </li>
+                );
+              })}
+            </>
+          )}
+          {unfollowedProfile.map((result) => {
             return (
               <li>
                 <div>
-                  <img
-                    src={result.avatar}
-                    alt={result.username + " profile image"}
-                  />
-                </div>{" "}
+                  <img src={result.avatar} />
+                </div>
                 <span>{result.username}</span>
               </li>
             );
@@ -105,7 +126,7 @@ const Form = styled.form`
     position: fixed;
     height: 50px;
     top: 72px;
-    width: 100%;
+    width: 95%;
     left: 0;
     right: 0;
 
@@ -131,7 +152,15 @@ const SearchList = styled.ul`
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
   max-height: 200px;
-  overflow: scroll;
+  overflow-y: scroll;
+  .not-follow {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .following {
+    color: #c5c5c5;
+  }
   li {
     display: flex;
     margin: 10px;
@@ -153,7 +182,7 @@ const SearchList = styled.ul`
     font-size: 19px;
   }
   @media (max-width: 640px) {
-    width: 95%;
+    width: 90%;
     top: 122px;
   }
 `;

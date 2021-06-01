@@ -1,8 +1,8 @@
 import { useState, useContext } from "react";
-import Arrow from "../images/Vector.png";
+import Arrow from "../../images/Vector.png";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import UserContext from "../context/UserContext";
+import UserContext from "../../context/UserContext";
 import ClickAwayListener from "react-click-away-listener";
 
 export default function NavBar() {

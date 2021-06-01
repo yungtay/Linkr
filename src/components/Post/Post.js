@@ -45,19 +45,12 @@ export default function Post({ posts, setRefresh }) {
               {posts.user.username}
             </h1>
             {posts.geolocation !== undefined ? (
-              <>
-                <LocationSharp
-                  onClick={() => console.log("cliquei")}
-                  color={"#ffffff"}
-                  height="16px"
-                  width="16px"
-                />
-                <ModalMaps
-                  posts={posts}
-                  openMaps={openMaps}
-                  setOpenMaps={setOpenMaps}
-                />
-              </>
+              <LocationSharp
+                onClick={() => ModalMaps({ posts })}
+                color={"#ffffff"}
+                height="16px"
+                width="16px"
+              />
             ) : (
               ""
             )}

@@ -2,11 +2,13 @@ import axios from "axios";
 import { useContext, useState } from "react";
 import styled from "styled-components";
 import UserContext from "../../context/UserContext";
+import { LocationOutline, LogoFacebook } from "react-ionicons";
 
 export default function AddPost({ setRefresh }) {
   const [link, setLink] = useState("");
   const [text, setText] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [geolocation, setGeolocation] = useState(false);
   const { accountInformation } = useContext(UserContext);
 
   function submitPublish(e) {
@@ -54,6 +56,17 @@ export default function AddPost({ setRefresh }) {
             value={text}
           ></Coment>
           <PositionButton>
+            <div
+              onClick={() => setGeolocation(!geolocation)}
+              geolocation={geolocation}
+            >
+              <LocationOutline
+                color={geolocation ? "#238700" : "#949494"}
+                height="16px"
+                width="16px"
+              />
+              Localização {geolocation ? "ativada" : "desativada"}
+            </div>
             {submitting ? (
               <Button type="submit" disabled>
                 Publishing ...
@@ -180,5 +193,13 @@ const Button = styled.button`
 
 const PositionButton = styled.div`
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  div {
+    font-size: 13px;
+    color: ${(props) =>
+      props.children[0].props.geolocation ? "#238700" : "#949494"};
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
 `;

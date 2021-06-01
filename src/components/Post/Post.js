@@ -87,6 +87,7 @@ export default function Post({ posts }) {
               onHashtagClick={(hashtag) =>
                 history.push(`/hashtag/${hashtag.substring(1)}`)
               }
+              renderHashtag={(hashtag) => <strong>{hashtag}</strong>}
             >
               {(editSucess && message.text) || posts.text}
             </ReactHashtag>

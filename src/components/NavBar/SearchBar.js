@@ -10,6 +10,7 @@ export default function SearchBar() {
   const [search, setSearch] = useState("");
   const [searchResult, setSearchResult] = useState([]);
   useEffect(() => {
+    setSearchResult([]);
     if (search !== "") {
       const config = {
         headers: {
@@ -129,6 +130,8 @@ const SearchList = styled.ul`
   width: 563px;
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
+  max-height: 200px;
+  overflow: scroll;
   li {
     display: flex;
     margin: 10px;
@@ -148,5 +151,9 @@ const SearchList = styled.ul`
   span {
     color: #515151;
     font-size: 19px;
+  }
+  @media (max-width: 640px) {
+    width: 95%;
+    top: 122px;
   }
 `;

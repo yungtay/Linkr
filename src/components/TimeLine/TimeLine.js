@@ -74,6 +74,7 @@ const Application = styled.div`
 
 const Title = styled.div`
   width: 100%;
+  height: 43px;
   margin-bottom: 43px;
   font-size: 43px;
 
@@ -82,10 +83,35 @@ const Title = styled.div`
 
   color: #fff;
 
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
   @media (max-width: 640px) {
     font-size: 33px;
     padding-left: 17px;
   }
+`;
+
+const FollowUnFollow = styled.div `
+  cursor: pointer;
+
+  width: 112px;
+  height: 31px;
+
+  display:flex;
+  justify-content: center;
+  align-items: center;
+
+  border-radius: 5px;
+  background: ${ prop => prop.follow ? "white" : "#1877F2"}; 
+  opacity: ${(prop) => (prop.loadingFollow ? 0.35 : 1)};
+  pointer-events: ${(prop) => (prop.loadingFollow ? "none" : "initial")};
+
+  color: ${ prop => prop.follow ? "#1877F2" : "white"};
+  font-size: 14px;
+  font-weight: 700;
+  font-family: Lato;
 `;
 
 const Container = styled.div`
@@ -120,4 +146,4 @@ const PositionLoader = styled.div`
   display: flex;
   justify-content: center;
 `;
-export { Application, Title, Container, Posts, PositionLoader };
+export { Application, Title, FollowUnFollow, Container, Posts, PositionLoader };

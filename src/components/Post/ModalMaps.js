@@ -1,8 +1,10 @@
 import Modal from "react-modal";
 import styled, { css } from "styled-components";
 import { Close } from "react-ionicons";
+import GoogleMapReact from "google-map-react";
 
-export default function ModalMaps({ openMaps, setOpenMaps }) {
+export default function ModalMaps({ openMaps, setOpenMaps, posts }) {
+  console.log(posts.geolocation);
   function closeMaps() {
     setOpenMaps(false);
   }
@@ -18,10 +20,18 @@ export default function ModalMaps({ openMaps, setOpenMaps }) {
       >
         <ContainerModal>
           <div>
-            <p>Fernando's location</p>
-            <Close color="#fff" height="31px" width="31px" />
+            <p>{posts.user.username}'s location</p>
+            <Close
+              className="close-icon"
+              onClick={() => setOpenMaps(false)}
+              color="#fff"
+              height="31px"
+              width="31px"
+            />
           </div>
-          <iframe src="#"></iframe>
+          <Map>
+            <GoogleMapReact></GoogleMapReact>
+          </Map>
         </ContainerModal>
       </Modal>
     </>
@@ -42,6 +52,7 @@ const ContainerModal = styled.div`
   > div {
     display: flex;
     justify-content: space-between;
+    margin-bottom: 22px;
 
     p {
       color: #fff;
@@ -49,9 +60,15 @@ const ContainerModal = styled.div`
       font-weight: bold;
       font-family: "Oswald", sans-serif;
     }
+
+    .close-icon {
+      cursor: pointer;
+    }
   }
-  iframe {
-    width: 50px;
-    height: 50px;
-  }
+`;
+
+const Map = styled.div`
+  width: 340px;
+  height: 100px;
+  background-color: green;
 `;

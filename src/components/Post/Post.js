@@ -44,7 +44,6 @@ export default function Post({ posts, setRefresh }) {
             <h1 onClick={() => history.push(`/user/${posts.user.id}`)}>
               {posts.user.username}
             </h1>
-            <ModalMaps geolocation={posts.geolocation} />
             {posts.geolocation !== undefined ? (
               <>
                 <LocationSharp

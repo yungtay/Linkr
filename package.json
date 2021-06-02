@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "axios": "^0.21.1",
+    "get-youtube-id": "^1.0.1",
     "react": "^17.0.2",
     "react-click-away-listener": "^2.0.3",
     "react-debounce-input": "^3.2.3",

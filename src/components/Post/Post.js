@@ -7,6 +7,7 @@ import { Trash, Create } from "react-ionicons";
 import ReactHashtag from "react-hashtag";
 import DeletePost from "./DeletePost";
 import Likepost from "./Likepost";
+import Repost from "./Repost"
 
 export default function Post({ posts, setRefresh}) {
   const [likes, setLikes] = useState(posts.likes.length);
@@ -35,6 +36,7 @@ export default function Post({ posts, setRefresh}) {
           alt="avatar do usuário"
         />
         <Likepost posts={posts} likes={likes} setLikes={setLikes} />
+        <Repost/>
       </LeftContainer>
       <RightContainer>
         <div>

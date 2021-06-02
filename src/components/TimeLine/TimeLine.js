@@ -6,6 +6,7 @@ import UserContext from "../../context/UserContext";
 import Post from "../Post/Post";
 import SideBar from "../SideBar/Sidebar";
 import AddPost from "./AddPost";
+import InfiniteScroll from "react-infinite-scroller";
 
 export default function TimeLine() {
   const { accountInformation } = useContext(UserContext);
@@ -28,6 +29,22 @@ export default function TimeLine() {
       alert("Houve uma falha ao obter os posts, por favor atualize a página")
     );
   }, [refresh, accountInformation.token]);
+  function loadMorePosts() {
+    const config = {
+      headers: { Authorization: `Bearer ${accountInformation.token}` },
+    };
+    const request = axios.get(
+      "https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/posts",
+      config
+    );
+    request.catch(() =>
+      alert("Houve uma falha ao obter novos posts, por favor atualize a página")
+    );
+    request.then((response) => {
+      console.log([...posts, ...response.data.posts]);
+      setPosts([...posts, ...response.data.posts]);
+    });
+  }
 
   return (
     <>
@@ -47,9 +64,20 @@ export default function TimeLine() {
             ) : (
               <>
                 <AddPost setRefresh={setRefresh} />
-                {posts.map((item) => (
-                  <Post key={item.id} posts={item} setRefresh={setRefresh}/>
-                ))}
+                <InfiniteScroll
+                  pageStart={10}
+                  loadMore={loadMorePosts}
+                  hasMore={true || false}
+                  loader={
+                    <PositionLoader>
+                      <Loader type="Oval" color="#FFF" height={80} width={80} />
+                    </PositionLoader>
+                  }
+                >
+                  {posts.map((item) => (
+                    <Post key={item.id} posts={item} setRefresh={setRefresh} />
+                  ))}
+                </InfiniteScroll>
               </>
             )}
           </Posts>
@@ -93,22 +121,22 @@ const Title = styled.div`
   }
 `;
 
-const FollowUnFollow = styled.div `
+const FollowUnFollow = styled.div`
   cursor: pointer;
 
   width: 112px;
   height: 31px;
 
-  display:flex;
+  display: flex;
   justify-content: center;
   align-items: center;
 
   border-radius: 5px;
-  background: ${ prop => prop.follow ? "white" : "#1877F2"}; 
+  background: ${(prop) => (prop.follow ? "white" : "#1877F2")};
   opacity: ${(prop) => (prop.loadingFollow ? 0.35 : 1)};
   pointer-events: ${(prop) => (prop.loadingFollow ? "none" : "initial")};
 
-  color: ${ prop => prop.follow ? "#1877F2" : "white"};
+  color: ${(prop) => (prop.follow ? "#1877F2" : "white")};
   font-size: 14px;
   font-weight: 700;
   font-family: Lato;

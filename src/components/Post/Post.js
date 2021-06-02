@@ -7,8 +7,9 @@ import { Trash, Create } from "react-ionicons";
 import ReactHashtag from "react-hashtag";
 import DeletePost from "./DeletePost";
 import Likepost from "./Likepost";
+import DialogLink from "./DialogLink";
 
-export default function Post({ posts, setRefresh}) {
+export default function Post({ posts, setRefresh }) {
   const [likes, setLikes] = useState(posts.likes.length);
   const [message, setMessage] = useState({ text: posts.text });
   const [edit, setEdit] = useState(false);
@@ -17,6 +18,7 @@ export default function Post({ posts, setRefresh}) {
   const inputRef = useRef(null);
   const history = useHistory();
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [openDialog, setOpenDialog] = useState(false);
 
   const { accountInformation } = useContext(UserContext);
 
@@ -95,7 +97,7 @@ export default function Post({ posts, setRefresh}) {
           )}
         </h2>
 
-        <LinkSheet href={posts.link} target="_blank">
+        <LinkSheet onClick={() => setOpenDialog(true)}>
           <LinkText>
             <h1>{posts.linkTitle}</h1>
             <h2>{posts.linkDescription}</h2>
@@ -103,6 +105,11 @@ export default function Post({ posts, setRefresh}) {
           </LinkText>
           <LinkImage src={posts.linkImage} alt="link" />
         </LinkSheet>
+        <DialogLink
+          openDialog={openDialog}
+          setOpenDialog={setOpenDialog}
+          posts={posts}
+        />
       </RightContainer>
     </Structure>
   );
@@ -217,6 +224,7 @@ const LinkSheet = styled.a`
 
   display: flex;
   justify-content: space-between;
+  cursor: pointer;
 
   @media (max-width: 640px) {
     width: 100%;

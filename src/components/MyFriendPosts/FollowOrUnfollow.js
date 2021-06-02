@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-export default function FollowOrUnfollow(follow, setFollow, idFollow, accountInformation, setLoadingFollow) {
+export default function FollowOrUnfollow(follow, setFollow, idFollow, accountInformation, setLoadingFollow, setRefreshWhoYouFollow) {
   const config = {
     headers: { Authorization: `Bearer ${accountInformation.token}` },
   };
@@ -25,11 +25,13 @@ export default function FollowOrUnfollow(follow, setFollow, idFollow, accountInf
   function sucess(){
     setFollow(!follow);
     setLoadingFollow(false);
+    setRefreshWhoYouFollow(true)         
   }
 
   function fail(){
     alert("Não foi possível executar a operação");
     setLoadingFollow(false);
+    setRefreshWhoYouFollow(true)      
   }
   
   

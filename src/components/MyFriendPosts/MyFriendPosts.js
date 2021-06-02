@@ -52,9 +52,6 @@ export default function MyFriendPosts() {
       );
     }, [id, accountInformation]);
 
-    console.log(name);
-    console.log(posts)
-
     return (
       <>
         <Application>

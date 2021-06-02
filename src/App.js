@@ -21,6 +21,7 @@ export default function App() {
 
     const [refreshWhoYouFollow, setRefreshWhoYouFollow] = useState(false);
     const [whoYouFollow, setWhoYouFollow] = useState(null)
+    console.log(whoYouFollow)
     useEffect(() => {
         setRefreshWhoYouFollow(false)      
         const request = axios.get(

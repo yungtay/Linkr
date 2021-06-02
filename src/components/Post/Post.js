@@ -7,6 +7,8 @@ import { Trash, Create } from "react-ionicons";
 import ReactHashtag from "react-hashtag";
 import DeletePost from "./DeletePost";
 import Likepost from "./Likepost";
+import ReactPlayer from "react-player/youtube";
+import getYouTubeID from "get-youtube-id";
 
 export default function Post({
   posts,
@@ -15,6 +17,7 @@ export default function Post({
   index,
   postsArray,
 }) {
+
   const [likes, setLikes] = useState(posts.likes.length);
   const [message, setMessage] = useState({ text: posts.text });
   const [edit, setEdit] = useState(false);
@@ -102,15 +105,21 @@ export default function Post({
             </ReactHashtag>
           )}
         </h2>
-
-        <LinkSheet href={posts.link} target="_blank">
-          <LinkText>
-            <h1>{posts.linkTitle}</h1>
-            <h2>{posts.linkDescription}</h2>
-            <h3>{posts.link}</h3>
-          </LinkText>
-          <LinkImage src={posts.linkImage} alt="link" />
-        </LinkSheet>
+        {getYouTubeID(posts.link) !== null ? (
+          <PositionPlayer>
+            <ReactPlayer width="100%" url={posts.link} />
+            <a href={posts.link}>{posts.link}</a>
+          </PositionPlayer>
+        ) : (
+          <LinkSheet href={posts.link} target="_blank">
+            <LinkText>
+              <h1>{posts.linkTitle}</h1>
+              <h2>{posts.linkDescription}</h2>
+              <h3>{posts.link}</h3>
+            </LinkText>
+            <LinkImage src={posts.linkImage} alt="link" />
+          </LinkSheet>
+        )}
       </RightContainer>
     </Structure>
   );
@@ -176,7 +185,7 @@ const RightContainer = styled.div`
   width: 100%;
   margin-left: 19px;
 
-  overflow-x: hidden;
+  overflow: hidden;
 
   > div {
     display: flex;
@@ -213,6 +222,18 @@ const RightContainer = styled.div`
     @media (max-width: 640px) {
       font-size: 15px;
     }
+  }
+`;
+
+const PositionPlayer = styled.div`
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  a {
+    margin-top: 6px;
+    font-size: 17px;
+    color: #b7b7b7;
   }
 `;
 

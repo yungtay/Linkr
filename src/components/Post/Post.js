@@ -10,7 +10,14 @@ import Likepost from "./Likepost";
 import ReactPlayer from "react-player/youtube";
 import getYouTubeID from "get-youtube-id";
 
-export default function Post({ posts, setRefresh }) {
+export default function Post({
+  posts,
+  setRefresh,
+  setLastId,
+  index,
+  postsArray,
+}) {
+
   const [likes, setLikes] = useState(posts.likes.length);
   const [message, setMessage] = useState({ text: posts.text });
   const [edit, setEdit] = useState(false);
@@ -21,7 +28,9 @@ export default function Post({ posts, setRefresh }) {
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const { accountInformation } = useContext(UserContext);
-
+  if (index === postsArray.length - 1) {
+    setLastId(posts.id);
+  }
   useEffect(() => {
     if (edit) {
       inputRef.current.focus();

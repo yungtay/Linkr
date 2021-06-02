@@ -8,7 +8,13 @@ import ReactHashtag from "react-hashtag";
 import DeletePost from "./DeletePost";
 import Likepost from "./Likepost";
 
-export default function Post({ posts, setRefresh}) {
+export default function Post({
+  posts,
+  setRefresh,
+  setLastId,
+  index,
+  postsArray,
+}) {
   const [likes, setLikes] = useState(posts.likes.length);
   const [message, setMessage] = useState({ text: posts.text });
   const [edit, setEdit] = useState(false);
@@ -19,7 +25,9 @@ export default function Post({ posts, setRefresh}) {
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const { accountInformation } = useContext(UserContext);
-
+  if (index === postsArray.length - 1) {
+    setLastId(posts.id);
+  }
   useEffect(() => {
     if (edit) {
       inputRef.current.focus();

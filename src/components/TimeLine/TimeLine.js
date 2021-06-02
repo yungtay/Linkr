@@ -12,7 +12,7 @@ export default function TimeLine() {
   const { accountInformation, whoYouFollow } = useContext(UserContext);
   const [posts, setPosts] = useState([]);
   const [refresh, setRefresh] = useState(false);
-
+  const [lastId, setLastId] = useState(null);
   useEffect(() => {
     const config = {
       headers: { Authorization: `Bearer ${accountInformation.token}` },
@@ -29,19 +29,19 @@ export default function TimeLine() {
       alert("Houve uma falha ao obter os posts, por favor atualize a página")
     );
   }, [refresh, accountInformation.token]);
+
   function loadMorePosts() {
     const config = {
       headers: { Authorization: `Bearer ${accountInformation.token}` },
     };
     const request = axios.get(
-      "https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/posts",
+      `https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/posts?olderThan=${lastId}`,
       config
     );
     request.catch(() =>
       alert("Houve uma falha ao obter novos posts, por favor atualize a página")
     );
     request.then((response) => {
-      console.log([...posts, ...response.data.posts]);
       setPosts([...posts, ...response.data.posts]);
     });
   }
@@ -59,7 +59,11 @@ export default function TimeLine() {
             ) : posts.length === 0 ? (
               <>
                 <AddPost setRefresh={setRefresh} />
-                <p>{whoYouFollow?.length === 0 ? "Você não segue ninguém ainda, procure por perfis na busca" : "Nenhuma publicação encontrada"}</p>
+                <p>
+                  {whoYouFollow?.length === 0
+                    ? "Você não segue ninguém ainda, procure por perfis na busca"
+                    : "Nenhuma publicação encontrada"}
+                </p>
               </>
             ) : (
               <>
@@ -74,9 +78,18 @@ export default function TimeLine() {
                     </PositionLoader>
                   }
                 >
-                  {posts.map((item) => (
-                    <Post key={item.id} posts={item} setRefresh={setRefresh} />
-                  ))}
+                  {posts.map((item, i) => {
+                    return (
+                      <Post
+                        key={item.id}
+                        posts={item}
+                        setRefresh={setRefresh}
+                        setLastId={setLastId}
+                        index={i}
+                        postsArray={posts}
+                      />
+                    );
+                  })}
                 </InfiniteScroll>
               </>
             )}

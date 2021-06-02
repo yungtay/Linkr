@@ -1,11 +1,10 @@
 import Modal from "react-modal";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import { Close } from "react-ionicons";
 import GoogleMapReact from "google-map-react";
 
 export default function ModalMaps({ openMaps, setOpenMaps, posts }) {
-  console.log(posts.geolocation.latitude);
-  console.log(posts.geolocation.longitude);
+  const { geolocation } = posts;
   function closeMaps() {
     setOpenMaps(false);
   }
@@ -31,7 +30,16 @@ export default function ModalMaps({ openMaps, setOpenMaps, posts }) {
             />
           </div>
           <Map>
-            <GoogleMapReact></GoogleMapReact>
+            <GoogleMapReact
+              bootstrapURLKeys={{
+                key: "AIzaSyDedUFRFpR0DnRnd-UGRyGb_hQ5Lr0TBP8",
+              }}
+              defaultCenter={{
+                lat: parseFloat(geolocation.latitude),
+                lng: parseFloat(geolocation.longitude),
+              }}
+              defaultZoom={11}
+            ></GoogleMapReact>
           </Map>
         </ContainerModal>
       </Modal>
@@ -69,7 +77,6 @@ const ContainerModal = styled.div`
 `;
 
 const Map = styled.div`
-  width: 340px;
-  height: 100px;
-  background-color: green;
+  width: 100%;
+  height: 240px;
 `;

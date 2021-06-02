@@ -17,12 +17,11 @@ import UserContext from "./context/UserContext";
 
 export default function App() {
   const userSerializado = localStorage.getItem("user");
-  const [accountInformation, setAccountInformation] = useState(
-    JSON.parse(userSerializado)
-  );
+  const [accountInformation, setAccountInformation] = useState(JSON.parse(userSerializado));
   
-    const [refreshWhoYouFollow, setRefreshWhoYouFollow] = useState(false);
-    const [whoYouFollow, setWhoYouFollow] = useState(null)
+  const [refreshWhoYouFollow, setRefreshWhoYouFollow] = useState(false);
+  const [whoYouFollow, setWhoYouFollow] = useState(null)
+
     useEffect(() => {
         setRefreshWhoYouFollow(false)      
         const request = axios.get(

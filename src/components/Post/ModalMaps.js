@@ -4,7 +4,8 @@ import { Close } from "react-ionicons";
 import GoogleMapReact from "google-map-react";
 
 export default function ModalMaps({ openMaps, setOpenMaps, posts }) {
-  console.log(posts.geolocation);
+  console.log(posts.geolocation.latitude);
+  console.log(posts.geolocation.longitude);
   function closeMaps() {
     setOpenMaps(false);
   }

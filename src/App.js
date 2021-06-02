@@ -11,14 +11,16 @@ import MyPost from "./components/MyPost/MyPost";
 import MyFriendPosts from "./components/MyFriendPosts/MyFriendPosts";
 import HashTag from "./components/HashTag/HashTag";
 import MyLikes from "./components/MyLikes/MyLikes";
-import NavBar from "./components/NavBar";
+import NavBar from "./components/NavBar/NavBar";
 import "./styles/reset.css";
 import UserContext from "./context/UserContext";
 
 export default function App() {
-    const userSerializado = localStorage.getItem("user")
-    const [accountInformation, setAccountInformation] = useState(JSON.parse(userSerializado));
-
+  const userSerializado = localStorage.getItem("user");
+  const [accountInformation, setAccountInformation] = useState(
+    JSON.parse(userSerializado)
+  );
+  
     const [refreshWhoYouFollow, setRefreshWhoYouFollow] = useState(false);
     const [whoYouFollow, setWhoYouFollow] = useState(null)
     useEffect(() => {
@@ -79,8 +81,5 @@ export default function App() {
 }
 
 const Container = styled.div`
-    padding-top: 125px;
+  padding-top: 125px;
 `;
-
-
-

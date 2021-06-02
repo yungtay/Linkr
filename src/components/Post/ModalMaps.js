@@ -1,6 +1,6 @@
 import Modal from "react-modal";
 import styled from "styled-components";
-import { Close } from "react-ionicons";
+import { Close, LocationSharp } from "react-ionicons";
 import GoogleMapReact from "google-map-react";
 
 export default function ModalMaps({ openMaps, setOpenMaps, posts }) {
@@ -38,8 +38,16 @@ export default function ModalMaps({ openMaps, setOpenMaps, posts }) {
                 lat: parseFloat(geolocation.latitude),
                 lng: parseFloat(geolocation.longitude),
               }}
-              defaultZoom={11}
-            ></GoogleMapReact>
+              defaultZoom={15}
+            >
+              <LocationSharp
+                color="#EA4335"
+                height="40px"
+                width="40px"
+                lat={geolocation.latitude}
+                lng={geolocation.longitude}
+              />
+            </GoogleMapReact>
           </Map>
         </ContainerModal>
       </Modal>

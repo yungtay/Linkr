@@ -14,6 +14,7 @@ export default function ModalMaps({ openMaps, setOpenMaps, posts }) {
     <>
       <Modal
         className="content"
+        style={customStyle}
         isOpen={openMaps}
         onRequestClose={closeMaps}
         contentLabel="Maps modal"
@@ -88,3 +89,11 @@ const Map = styled.div`
   width: 100%;
   height: 240px;
 `;
+
+const customStyle = {
+  overlay: {
+    zIndex: "11",
+    position: "fixed",
+    backgroundColor: "rgba(255, 255, 255, 0.75)",
+  },
+};

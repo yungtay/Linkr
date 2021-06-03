@@ -91,7 +91,7 @@ export default function MyFriendPosts() {
               ) : (
                 <>
                   {posts.map((item) => (
-                    <Post key={item.id} posts={item} />
+                    <Post key={item.id} posts={item} rePostCount={item.repostCount} setRefresh={setRefresh}/>
                   ))}
                 </>
               )}

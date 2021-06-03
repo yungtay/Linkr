@@ -72,7 +72,7 @@ const Text = styled.textarea`
 
   opacity: ${(prop) => (prop.isLoading ? 0.35 : 1)};
   background: ${(prop) => (prop.isLoading ? "#F2F2F2" : "white")};
-  pointer-events: ${(prop) => (prop.isLoading ? "none" : "initial")};
+  ter-evenpoints: ${(prop) => (prop.isLoading ? "none" : "initial")};
 
   overflow: hidden;
   resize: none;

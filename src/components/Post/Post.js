@@ -8,8 +8,9 @@ import ReactHashtag from "react-hashtag";
 import DeletePost from "./DeletePost";
 import Likepost from "./Likepost";
 import Repost from "./Repost"
+import { RepeatSharp } from 'react-ionicons'
 
-export default function Post({ posts, setRefresh}) {
+export default function Post({ posts, setRefresh, rePostCount }) {
   const [likes, setLikes] = useState(posts.likes.length);
   const [message, setMessage] = useState({ text: posts.text });
   const [edit, setEdit] = useState(false);
@@ -18,8 +19,11 @@ export default function Post({ posts, setRefresh}) {
   const inputRef = useRef(null);
   const history = useHistory();
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [modalIsOpenRepost, setModalIsOpenRepost] = useState(false);
 
   const { accountInformation } = useContext(UserContext);
+
+  console.log(posts)
 
   useEffect(() => {
     if (edit) {
@@ -27,86 +31,104 @@ export default function Post({ posts, setRefresh}) {
     }
   }, [edit]);
 
+  console.log(posts.repostedBy)
+
   return (
-    <Structure>
-      <LeftContainer>
-        <img
-          onClick={() => history.push(`/user/${posts.user.id}`)}
-          src={posts.user.avatar}
-          alt="avatar do usuário"
+    <RepostContainer reposted={posts.repostedBy}>
+      <WhoResposted reposted={posts.repostedBy}>
+        <RepeatSharp
+          color={"#ffffff"}
+          height={"15px"}
+          width={"25px"}
         />
-        <Likepost posts={posts} likes={likes} setLikes={setLikes} />
-        <Repost/>
-      </LeftContainer>
-      <RightContainer>
-        <div>
-          <h1 onClick={() => history.push(`/user/${posts.user.id}`)}>
-            {posts.user.username}
-          </h1>
-          {posts.user.id === accountInformation.user.id ? (
-            <div>
-              <Create
-                onClick={() => {
-                  setEdit(!edit);
-                  setMessage(message);
-                }}
-                color={"#ffffff"}
-                height="18px"
-                width="18px"
-              />
-              <Trash
-                onClick={() => setModalIsOpen(true)}
-                color={"#ffffff"}
-                height="18px"
-                width="18px"
-              />
-              <DeletePost
-                postsId={posts.id}
-                modalIsOpen={modalIsOpen}
-                setModalIsOpen={setModalIsOpen}
-              />
-            </div>
-          ) : (
-            ""
-          )}
-        </div>
+        Re-posted by <strong>{posts.repostedBy?.username}</strong>
+      </WhoResposted>
+      <Structure>
+        <LeftContainer>
+          <img
+            onClick={() => history.push(`/user/${posts.id}`)}
+            src={posts.user.avatar}
+            alt="avatar do usuário"
+          />
+          <Likepost posts={posts} likes={likes} setLikes={setLikes} />
+          <Repost
+            rePostCount={rePostCount}
+            postId={posts.id}
+            modalIsOpenRepost={modalIsOpenRepost}
+            setModalIsOpenRepost={setModalIsOpenRepost}
+            setRefresh={setRefresh}
+          />
+        </LeftContainer>
+        <RightContainer>
+          <div>
+            <h1 onClick={() => history.push(`/user/${posts.user.id}`)}>
+              {posts.user.username}
+            </h1>
+            {posts.user.id  === accountInformation.user.id ? (
+              <div>
+                <Create
+                  onClick={() => {
+                    setEdit(!edit);
+                    setMessage(message);
+                  }}
+                  color={"#ffffff"}
+                  height="18px"
+                  width="18px"
+                />
+                <Trash
+                  onClick={() => setModalIsOpen(true)}
+                  color={"#ffffff"}
+                  height="18px"
+                  width="18px"
+                />
+                <DeletePost
+                  postsId={posts.id}
+                  modalIsOpen={modalIsOpen}
+                  setModalIsOpen={setModalIsOpen}
+                />
+              </div>
+            ) : (
+              ""
+            )}
+          </div>
 
-        <h2>
-          {edit ? (
-            <Edit
-              message={message}
-              setMessage={setMessage}
-              accountInformation={accountInformation}
-              posts={posts}
-              inputRef={inputRef}
-              isLoading={isLoading}
-              setIsLoading={setIsLoading}
-              setEditSucess={setEditSucess}
-              setEdit={setEdit}
-              setRefresh={setRefresh}
-            />
-          ) : (
-            <ReactHashtag
-              onHashtagClick={(hashtag) =>
-                history.push(`/hashtag/${hashtag.substring(1)}`)
-              }
-              renderHashtag={(hashtag) => <strong>{hashtag}</strong>}
-            >
-              {editSucess ? message.text : posts.text}
-            </ReactHashtag>
-          )}
-        </h2>
+          <h2>
+            {edit ? (
+              <Edit
+                message={message}
+                setMessage={setMessage}
+                accountInformation={accountInformation}
+                posts={posts}
+                inputRef={inputRef}
+                isLoading={isLoading}
+                setIsLoading={setIsLoading}
+                setEditSucess={setEditSucess}
+                setEdit={setEdit}
+                setRefresh={setRefresh}
+              />
+            ) : (
+              <ReactHashtag
+                onHashtagClick={(hashtag) =>
+                  history.push(`/hashtag/${hashtag.substring(1)}`)
+                }
+                renderHashtag={(hashtag) => <strong>{hashtag}</strong>}
+              >
+                {editSucess ? message.text : posts.text}
+              </ReactHashtag>
+            )}
+          </h2>
 
-        <LinkSheet href={posts.link} target="_blank">
-          <LinkText>
-            <h1>{posts.linkTitle}</h1>
-            <h2>{posts.linkDescription}</h2>
-            <h3>{posts.link}</h3>
-          </LinkText>
-          <LinkImage src={posts.linkImage} alt="link" />
-        </LinkSheet>
-      </RightContainer>
-    </Structure>
+          <LinkSheet href={posts.link} target="_blank">
+            <LinkText>
+              <h1>{posts.linkTitle}</h1>
+              <h2>{posts.linkDescription}</h2>
+              <h3>{posts.link}</h3>
+            </LinkText>
+            <LinkImage src={posts.linkImage} alt="link" />
+          </LinkSheet>
+        </RightContainer>
+      </Structure>
+    </RepostContainer>
   );
 }
 
@@ -199,6 +221,11 @@ const RightContainer = styled.div`
     margin-bottom: 15px;
     color: #b7b7b7;
     cursor: default;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
 
     strong {
       cursor: pointer;
@@ -242,6 +269,7 @@ const LinkText = styled.div`
   flex-direction: column;
   justify-content: space-between;
   overflow: hidden;
+  
 
   h1 {
     font-size: 16px;
@@ -289,5 +317,32 @@ const LinkText = styled.div`
     @media (max-width: 640px) {
       font-size: 9px;
     }
+  }
+`;
+
+const RepostContainer = styled.div`
+  height: ${prop => prop.reposted ? "279px" : "253px"};
+  width: 100%;
+
+  display:flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  background: #1e1e1e;
+  border-radius: 16px;
+  margin-bottom: 29px;
+
+  ${Structure} {
+    margin-bottom: 0;
+  }
+`;
+
+const WhoResposted = styled.div`
+  color: white;
+  margin: auto 0 auto 13px;
+
+  display: ${prop => prop.reposted ? "flex" : "none"};
+  
+  strong {
+    margin-left: 4px;
   }
 `;

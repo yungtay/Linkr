@@ -13,6 +13,8 @@ export default function TimeLine() {
   const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
+    setRefresh(false);
+
     const config = {
       headers: { Authorization: `Bearer ${accountInformation.token}` },
     };
@@ -22,7 +24,6 @@ export default function TimeLine() {
     );
     request.then((response) => {
       setPosts(response.data.posts);
-      setRefresh(true);
     });
     request.catch(() =>
       alert("Houve uma falha ao obter os posts, por favor atualize a página")
@@ -35,7 +36,7 @@ export default function TimeLine() {
         <Title>timeline</Title>
         <Container>
           <Posts>
-            {!refresh ? (
+            {!posts ? (
               <PositionLoader>
                 <Loader type="Oval" color="#FFF" height={80} width={80} />
               </PositionLoader>

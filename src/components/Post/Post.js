@@ -23,15 +23,11 @@ export default function Post({ posts, setRefresh, rePostCount }) {
 
   const { accountInformation } = useContext(UserContext);
 
-  console.log(posts)
-
   useEffect(() => {
     if (edit) {
       inputRef.current.focus();
     }
   }, [edit]);
-
-  console.log(posts.repostedBy)
 
   return (
     <RepostContainer reposted={posts.repostedBy}>

@@ -47,9 +47,34 @@ export default function Repost({
         <Modal
         isOpen={modalIsOpenRepost}
         animationType="fade"
-        contentLabel="Deleting post modal"
+        contentLabel="Repost modal"
+        overlayClassName={ModalOverlay}
+        style={{
+            overlay: {
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              zIndex: 20,
+              backgroundColor: 'rgba(255, 255, 255, 0.9)'
+            },
+         content: {
+            position: 'absolute',
+            top: '40px',
+            left: '40px',
+            right: '40px',
+            bottom: '40px',
+            border: '0px solid',
+            background: 'rgba(255, 255, 255, 0)',
+            overflow: 'auto',
+            WebkitOverflowScrolling: 'touch',
+            borderRadius: '4px',
+            outline: 'none',
+            padding: '20px'
+          }}}
       >
-        <ConfirmDelete>
+        <ConfirmRepost>
           <div>
             {false
               ? "Aguarde um instante"
@@ -69,7 +94,7 @@ export default function Repost({
               Yes, share !
             </button>
           </div>
-        </ConfirmDelete>
+        </ConfirmRepost>
       </Modal>
       </RepostContainer>
     
@@ -93,7 +118,7 @@ const NumberOfRePosts = styled.div`
   flex-wrap: wrap;
 `;
 
-const ConfirmDelete = styled.div`
+const ConfirmRepost = styled.div`
   background-color: #333;
   height: 262px;
   width: 597px;
@@ -144,5 +169,16 @@ const ConfirmDelete = styled.div`
     color: #1877f2;
   }
 `;
+
+const ModalOverlay = styled.div`
+              position: 'fixed';
+              top: 0;
+              left: 0;
+              right: 0;
+              bottom: 0;
+              z-index: 20;
+              background: 'rgba(255, 255, 255, 0.9);'
+`
+
 
 

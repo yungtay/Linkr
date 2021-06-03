@@ -3,7 +3,6 @@ import styled, { css } from "styled-components";
 import { Close } from "react-ionicons";
 
 export default function DialogLink({ posts, setOpenDialog, openDialog }) {
-  console.log(posts);
   function closeMaps() {
     setOpenDialog(false);
   }

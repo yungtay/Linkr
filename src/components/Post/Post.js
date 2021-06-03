@@ -7,6 +7,7 @@ import { Trash, Create } from "react-ionicons";
 import ReactHashtag from "react-hashtag";
 import DeletePost from "./DeletePost";
 import Likepost from "./Likepost";
+import DialogLink from "./DialogLink";
 import ReactPlayer from "react-player/youtube";
 import getYouTubeID from "get-youtube-id";
 
@@ -17,7 +18,6 @@ export default function Post({
   index,
   postsArray,
 }) {
-
   const [likes, setLikes] = useState(posts.likes.length);
   const [message, setMessage] = useState({ text: posts.text });
   const [edit, setEdit] = useState(false);
@@ -26,6 +26,7 @@ export default function Post({
   const inputRef = useRef(null);
   const history = useHistory();
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [openDialog, setOpenDialog] = useState(false);
 
   const { accountInformation } = useContext(UserContext);
   if (index === postsArray.length - 1) {
@@ -111,14 +112,21 @@ export default function Post({
             <a href={posts.link}>{posts.link}</a>
           </PositionPlayer>
         ) : (
-          <LinkSheet href={posts.link} target="_blank">
-            <LinkText>
-              <h1>{posts.linkTitle}</h1>
-              <h2>{posts.linkDescription}</h2>
-              <h3>{posts.link}</h3>
-            </LinkText>
-            <LinkImage src={posts.linkImage} alt="link" />
-          </LinkSheet>
+          <>
+            <LinkSheet onClick={() => setOpenDialog(true)}>
+              <LinkText>
+                <h1>{posts.linkTitle}</h1>
+                <h2>{posts.linkDescription}</h2>
+                <h3>{posts.link}</h3>
+              </LinkText>
+              <LinkImage src={posts.linkImage} alt="link" />
+            </LinkSheet>
+            <DialogLink
+              openDialog={openDialog}
+              setOpenDialog={setOpenDialog}
+              posts={posts}
+            />
+          </>
         )}
       </RightContainer>
     </Structure>
@@ -246,6 +254,7 @@ const LinkSheet = styled.a`
 
   display: flex;
   justify-content: space-between;
+  cursor: pointer;
 
   @media (max-width: 640px) {
     width: 100%;

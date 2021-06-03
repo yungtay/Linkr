@@ -98,11 +98,13 @@ export default function Post({ posts, setRefresh }) {
         </h2>
         {getYouTubeID(posts.link) !== null ? (
           <PositionPlayer>
-            <ReactPlayer width="100%" url={posts.link} />
-            <a href={posts.link}>{posts.link}</a>
+            <ReactPlayer width="100%" url={posts.link} controls="true" />
+            <a href={posts.link} target="_blank" rel="noreferrer">
+              {posts.link}
+            </a>
           </PositionPlayer>
         ) : (
-          <LinkSheet href={posts.link} target="_blank">
+          <LinkSheet href={posts.link} target="_blank" rel="noreferrer">
             <LinkText>
               <h1>{posts.linkTitle}</h1>
               <h2>{posts.linkDescription}</h2>

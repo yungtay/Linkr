@@ -32,7 +32,13 @@ export default function MyPosts() {
           {myPosts ? (
             <>
               {myPosts.map((myPost) => {
-                return <Post key={myPost.id} posts={myPost} setRefresh={setRefresh}></Post>;
+                return (
+                  <Post
+                    key={myPost.id}
+                    posts={myPost}
+                    setRefresh={setRefresh}
+                  ></Post>
+                );
               })}
             </>
           ) : (

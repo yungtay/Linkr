@@ -1,5 +1,5 @@
 import Modal from "react-modal";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { Close } from "react-ionicons";
 
 export default function DialogLink({ posts, setOpenDialog, openDialog }) {
@@ -13,6 +13,7 @@ export default function DialogLink({ posts, setOpenDialog, openDialog }) {
     <>
       <Modal
         className="content"
+        style={customStyle}
         isOpen={openDialog}
         onRequestClose={closeMaps}
         contentLabel="Link modal"
@@ -70,5 +71,14 @@ const ContainerModal = styled.div`
   iframe {
     width: 100%;
     height: calc(100% - 66px);
+    background-color: #fff;
   }
 `;
+
+const customStyle = {
+  overlay: {
+    zIndex: "11",
+    position: "fixed",
+    backgroundColor: "rgba(255, 255, 255, 0.75)",
+  },
+};

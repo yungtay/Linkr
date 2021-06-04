@@ -189,7 +189,7 @@ export default function Post({
           </h2>
           {getYouTubeID(posts.link) !== null ? (
             <PositionPlayer>
-              <ReactPlayer width="100%" url={posts.link} />
+              <ReactPlayer width="100%" url={posts.link} controls="true" />
               <a href={posts.link}>{posts.link}</a>
             </PositionPlayer>
           ) : (

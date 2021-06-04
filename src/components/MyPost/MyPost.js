@@ -9,6 +9,8 @@ export default function MyPosts() {
   const { accountInformation } = useContext(UserContext);
   const [myPosts, setMyPosts] = useState([]);
   const [refresh, setRefresh] = useState(false);
+  const [lastId, setLastId] = useState(null);
+
   useEffect(() => {
     setRefresh(false);
     const config = {
@@ -32,8 +34,18 @@ export default function MyPosts() {
         <Container>
           {myPosts ? (
             <>
-              {myPosts.map((myPost) => {
-                return <Post key={ myPost.repostId || myPost.id} posts={myPost} setRefresh={setRefresh} rePostCount={myPost.repostCount}></Post>;
+              {myPosts.map((myPost, i) => {
+                return (
+                  <Post
+                    key={myPost.repostId || myPost.id}
+                    posts={myPost}
+                    setRefresh={setRefresh}
+                    rePostCount={myPost.repostCount}
+                    index={i}
+                    setLastId={setLastId}
+                    postsArray={myPosts}
+                  ></Post>
+                );
               })}
             </>
           ) : (

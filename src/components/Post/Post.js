@@ -7,10 +7,15 @@ import { Trash, Create } from "react-ionicons";
 import ReactHashtag from "react-hashtag";
 import DeletePost from "./DeletePost";
 import Likepost from "./Likepost";
+import DialogLink from "./DialogLink";
+import ReactPlayer from "react-player/youtube";
+import getYouTubeID from "get-youtube-id";
 import Repost from "./Repost"
 import { RepeatSharp } from 'react-ionicons'
 
-export default function Post({ posts, setRefresh, rePostCount }) {
+export default function Post({ posts, setRefresh,setLastId, index, postsArray, rePostCount }) {
+
+
   const [likes, setLikes] = useState(posts.likes.length);
   const [message, setMessage] = useState({ text: posts.text });
   const [edit, setEdit] = useState(false);
@@ -20,9 +25,12 @@ export default function Post({ posts, setRefresh, rePostCount }) {
   const history = useHistory();
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [modalIsOpenRepost, setModalIsOpenRepost] = useState(false);
+  const [openDialog, setOpenDialog] = useState(false);
 
   const { accountInformation } = useContext(UserContext);
-
+  if (index === postsArray?.length - 1) {
+    setLastId(posts.id);
+  }
   useEffect(() => {
     if (edit) {
       inputRef.current.focus();
@@ -103,29 +111,43 @@ export default function Post({ posts, setRefresh, rePostCount }) {
                 setEdit={setEdit}
                 setRefresh={setRefresh}
               />
-            ) : (
-              <ReactHashtag
-                onHashtagClick={(hashtag) =>
-                  history.push(`/hashtag/${hashtag.substring(1)}`)
-                }
-                renderHashtag={(hashtag) => <strong>{hashtag}</strong>}
-              >
-                {editSucess ? message.text : posts.text}
-              </ReactHashtag>
-            )}
-          </h2>
-
-          <LinkSheet href={posts.link} target="_blank">
-            <LinkText>
-              <h1>{posts.linkTitle}</h1>
-              <h2>{posts.linkDescription}</h2>
-              <h3>{posts.link}</h3>
-            </LinkText>
-            <LinkImage src={posts.linkImage} alt="link" />
-          </LinkSheet>
-        </RightContainer>
-      </Structure>
+          ) : (
+            <ReactHashtag
+              onHashtagClick={(hashtag) =>
+                history.push(`/hashtag/${hashtag.substring(1)}`)
+              }
+              renderHashtag={(hashtag) => <strong>{hashtag}</strong>}
+            >
+              {editSucess ? message.text : posts.text}
+            </ReactHashtag>
+          )}
+        </h2>
+        {getYouTubeID(posts.link) !== null ? (
+          <PositionPlayer>
+            <ReactPlayer width="100%" url={posts.link} />
+            <a href={posts.link}>{posts.link}</a>
+          </PositionPlayer>
+        ) : (
+          <>
+            <LinkSheet onClick={() => setOpenDialog(true)}>
+              <LinkText>
+                <h1>{posts.linkTitle}</h1>
+                <h2>{posts.linkDescription}</h2>
+                <h3>{posts.link}</h3>
+              </LinkText>
+              <LinkImage src={posts.linkImage} alt="link" />
+            </LinkSheet>
+            <DialogLink
+              openDialog={openDialog}
+              setOpenDialog={setOpenDialog}
+              posts={posts}
+            />
+          </>
+        )}
+      </RightContainer>
+    </Structure>
     </RepostContainer>
+    
   );
 }
 
@@ -189,7 +211,7 @@ const RightContainer = styled.div`
   width: 100%;
   margin-left: 19px;
 
-  overflow-x: hidden;
+  overflow: hidden;
 
   > div {
     display: flex;
@@ -234,6 +256,18 @@ const RightContainer = styled.div`
   }
 `;
 
+const PositionPlayer = styled.div`
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  a {
+    margin-top: 6px;
+    font-size: 17px;
+    color: #b7b7b7;
+  }
+`;
+
 const LinkSheet = styled.a`
   width: 503px;
   height: 155px;
@@ -243,6 +277,7 @@ const LinkSheet = styled.a`
 
   display: flex;
   justify-content: space-between;
+  cursor: pointer;
 
   @media (max-width: 640px) {
     width: 100%;

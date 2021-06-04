@@ -62,7 +62,6 @@ export default function SearchBar() {
                     onClick={() => {
                       history.push(`/user/${result.id}`);
                       setSearch("");
-                      window.location.reload();
                     }}
                   >
                     <div>
@@ -81,7 +80,6 @@ export default function SearchBar() {
                 onClick={() => {
                   history.push(`/user/${result.id}`);
                   setSearch("");
-                  window.location.reload();
                 }}
               >
                 <div>

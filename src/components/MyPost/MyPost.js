@@ -26,6 +26,7 @@ export default function MyPosts() {
       setMyPosts(resp.data.posts);
     });
   }, [accountInformation.token, accountInformation.user.id, refresh]);
+
   return (
     <>
       <Application>
@@ -33,16 +34,17 @@ export default function MyPosts() {
         <Container>
           {myPosts ? (
             <>
-              {myPosts.map((item, i) => {
+              {myPosts.map((myPost, i) => {
                 return (
                   <Post
-                    key={item.id}
-                    posts={item}
+                    key={myPost.repostId || myPost.id}
+                    posts={myPost}
                     setRefresh={setRefresh}
+                    rePostCount={myPost.repostCount}
                     index={i}
                     setLastId={setLastId}
                     postsArray={myPosts}
-                  />
+                  ></Post>
                 );
               })}
             </>

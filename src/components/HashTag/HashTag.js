@@ -19,7 +19,7 @@ export default function HashTag() {
   const [posts, setPosts] = useState([]);
   const [refresh, setRefresh] = useState(false);
   const [lastId, setLastId] = useState(null);
-
+  
   useEffect(() => {
     setRefresh(false);
     const config = {
@@ -33,7 +33,6 @@ export default function HashTag() {
       setPosts(r.data.posts);
       setRefresh(true);
     });
-
     request.catch(() =>
       alert("Houve uma falha ao obter os posts, por favor atualize a página")
     );
@@ -59,11 +58,13 @@ export default function HashTag() {
                   return (
                     <Post
                       key={item.id}
+                      rePostCount={item.repostCount}
                       posts={item}
                       setRefresh={setRefresh}
                       setLastId={setLastId}
                       index={i}
                       postsArray={posts}
+                      refresh={refresh}
                     />
                   );
                 })}

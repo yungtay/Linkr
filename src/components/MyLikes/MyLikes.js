@@ -59,6 +59,7 @@ export default function MyLikes() {
                     setLastId={setLastId}
                     index={i}
                     postsArray={posts}
+                    refresh={refresh}
                   />
                 );
               })}

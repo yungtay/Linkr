@@ -105,9 +105,11 @@ export default function MyFriendPosts() {
                       key={item.id}
                       posts={item}
                       setRefresh={setRefresh}
+                      rePostCount={item.repostCount}
                       setLastId={setLastId}
                       index={i}
                       postsArray={posts}
+                      refresh={refresh}
                     />
                   );
                 })}

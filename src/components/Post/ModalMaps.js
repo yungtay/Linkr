@@ -32,7 +32,9 @@ export default function ModalMaps({ openMaps, setOpenMaps, posts }) {
           </div>
           <Map>
             <GoogleMapReact
-              key="AIzaSyCYtGPAy-OKSLq_oIvhVDGF3MS9vRoIqWk"
+              bootstrapURLKeys={{
+                key: "AIzaSyBybDZauUQFuIDulOMeWdeNuf3ec6WdMQc",
+              }}
               defaultCenter={{
                 lat: parseFloat(geolocation.latitude),
                 lng: parseFloat(geolocation.longitude),
@@ -83,6 +85,8 @@ const ContainerModal = styled.div`
   }
   @media (max-width: 640px) {
     width: 100%;
+    top: 0;
+    left: 0;
   }
 `;
 

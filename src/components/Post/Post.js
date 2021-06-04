@@ -37,6 +37,7 @@ export default function Post({ posts, setRefresh, rePostCount }) {
           height={"15px"}
           width={"25px"}
         />
+
         Re-posted by <strong>{posts.repostedBy?.username}</strong>
       </WhoResposted>
       <Structure>
@@ -342,3 +343,5 @@ const WhoResposted = styled.div`
     margin-left: 4px;
   }
 `;
+
+

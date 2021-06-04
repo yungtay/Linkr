@@ -48,7 +48,6 @@ export default function Repost({
         isOpen={modalIsOpenRepost}
         animationType="fade"
         contentLabel="Repost modal"
-        overlayClassName={ModalOverlay}
         style={CustomStyleModal}
       >
         <ConfirmRepost>
@@ -93,6 +92,7 @@ const NumberOfRePosts = styled.div`
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
+  text-align: center;
 `;
 
 const ConfirmRepost = styled.div`

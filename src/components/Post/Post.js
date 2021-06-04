@@ -353,7 +353,6 @@ const LinkText = styled.div`
 `;
 
 const RepostContainer = styled.div`
-  height: ${prop => prop.reposted ? "279px" : "253px"};
   width: 100%;
 
   display:flex;
@@ -370,7 +369,7 @@ const RepostContainer = styled.div`
 
 const WhoResposted = styled.div`
   color: white;
-  margin: auto 0 auto 13px;
+  margin: 4.5px 0 4.5px 13px;
 
   display: ${prop => prop.reposted ? "flex" : "none"};
   

@@ -33,20 +33,18 @@ export default function MyPosts() {
         <Container>
           {myPosts ? (
             <>
-<<<<<<< HEAD
-              {myPosts.map((myPost) => {
+              {myPosts.map((myPost, i) => {
                 return (
                   <Post
                     key={myPost.repostId || myPost.id}
                     posts={myPost}
                     setRefresh={setRefresh}
                     rePostCount={myPost.repostCount}
+                    index={i}
+                    setLastId={setLastId}
+                    postsArray={myPosts}
                   ></Post>
                 );
-=======
-              {myPosts.map((myPost, i) => {
-                return <Post key={ myPost.repostId || myPost.id} posts={myPost} setRefresh={setRefresh} rePostCount={myPost.repostCount} index={i} setLastId={setLastId} postsArray={myPosts}></Post>;
->>>>>>> 06ae05e2e0768b332fd530b59e3ab83985f8b959
               })}
             </>
           ) : (

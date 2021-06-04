@@ -38,7 +38,7 @@ export default function AddPost({ setRefresh }) {
       setSubmitting(false);
       setLink("");
       setText("");
-      setRefresh(false);
+      setRefresh(true);
     });
     request.catch(() => {
       setSubmitting(false);

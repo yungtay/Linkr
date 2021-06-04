@@ -33,7 +33,6 @@ export default function HashTag() {
       setPosts(r.data.posts);
       setRefresh(true);
     });
-
     request.catch(() =>
       alert("Houve uma falha ao obter os posts, por favor atualize a página")
     );
@@ -59,6 +58,7 @@ export default function HashTag() {
                   return (
                     <Post
                       key={item.id}
+                      rePostCount={item.repostCount}
                       posts={item}
                       setRefresh={setRefresh}
                       setLastId={setLastId}

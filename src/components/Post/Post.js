@@ -160,50 +160,49 @@ export default function Post({
             </div>
           </div>
 
-          <h2>
-            {edit ? (
-              <Edit
-                message={message}
-                setMessage={setMessage}
-                accountInformation={accountInformation}
-                posts={posts}
-                inputRef={inputRef}
-                isLoading={isLoading}
-                setIsLoading={setIsLoading}
-                setEditSucess={setEditSucess}
-                setEdit={setEdit}
-                setRefresh={setRefresh}
-              />
-            ) : (
-              <ReactHashtag
-                onHashtagClick={(hashtag) =>
-                  history.push(`/hashtag/${hashtag.substring(1)}`)
-                }
-                renderHashtag={(hashtag) => <strong>{hashtag}</strong>}
-              >
-                {editSucess ? message.text : posts.text}
-              </ReactHashtag>
-            )}
-          </h2>
-          {getYouTubeID(posts.link) !== null ? (
-            <PositionPlayer>
-              <ReactPlayer width="100%" url={posts.link} />
-              <a href={posts.link}>{posts.link}</a>
-            </PositionPlayer>
+        <h2>
+          {edit ? (
+            <Edit
+              message={message}
+              setMessage={setMessage}
+              accountInformation={accountInformation}
+              posts={posts}
+              inputRef={inputRef}
+              isLoading={isLoading}
+              setIsLoading={setIsLoading}
+              setEditSucess={setEditSucess}
+              setEdit={setEdit}
+              setRefresh={setRefresh}
+            />
           ) : (
-            <>
-              <LinkSheet onClick={() => setOpenDialog(true)}>
-                <LinkText>
-                  <h1>{posts.linkTitle}</h1>
-                  <h2>{posts.linkDescription}</h2>
-                  <h3>{posts.link}</h3>
-                </LinkText>
-                <LinkImage src={posts.linkImage} alt="link" />
-              </LinkSheet>
-              <DialogLink
-                openDialog={openDialog}
-                setOpenDialog={setOpenDialog}
-                posts={posts}
+            <ReactHashtag
+              renderHashtag={(hashtag) => (
+                <a href={`/hashtag/${hashtag.substring(1)}`}>{hashtag}</a>
+              )}
+            >
+              {editSucess ? message.text : posts.text}
+            </ReactHashtag>
+          )}
+        </h2>
+        {getYouTubeID(posts.link) !== null ? (
+          <PositionPlayer>
+            <ReactPlayer width="100%" url={posts.link} />
+            <a href={posts.link}>{posts.link}</a>
+          </PositionPlayer>
+        ) : (
+          <>
+            <LinkSheet onClick={() => setOpenDialog(true)}>
+              <LinkText>
+                <h1>{posts.linkTitle}</h1>
+                <h2>{posts.linkDescription}</h2>
+                <h3>{posts.link}</h3>
+              </LinkText>
+              <LinkImage src={posts.linkImage} alt="link" />
+            </LinkSheet>
+            <DialogLink
+              openDialog={openDialog}
+              setOpenDialog={setOpenDialog}
+              posts={posts}
               />
             </>
           )}
@@ -364,7 +363,6 @@ const RightContainer = styled.div`
     }
 
     div {
-      width: 45px;
       display: flex;
       justify-content: space-between;
       cursor: pointer;
@@ -382,8 +380,11 @@ const RightContainer = styled.div`
     overflow: hidden;
     text-overflow: ellipsis;
 
-    strong {
+    a {
       cursor: pointer;
+      text-decoration: none;
+      font-weight: bold;
+      color: #fff;
     }
 
     @media (max-width: 640px) {

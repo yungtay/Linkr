@@ -25,13 +25,15 @@ export default function Post({ posts, setRefresh, rePostCount }) {
   const [comments, setComments] = useState(null);
   const [myComment, setMyComments] = useState(null)
 
-  const { accountInformation } = useContext(UserContext);
+  const { accountInformation, whoYouFollow } = useContext(UserContext);
 
   useEffect(() => {
     if (edit) {
       inputRef.current.focus();
     }
   }, [edit]);
+
+  console.log(comments)
 
   return (
     <RepostContainer reposted={posts.repostedBy}>
@@ -143,7 +145,24 @@ export default function Post({ posts, setRefresh, rePostCount }) {
                 <NameUserComment
                   onClick={() => history.push(`/user/${c.user.id}`)}
                 >
-                  {c.user.username}
+                  {c.user.id === posts.user.id ? (
+                    <CommentUserName>
+                      {c.user.username}{" "}
+                      <CommentUserInformation>
+                        • post’s author
+                      </CommentUserInformation>
+                    </CommentUserName>
+                  ) : whoYouFollow.includes(c.user.id) ? (
+                    <CommentUserName>
+                      {c.user.username}
+                      <CommentUserInformation>
+                        {" "}
+                        • following
+                      </CommentUserInformation>
+                    </CommentUserName>
+                  ) : (
+                    c.user.username
+                  )}
                 </NameUserComment>
                 {c.text}
               </UsersComments>
@@ -158,7 +177,7 @@ export default function Post({ posts, setRefresh, rePostCount }) {
               alt="avatar do usuário"
             />
             <ContainerSendComment>
-              <SendComment placeholder="write a comment..."/>
+              <SendComment placeholder="write a comment..." />
               <PaperPlaneOutline
                 color={"#F3F3F3"}
                 title={"Comment"}
@@ -466,6 +485,18 @@ const SendComment = styled.input`
   color: #575757;
   font-style: italic;
   font-size: 14px;
+`;
+
+const CommentUserName = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
+const CommentUserInformation = styled.div`
+  margin-left: 5px;
+  color: #565656;
+  font-size: 14px;
+  font-weight: 400;
 `;
 
 

@@ -24,6 +24,7 @@ export default function Post({
   index,
   postsArray,
   rePostCount,
+  refresh
 }) {
   const [likes, setLikes] = useState(posts.likes.length);
   const [message, setMessage] = useState({ text: posts.text });

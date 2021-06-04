@@ -36,12 +36,13 @@ export default function DeletePost({ postsId, setModalIsOpen, modalIsOpen }) {
       alert("Não foi possível excluir o post");
     });
   }
-  Modal.setAppElement("body");
+  Modal.setAppElement(".root");
 
   return (
     <>
       <Modal
         className="content"
+        style={customStyle}
         isOpen={modalIsOpen}
         animationType="fade"
         contentLabel="Deleting post modal"
@@ -124,3 +125,11 @@ const ConfirmDelete = styled.div`
     color: #1877f2;
   }
 `;
+
+const customStyle = {
+  overlay: {
+    zIndex: "11",
+    position: "fixed",
+    backgroundColor: "rgba(255, 255, 255, 0.75)",
+  },
+};

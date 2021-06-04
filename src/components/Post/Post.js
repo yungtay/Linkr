@@ -119,10 +119,9 @@ export default function Post({
             />
           ) : (
             <ReactHashtag
-              onHashtagClick={(hashtag) =>
-                history.push(`/hashtag/${hashtag.substring(1)}`)
-              }
-              renderHashtag={(hashtag) => <strong>{hashtag}</strong>}
+              renderHashtag={(hashtag) => (
+                <a href={`/hashtag/${hashtag.substring(1)}`}>{hashtag}</a>
+              )}
             >
               {editSucess ? message.text : posts.text}
             </ReactHashtag>
@@ -253,8 +252,11 @@ const RightContainer = styled.div`
     color: #b7b7b7;
     cursor: default;
 
-    strong {
+    a {
       cursor: pointer;
+      text-decoration: none;
+      font-weight: bold;
+      color: #fff;
     }
 
     @media (max-width: 640px) {

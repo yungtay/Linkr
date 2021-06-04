@@ -2,11 +2,18 @@ import axios from "axios";
 import { useContext, useState } from "react";
 import styled from "styled-components";
 import UserContext from "../../context/UserContext";
+import { LocationOutline } from "react-ionicons";
+import geoLocation from "./geoLocation";
 
 export default function AddPost({ setRefresh }) {
   const [link, setLink] = useState("");
   const [text, setText] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [geolocation, setGeolocation] = useState({
+    latitude: "",
+    longitude: "",
+  });
+  const [geoactive, setGeoactive] = useState(false);
   const { accountInformation } = useContext(UserContext);
 
   function submitPublish(e) {
@@ -15,7 +22,12 @@ export default function AddPost({ setRefresh }) {
     const config = {
       headers: { Authorization: `Bearer ${accountInformation.token}` },
     };
-    const post = { link, text };
+    let post;
+    if (geoactive) {
+      post = { link, text, geolocation };
+    } else {
+      post = { link, text };
+    }
 
     const request = axios.post(
       "https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/posts",
@@ -54,6 +66,23 @@ export default function AddPost({ setRefresh }) {
             value={text}
           ></Coment>
           <PositionButton>
+            <div
+              onClick={() =>
+                geoLocation({
+                  setGeoactive,
+                  geoactive,
+                  setGeolocation,
+                })
+              }
+              geoactive={geoactive || undefined}
+            >
+              <LocationOutline
+                color={geoactive ? "#238700" : "#949494"}
+                height="16px"
+                width="16px"
+              />
+              Localização {geoactive ? "ativada" : "desativada"}
+            </div>
             {submitting ? (
               <Button type="submit" disabled>
                 Publishing ...
@@ -180,5 +209,13 @@ const Button = styled.button`
 
 const PositionButton = styled.div`
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  div {
+    font-size: 13px;
+    color: ${(props) =>
+      props.children[0].props.geoactive ? "#238700" : "#949494"};
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
 `;

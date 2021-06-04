@@ -239,7 +239,6 @@ const RightContainer = styled.div`
     }
 
     div {
-      width: 45px;
       display: flex;
       justify-content: space-between;
       cursor: pointer;

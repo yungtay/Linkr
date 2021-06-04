@@ -26,6 +26,7 @@ export default function MyPosts() {
       setMyPosts(resp.data.posts);
     });
   }, [accountInformation.token, accountInformation.user.id, refresh]);
+
   return (
     <>
       <Application>

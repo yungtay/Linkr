@@ -107,6 +107,7 @@ export default function TimeLine() {
                         index={i}
                         postsArray={posts}
                         rePostCount={item.repostCount}
+                        refresh={refresh}
                       />
                     );
                   })}

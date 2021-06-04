@@ -38,7 +38,7 @@ export default function Repost({
       <RepostContainer>
         <RepeatSharp
           color={"#ffffff"}
-          height={"30px"}
+          height={"25px"}
           width={"25px"}
           onClick={() => setModalIsOpenRepost(true)}
           style={{cursor: "pointer"}}
@@ -82,8 +82,7 @@ const RepostContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 15px;
-
+  margin-top: 10px;
 `;
 
 const NumberOfRePosts = styled.div`

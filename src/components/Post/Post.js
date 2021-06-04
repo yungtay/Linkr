@@ -12,7 +12,10 @@ import DialogLink from "./DialogLink";
 import ReactPlayer from "react-player/youtube";
 import getYouTubeID from "get-youtube-id";
 import Repost from "./Repost";
+import Comment from "./Comment"
 import { RepeatSharp } from "react-ionicons";
+import { PaperPlaneOutline } from 'react-ionicons'
+import axios from 'axios';
 
 export default function Post({
   posts,
@@ -21,6 +24,7 @@ export default function Post({
   index,
   postsArray,
   rePostCount,
+  refresh
 }) {
   const [likes, setLikes] = useState(posts.likes.length);
   const [message, setMessage] = useState({ text: posts.text });
@@ -31,18 +35,42 @@ export default function Post({
   const history = useHistory();
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [modalIsOpenRepost, setModalIsOpenRepost] = useState(false);
+  const [comments, setComments] = useState(null);
+  const [myComment, setMyComments] = useState("")
+  const [refreshComment, setRefreshComment] = useState(false);
+  const [toggleComment, setToggleComment] = useState(false)
   const [openMaps, setOpenMaps] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
 
-  const { accountInformation } = useContext(UserContext);
-  if (index === postsArray?.length - 1) {
+  const { accountInformation, whoYouFollow } = useContext(UserContext);
+  const config = {
+    headers: { Authorization: `Bearer ${accountInformation.token}` },
+  };
+  
+    if (index === postsArray?.length - 1) {
     setLastId(posts.id);
   }
+
   useEffect(() => {
     if (edit) {
       inputRef.current.focus();
     }
   }, [edit]);
+
+  function submit(e) {
+    e.preventDefault();
+    const request = axios.post(
+      `https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/posts/${posts.id}/comment`, {text: myComment},
+      config
+    );
+    request.then(() => {
+      setMyComments("")
+      setRefreshComment(true)
+    })
+    request.catch(() => {
+      alert("Não foi possível postar")
+    })
+  }
 
   return (
     <RepostContainer reposted={posts.repostedBy}>
@@ -58,6 +86,18 @@ export default function Post({
             alt="avatar do usuário"
           />
           <Likepost posts={posts} likes={likes} setLikes={setLikes} />
+          <Comment
+            CommentCount={posts.commentCount}
+            postId={posts.id}
+            setComments={setComments}
+            setRefresh={setRefresh}
+            refreshComment= {refreshComment} 
+            setRefreshComment= {setRefreshComment}
+            toggleComment= {toggleComment}
+            setToggleComment= {setToggleComment}
+            setMyComments= {setMyComments}
+            refresh={refresh}
+          />
           <Repost
             rePostCount={rePostCount}
             postId={posts.id}
@@ -169,6 +209,71 @@ export default function Post({
           )}
         </RightContainer>
       </Structure>
+      {comments && toggleComment ? (
+        <>
+          {comments.map((c) => (
+            <CommentSection key={c.id}>
+              <img
+                onClick={() => history.push(`/user/${c.user.id}`)}
+                src={c.user.avatar}
+                alt="avatar do usuário"
+              />
+              <UsersComments>
+                <NameUserComment
+                  onClick={() => history.push(`/user/${c.user.id}`)}
+                >
+                  {c.user.id === posts.user.id ? (
+                    <CommentUserName>
+                      {c.user.username}{" "}
+                      <CommentUserInformation>
+                        • post’s author
+                      </CommentUserInformation>
+                    </CommentUserName>
+                  ) : whoYouFollow.includes(c.user.id) ? (
+                    <CommentUserName>
+                      {c.user.username}
+                      <CommentUserInformation>
+                        {" "}
+                        • following
+                      </CommentUserInformation>
+                    </CommentUserName>
+                  ) : (
+                    c.user.username
+                  )}
+                </NameUserComment>
+                {c.text}
+              </UsersComments>
+            </CommentSection>
+          ))}
+          <CommentSection>
+            <img
+              onClick={() =>
+                history.push(`/user/${accountInformation.user.id}`)
+              }
+              src={accountInformation.user.avatar}
+              alt="avatar do usuário"
+            />
+            <ContainerSendComment>
+              <Form onSubmit={submit}>
+                <SendComment
+                  placeholder="write a comment..."
+                  onChange={(e) => setMyComments(e.target.value)}
+                  value={myComment}
+                />
+              </Form>
+              <PaperPlaneOutline
+                  color={"#F3F3F3"}
+                  title={"Comment"}
+                  height="25px"
+                  width="25px"
+                  onClick={submit}
+                />
+            </ContainerSendComment>
+          </CommentSection>
+        </>
+      ) : (
+        ""
+      )}
     </RepostContainer>
   );
 }
@@ -181,7 +286,7 @@ const Structure = styled.div`
   color: #fff;
 
   border-radius: 16px;
-  padding: 20px;
+  padding: 20px 12px;
   background-color: #171717;
   display: flex;
 
@@ -193,6 +298,7 @@ const Structure = styled.div`
 `;
 
 const LeftContainer = styled.div`
+  width: 12%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -399,10 +505,106 @@ const RepostContainer = styled.div`
 const WhoResposted = styled.div`
   color: white;
   margin: 4.5px 0 4.5px 13px;
-
+  
   display: ${(prop) => (prop.reposted ? "flex" : "none")};
+
 
   strong {
     margin-left: 4px;
   }
 `;
+
+const CommentSection = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: start;
+  margin: 16px 25px;
+
+  position: relative;
+
+  &:after {
+  position: absolute;
+  content: '';
+  border-bottom: 1px solid #353535;
+  width: 100%;
+  transform: translateX(-50%);
+  bottom: -16px;
+  left: 50%;
+}
+
+  img {
+    width: 39px;
+    height: 39px;
+
+    border-radius: 50%;
+    margin-right: 18px;
+
+    cursor: pointer;
+    @media (max-width: 640px) {
+      width: 39px;
+      height: 39px;
+    }
+  }
+`;
+
+const UsersComments = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+
+  font-size: 14px;
+  color: #ACACAC;
+  word-break: break-all;
+`;
+
+const NameUserComment = styled.div`
+  color: #f3f3f3;
+  font-size: 14px;
+  font-weight: 700;
+
+  margin-bottom: 10px;
+  cursor: pointer;
+`;
+
+const ContainerSendComment = styled.div`
+width: 100%;
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding-right: 17px;
+
+background: #252525;
+border-radius: 8px;
+`
+
+const SendComment = styled.input`
+  width: 100%; 
+  height: 39px;
+
+  background: none;
+  border: 0px solid;
+  outline: none;
+
+  padding-left: 16px;
+  color: #575757;
+  font-style: italic;
+  font-size: 14px;
+`;
+
+const CommentUserName = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
+const CommentUserInformation = styled.div`
+  margin-left: 5px;
+  color: #565656;
+  font-size: 14px;
+  font-weight: 400;
+`;
+
+const Form = styled.form`
+  width: 90%;
+`;
+

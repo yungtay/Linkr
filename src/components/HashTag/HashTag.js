@@ -19,7 +19,7 @@ export default function HashTag() {
   const [posts, setPosts] = useState([]);
   const [refresh, setRefresh] = useState(false);
   const [lastId, setLastId] = useState(null);
-
+  
   useEffect(() => {
     setRefresh(false);
     const config = {
@@ -64,6 +64,7 @@ export default function HashTag() {
                       setLastId={setLastId}
                       index={i}
                       postsArray={posts}
+                      refresh={refresh}
                     />
                   );
                 })}

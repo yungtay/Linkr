@@ -3,19 +3,25 @@ import { useContext, useState, useRef, useEffect } from "react";
 import { useHistory } from "react-router";
 import UserContext from "../../context/UserContext";
 import Edit from "./Edit";
-import { Trash, Create } from "react-ionicons";
+import { Trash, Create, LocationSharp } from "react-ionicons";
 import ReactHashtag from "react-hashtag";
 import DeletePost from "./DeletePost";
 import Likepost from "./Likepost";
+import ModalMaps from "./ModalMaps";
 import DialogLink from "./DialogLink";
 import ReactPlayer from "react-player/youtube";
 import getYouTubeID from "get-youtube-id";
-import Repost from "./Repost"
-import { RepeatSharp } from 'react-ionicons'
+import Repost from "./Repost";
+import { RepeatSharp } from "react-ionicons";
 
-export default function Post({ posts, setRefresh,setLastId, index, postsArray, rePostCount }) {
-
-
+export default function Post({
+  posts,
+  setRefresh,
+  setLastId,
+  index,
+  postsArray,
+  rePostCount,
+}) {
   const [likes, setLikes] = useState(posts.likes.length);
   const [message, setMessage] = useState({ text: posts.text });
   const [edit, setEdit] = useState(false);
@@ -25,6 +31,7 @@ export default function Post({ posts, setRefresh,setLastId, index, postsArray, r
   const history = useHistory();
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [modalIsOpenRepost, setModalIsOpenRepost] = useState(false);
+  const [openMaps, setOpenMaps] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
 
   const { accountInformation } = useContext(UserContext);
@@ -40,12 +47,7 @@ export default function Post({ posts, setRefresh,setLastId, index, postsArray, r
   return (
     <RepostContainer reposted={posts.repostedBy}>
       <WhoResposted reposted={posts.repostedBy}>
-        <RepeatSharp
-          color={"#ffffff"}
-          height={"15px"}
-          width={"25px"}
-        />
-
+        <RepeatSharp color={"#ffffff"} height={"15px"} width={"25px"} />
         Re-posted by <strong>{posts.repostedBy?.username}</strong>
       </WhoResposted>
       <Structure>
@@ -66,35 +68,56 @@ export default function Post({ posts, setRefresh,setLastId, index, postsArray, r
         </LeftContainer>
         <RightContainer>
           <div>
-            <h1 onClick={() => history.push(`/user/${posts.user.id}`)}>
-              {posts.user.username}
-            </h1>
-            {posts.user.id  === accountInformation.user.id ? (
-              <div>
-                <Create
-                  onClick={() => {
-                    setEdit(!edit);
-                    setMessage(message);
-                  }}
-                  color={"#ffffff"}
-                  height="18px"
-                  width="18px"
-                />
-                <Trash
-                  onClick={() => setModalIsOpen(true)}
-                  color={"#ffffff"}
-                  height="18px"
-                  width="18px"
-                />
-                <DeletePost
-                  postsId={posts.id}
-                  modalIsOpen={modalIsOpen}
-                  setModalIsOpen={setModalIsOpen}
-                />
-              </div>
-            ) : (
-              ""
-            )}
+            <div>
+              <h1 onClick={() => history.push(`/user/${posts.user.id}`)}>
+                {posts.user.username}
+              </h1>
+              {posts.geolocation !== undefined ? (
+                <>
+                  <LocationSharp
+                    onClick={() => setOpenMaps(true)}
+                    color={"#ffffff"}
+                    height="16px"
+                    width="16px"
+                  />
+                  <ModalMaps
+                    openMaps={openMaps}
+                    setOpenMaps={setOpenMaps}
+                    posts={posts}
+                  />
+                </>
+              ) : (
+                ""
+              )}
+            </div>
+            <div>
+              {posts.user.id === accountInformation.user.id ? (
+                <div>
+                  <Create
+                    onClick={() => {
+                      setEdit(!edit);
+                      setMessage(message);
+                    }}
+                    color={"#ffffff"}
+                    height="18px"
+                    width="18px"
+                  />
+                  <Trash
+                    onClick={() => setModalIsOpen(true)}
+                    color={"#ffffff"}
+                    height="18px"
+                    width="18px"
+                  />
+                  <DeletePost
+                    postsId={posts.id}
+                    modalIsOpen={modalIsOpen}
+                    setModalIsOpen={setModalIsOpen}
+                  />
+                </div>
+              ) : (
+                ""
+              )}
+            </div>
           </div>
 
           <h2>
@@ -111,43 +134,42 @@ export default function Post({ posts, setRefresh,setLastId, index, postsArray, r
                 setEdit={setEdit}
                 setRefresh={setRefresh}
               />
+            ) : (
+              <ReactHashtag
+                onHashtagClick={(hashtag) =>
+                  history.push(`/hashtag/${hashtag.substring(1)}`)
+                }
+                renderHashtag={(hashtag) => <strong>{hashtag}</strong>}
+              >
+                {editSucess ? message.text : posts.text}
+              </ReactHashtag>
+            )}
+          </h2>
+          {getYouTubeID(posts.link) !== null ? (
+            <PositionPlayer>
+              <ReactPlayer width="100%" url={posts.link} />
+              <a href={posts.link}>{posts.link}</a>
+            </PositionPlayer>
           ) : (
-            <ReactHashtag
-              onHashtagClick={(hashtag) =>
-                history.push(`/hashtag/${hashtag.substring(1)}`)
-              }
-              renderHashtag={(hashtag) => <strong>{hashtag}</strong>}
-            >
-              {editSucess ? message.text : posts.text}
-            </ReactHashtag>
+            <>
+              <LinkSheet onClick={() => setOpenDialog(true)}>
+                <LinkText>
+                  <h1>{posts.linkTitle}</h1>
+                  <h2>{posts.linkDescription}</h2>
+                  <h3>{posts.link}</h3>
+                </LinkText>
+                <LinkImage src={posts.linkImage} alt="link" />
+              </LinkSheet>
+              <DialogLink
+                openDialog={openDialog}
+                setOpenDialog={setOpenDialog}
+                posts={posts}
+              />
+            </>
           )}
-        </h2>
-        {getYouTubeID(posts.link) !== null ? (
-          <PositionPlayer>
-            <ReactPlayer width="100%" url={posts.link} />
-            <a href={posts.link}>{posts.link}</a>
-          </PositionPlayer>
-        ) : (
-          <>
-            <LinkSheet onClick={() => setOpenDialog(true)}>
-              <LinkText>
-                <h1>{posts.linkTitle}</h1>
-                <h2>{posts.linkDescription}</h2>
-                <h3>{posts.link}</h3>
-              </LinkText>
-              <LinkImage src={posts.linkImage} alt="link" />
-            </LinkSheet>
-            <DialogLink
-              openDialog={openDialog}
-              setOpenDialog={setOpenDialog}
-              posts={posts}
-            />
-          </>
-        )}
-      </RightContainer>
-    </Structure>
+        </RightContainer>
+      </Structure>
     </RepostContainer>
-    
   );
 }
 
@@ -208,7 +230,7 @@ const LeftContainer = styled.div`
 `;
 
 const RightContainer = styled.div`
-  width: 100%;
+  width: 503px;
   margin-left: 19px;
 
   overflow: hidden;
@@ -217,13 +239,21 @@ const RightContainer = styled.div`
     display: flex;
     justify-content: space-between;
 
-    > h1 {
-      font-size: 19px;
-      margin-bottom: 7px;
-      cursor: pointer;
+    > div {
+      display: flex;
+      align-items: center;
 
-      @media (max-width: 640px) {
-        font-size: 17px;
+      h1 {
+        font-size: 19px;
+        margin-bottom: 7px;
+        margin-right: 7px;
+        cursor: pointer;
+
+        @media (max-width: 640px) {
+          width: 100%;
+
+          font-size: 17px;
+        }
       }
     }
 
@@ -301,7 +331,6 @@ const LinkText = styled.div`
   flex-direction: column;
   justify-content: space-between;
   overflow: hidden;
-  
 
   h1 {
     font-size: 16px;
@@ -355,7 +384,7 @@ const LinkText = styled.div`
 const RepostContainer = styled.div`
   width: 100%;
 
-  display:flex;
+  display: flex;
   flex-direction: column;
   justify-content: flex-end;
   background: #1e1e1e;
@@ -371,11 +400,9 @@ const WhoResposted = styled.div`
   color: white;
   margin: 4.5px 0 4.5px 13px;
 
-  display: ${prop => prop.reposted ? "flex" : "none"};
-  
+  display: ${(prop) => (prop.reposted ? "flex" : "none")};
+
   strong {
     margin-left: 4px;
   }
 `;
-
-

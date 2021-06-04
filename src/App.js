@@ -23,18 +23,21 @@ export default function App() {
   const [whoYouFollow, setWhoYouFollow] = useState(null)
 
     useEffect(() => {
-        setRefreshWhoYouFollow(false)      
+      if (accountInformation) {
+        setRefreshWhoYouFollow(false);
         const request = axios.get(
           "https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/users/follows",
           {
-            headers: { Authorization: `Bearer ${accountInformation.token}` }}
+            headers: { Authorization: `Bearer ${accountInformation.token}` },
+          }
         );
         request.then((r) => {
-          setWhoYouFollow(r.data.users.map((users) => users.id))
+          setWhoYouFollow(r.data.users.map((users) => users.id));
         });
-    
+
         request.catch(() => alert("Não foi possível checar quem você segue"));
-      }, [accountInformation.token, refreshWhoYouFollow ])
+      }
+    }, [accountInformation?.token, refreshWhoYouFollow]);
 
     return (
         <BrowserRouter>

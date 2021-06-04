@@ -1,31 +1,47 @@
 import styled from "styled-components";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import axios from 'axios';
 import UserContext from "../../context/UserContext";
 import { ChatbubbleEllipsesOutline } from 'react-ionicons'
-export default function Comment({ CommentCount, postId, setComments, setRefresh }) {
-    const { accountInformation } = useContext(UserContext);
+export default function Comment({
+  CommentCount,
+  postId,
+  setComments,
+  refresh,
+  setRefresh,
+  refreshComment,
+  setRefreshComment,
+  setToggleComment,
+  toggleComment,
+  setMyComments,
+}) {
+  const { accountInformation } = useContext(UserContext);
 
-    function comentClick() {
-        if(CommentCount === 0){
-            return
-        }
-      const config = {
-        headers: { Authorization: `Bearer ${accountInformation.token}` },
-      };
-      const request = axios.get(
-        `https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/posts/${postId}/comments`,
-        config
-      );
-      request.then((r) => {
-        setComments(r.data.comments);
-        setRefresh(true);
-      });
+    useEffect(() => {
+      if (refreshComment) {
+        comentClick();
+      }
+    }, [refreshComment]);
 
-      request.catch(() => {
-        alert("Não foi possível abrir os comentários !");
-      });
-    }
+  function comentClick() {
+
+    const config = {
+      headers: { Authorization: `Bearer ${accountInformation.token}` },
+    };
+    const request = axios.get(
+      `https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/posts/${postId}/comments`,
+      config
+    );
+    request.then((r) => {
+      setComments(r.data.comments);
+      setRefresh(true);
+      setRefreshComment(false);
+    });
+
+    request.catch(() => {
+      alert("Não foi possível abrir os comentários !");
+    });
+  }
   return (
     <ContainerCommentNumber>
       <ChatbubbleEllipsesOutline
@@ -33,7 +49,10 @@ export default function Comment({ CommentCount, postId, setComments, setRefresh 
         height={"20px"}
         width={"25px"}
         style={{ cursor: "pointer" }}
-        onClick={() => comentClick()}
+        onClick={() => {
+          setToggleComment(!toggleComment);
+          comentClick();
+        }}
       />
       <NumberOfComment>{CommentCount} comments</NumberOfComment>
     </ContainerCommentNumber>

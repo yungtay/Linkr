@@ -25,7 +25,6 @@ export default function MyPosts() {
     });
   }, [accountInformation.token, accountInformation.user.id, refresh]);
 
-  console.log(myPosts)
   return (
     <>
       <Application>

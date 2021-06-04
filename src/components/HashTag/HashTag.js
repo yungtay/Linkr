@@ -47,7 +47,7 @@ export default function HashTag() {
               ) : (
                 <>
                   {posts.map((item) => (
-                    <Post key={item.id} posts={item} setRefresh={setRefresh} rePostCount={item.repostCount}/>
+                    <Post key={item.id} posts={item} setRefresh={setRefresh} rePostCount={item.repostCount} refresh={refresh}/>
                   ))}
                 </>
               )}

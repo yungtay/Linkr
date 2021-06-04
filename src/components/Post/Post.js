@@ -11,8 +11,9 @@ import Repost from "./Repost"
 import Comment from "./Comment"
 import { RepeatSharp } from 'react-ionicons'
 import { PaperPlaneOutline } from 'react-ionicons'
+import axios from 'axios';
 
-export default function Post({ posts, setRefresh, rePostCount }) {
+export default function Post({ posts, setRefresh, rePostCount, refresh }) {
   const [likes, setLikes] = useState(posts.likes.length);
   const [message, setMessage] = useState({ text: posts.text });
   const [edit, setEdit] = useState(false);
@@ -23,9 +24,14 @@ export default function Post({ posts, setRefresh, rePostCount }) {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [modalIsOpenRepost, setModalIsOpenRepost] = useState(false);
   const [comments, setComments] = useState(null);
-  const [myComment, setMyComments] = useState(null)
+  const [myComment, setMyComments] = useState("")
+  const [refreshComment, setRefreshComment] = useState(false);
+  const [toggleComment, setToggleComment] = useState(false)
 
   const { accountInformation, whoYouFollow } = useContext(UserContext);
+  const config = {
+    headers: { Authorization: `Bearer ${accountInformation.token}` },
+  };
 
   useEffect(() => {
     if (edit) {
@@ -33,7 +39,20 @@ export default function Post({ posts, setRefresh, rePostCount }) {
     }
   }, [edit]);
 
-  console.log(comments)
+  function submit(e) {
+    e.preventDefault();
+    const request = axios.post(
+      `https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/posts/${posts.id}/comment`, {text: myComment},
+      config
+    );
+    request.then(() => {
+      setMyComments("")
+      setRefreshComment(true)
+    })
+    request.catch(() => {
+      alert("Não foi possível postar")
+    })
+  }
 
   return (
     <RepostContainer reposted={posts.repostedBy}>
@@ -54,6 +73,12 @@ export default function Post({ posts, setRefresh, rePostCount }) {
             postId={posts.id}
             setComments={setComments}
             setRefresh={setRefresh}
+            refreshComment= {refreshComment} 
+            setRefreshComment= {setRefreshComment}
+            toggleComment= {toggleComment}
+            setToggleComment= {setToggleComment}
+            setMyComments= {setMyComments}
+            refresh={refresh}
           />
           <Repost
             rePostCount={rePostCount}
@@ -132,10 +157,10 @@ export default function Post({ posts, setRefresh, rePostCount }) {
           </LinkSheet>
         </RightContainer>
       </Structure>
-      {comments?.length ? (
+      {comments && toggleComment ? (
         <>
           {comments.map((c) => (
-            <CommentSection>
+            <CommentSection key={c.id}>
               <img
                 onClick={() => history.push(`/user/${c.user.id}`)}
                 src={c.user.avatar}
@@ -177,13 +202,20 @@ export default function Post({ posts, setRefresh, rePostCount }) {
               alt="avatar do usuário"
             />
             <ContainerSendComment>
-              <SendComment placeholder="write a comment..." />
+              <Form onSubmit={submit}>
+                <SendComment
+                  placeholder="write a comment..."
+                  onChange={(e) => setMyComments(e.target.value)}
+                  value={myComment}
+                />
+              </Form>
               <PaperPlaneOutline
-                color={"#F3F3F3"}
-                title={"Comment"}
-                height="25px"
-                width="25px"
-              />
+                  color={"#F3F3F3"}
+                  title={"Comment"}
+                  height="25px"
+                  width="25px"
+                  onClick={submit}
+                />
             </ContainerSendComment>
           </CommentSection>
         </>
@@ -474,7 +506,7 @@ border-radius: 8px;
 `
 
 const SendComment = styled.input`
-  width: 90%; 
+  width: 100%; 
   height: 39px;
 
   background: none;
@@ -497,6 +529,10 @@ const CommentUserInformation = styled.div`
   color: #565656;
   font-size: 14px;
   font-weight: 400;
+`;
+
+const Form = styled.form`
+  width: 90%;
 `;
 
 

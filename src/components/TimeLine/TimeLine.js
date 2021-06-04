@@ -7,12 +7,30 @@ import Post from "../Post/Post";
 import SideBar from "../SideBar/Sidebar";
 import AddPost from "./AddPost";
 import InfiniteScroll from "react-infinite-scroller";
+import useInterval from "./useInterval";
 
 export default function TimeLine() {
   const { accountInformation, whoYouFollow } = useContext(UserContext);
   const [posts, setPosts] = useState([]);
   const [refresh, setRefresh] = useState(false);
   const [lastId, setLastId] = useState(null);
+  const [delay, setDelay] = useState(15000);
+  useInterval(() => {
+    const config = {
+      headers: { Authorization: `Bearer ${accountInformation.token}` },
+    };
+    const request = axios.get(
+      "https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/following/posts",
+      config
+    );
+    request.then((response) => {
+      setPosts(response.data.posts);
+      console.log(response.data.posts);
+    });
+    request.catch(() =>
+      alert("Houve uma falha ao obter os posts, por favor atualize a página")
+    );
+  }, delay);
   useEffect(() => {
     setRefresh(false);
     const config = {

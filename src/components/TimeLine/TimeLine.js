@@ -15,16 +15,18 @@ export default function TimeLine() {
   const [refresh, setRefresh] = useState(false);
   const [lastId, setLastId] = useState(null);
   const [delay, setDelay] = useState(15000);
+  const [hasMore, setHasMore] = useState(true)
   useInterval(() => {
     const config = {
       headers: { Authorization: `Bearer ${accountInformation.token}` },
     };
     const request = axios.get(
-      "https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/following/posts",
+      `https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/following/posts`,
       config
     );
     request.then((response) => {
       setPosts(response.data.posts);
+      setHasMore(true)
     });
     request.catch(() =>
       alert("Houve uma falha ao obter os posts, por favor atualize a página")
@@ -53,14 +55,17 @@ export default function TimeLine() {
       headers: { Authorization: `Bearer ${accountInformation.token}` },
     };
     const request = axios.get(
-      `https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/posts?olderThan=${lastId}`,
+      `https://mock-api.bootcamp.respondeai.com.br/api/v2/linkr/following/posts?olderThan=${lastId}`,
       config
     );
-    request.catch(() =>
-      alert("Houve uma falha ao obter novos posts, por favor atualize a página")
-    );
     request.then((response) => {
-      setPosts([...posts, ...response.data.posts]);
+      if(response.data.posts.length !== 0){
+        setPosts([...posts, ...response.data.posts]);
+        setHasMore(true)
+      } else {
+        setHasMore(false)
+      }
+      
     });
   }
 
@@ -89,7 +94,7 @@ export default function TimeLine() {
                 <InfiniteScroll
                   pageStart={10}
                   loadMore={loadMorePosts}
-                  hasMore={true || false}
+                  hasMore={ hasMore }
                   loader={
                     <PositionLoader>
                       <Loader type="Oval" color="#FFF" height={80} width={80} />

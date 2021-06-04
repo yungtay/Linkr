@@ -8,7 +8,9 @@ import ReactHashtag from "react-hashtag";
 import DeletePost from "./DeletePost";
 import Likepost from "./Likepost";
 import Repost from "./Repost"
+import Comment from "./Comment"
 import { RepeatSharp } from 'react-ionicons'
+import { PaperPlaneOutline } from 'react-ionicons'
 
 export default function Post({ posts, setRefresh, rePostCount }) {
   const [likes, setLikes] = useState(posts.likes.length);
@@ -20,6 +22,8 @@ export default function Post({ posts, setRefresh, rePostCount }) {
   const history = useHistory();
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [modalIsOpenRepost, setModalIsOpenRepost] = useState(false);
+  const [comments, setComments] = useState(null);
+  const [myComment, setMyComments] = useState(null)
 
   const { accountInformation } = useContext(UserContext);
 
@@ -32,12 +36,7 @@ export default function Post({ posts, setRefresh, rePostCount }) {
   return (
     <RepostContainer reposted={posts.repostedBy}>
       <WhoResposted reposted={posts.repostedBy}>
-        <RepeatSharp
-          color={"#ffffff"}
-          height={"15px"}
-          width={"25px"}
-        />
-
+        <RepeatSharp color={"#ffffff"} height={"15px"} width={"25px"} />
         Re-posted by <strong>{posts.repostedBy?.username}</strong>
       </WhoResposted>
       <Structure>
@@ -48,6 +47,12 @@ export default function Post({ posts, setRefresh, rePostCount }) {
             alt="avatar do usuário"
           />
           <Likepost posts={posts} likes={likes} setLikes={setLikes} />
+          <Comment
+            CommentCount={posts.commentCount}
+            postId={posts.id}
+            setComments={setComments}
+            setRefresh={setRefresh}
+          />
           <Repost
             rePostCount={rePostCount}
             postId={posts.id}
@@ -61,7 +66,7 @@ export default function Post({ posts, setRefresh, rePostCount }) {
             <h1 onClick={() => history.push(`/user/${posts.user.id}`)}>
               {posts.user.username}
             </h1>
-            {posts.user.id  === accountInformation.user.id ? (
+            {posts.user.id === accountInformation.user.id ? (
               <div>
                 <Create
                   onClick={() => {
@@ -125,6 +130,47 @@ export default function Post({ posts, setRefresh, rePostCount }) {
           </LinkSheet>
         </RightContainer>
       </Structure>
+      {comments?.length ? (
+        <>
+          {comments.map((c) => (
+            <CommentSection>
+              <img
+                onClick={() => history.push(`/user/${c.user.id}`)}
+                src={c.user.avatar}
+                alt="avatar do usuário"
+              />
+              <UsersComments>
+                <NameUserComment
+                  onClick={() => history.push(`/user/${c.user.id}`)}
+                >
+                  {c.user.username}
+                </NameUserComment>
+                {c.text}
+              </UsersComments>
+            </CommentSection>
+          ))}
+          <CommentSection>
+            <img
+              onClick={() =>
+                history.push(`/user/${accountInformation.user.id}`)
+              }
+              src={accountInformation.user.avatar}
+              alt="avatar do usuário"
+            />
+            <ContainerSendComment>
+              <SendComment placeholder="write a comment..."/>
+              <PaperPlaneOutline
+                color={"#F3F3F3"}
+                title={"Comment"}
+                height="25px"
+                width="25px"
+              />
+            </ContainerSendComment>
+          </CommentSection>
+        </>
+      ) : (
+        ""
+      )}
     </RepostContainer>
   );
 }
@@ -137,7 +183,7 @@ const Structure = styled.div`
   color: #fff;
 
   border-radius: 16px;
-  padding: 20px;
+  padding: 20px 12px;
   background-color: #171717;
   display: flex;
 
@@ -149,6 +195,7 @@ const Structure = styled.div`
 `;
 
 const LeftContainer = styled.div`
+  width: 12%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -318,7 +365,6 @@ const LinkText = styled.div`
 `;
 
 const RepostContainer = styled.div`
-  height: ${prop => prop.reposted ? "279px" : "253px"};
   width: 100%;
 
   display:flex;
@@ -335,13 +381,91 @@ const RepostContainer = styled.div`
 
 const WhoResposted = styled.div`
   color: white;
-  margin: auto 0 auto 13px;
+  margin: 4.5px 0 4.5px 13px;
 
   display: ${prop => prop.reposted ? "flex" : "none"};
   
   strong {
     margin-left: 4px;
   }
+`;
+
+const CommentSection = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: start;
+  margin: 16px 25px;
+
+  position: relative;
+
+  &:after {
+  position: absolute;
+  content: '';
+  border-bottom: 1px solid #353535;
+  width: 100%;
+  transform: translateX(-50%);
+  bottom: -16px;
+  left: 50%;
+}
+
+  img {
+    width: 39px;
+    height: 39px;
+
+    border-radius: 50%;
+    margin-right: 18px;
+
+    cursor: pointer;
+    @media (max-width: 640px) {
+      width: 39px;
+      height: 39px;
+    }
+  }
+`;
+
+const UsersComments = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+
+  font-size: 14px;
+  color: #ACACAC;
+  word-break: break-all;
+`;
+
+const NameUserComment = styled.div`
+  color: #f3f3f3;
+  font-size: 14px;
+  font-weight: 700;
+
+  margin-bottom: 10px;
+  cursor: pointer;
+`;
+
+const ContainerSendComment = styled.div`
+width: 100%;
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding-right: 17px;
+
+background: #252525;
+border-radius: 8px;
+`
+
+const SendComment = styled.input`
+  width: 90%; 
+  height: 39px;
+
+  background: none;
+  border: 0px solid;
+  outline: none;
+
+  padding-left: 16px;
+  color: #575757;
+  font-style: italic;
+  font-size: 14px;
 `;
 
 

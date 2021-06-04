@@ -109,6 +109,7 @@ export default function MyFriendPosts() {
                       setLastId={setLastId}
                       index={i}
                       postsArray={posts}
+                      refresh={refresh}
                     />
                   );
                 })}

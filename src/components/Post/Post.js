@@ -76,7 +76,10 @@ export default function Post({
     <RepostContainer reposted={posts.repostedBy}>
       <WhoResposted reposted={posts.repostedBy}>
         <RepeatSharp color={"#ffffff"} height={"15px"} width={"25px"} />
-        Re-posted by <strong>{posts.repostedBy?.username}</strong>
+        Re-posted by{" "}
+        <strong onClick={() => history.push(`/user/${posts.repostedBy?.id}`)}>
+          {posts.repostedBy?.username}
+        </strong>
       </WhoResposted>
       <Structure>
         <LeftContainer>
@@ -91,11 +94,11 @@ export default function Post({
             postId={posts.id}
             setComments={setComments}
             setRefresh={setRefresh}
-            refreshComment= {refreshComment} 
-            setRefreshComment= {setRefreshComment}
-            toggleComment= {toggleComment}
-            setToggleComment= {setToggleComment}
-            setMyComments= {setMyComments}
+            refreshComment={refreshComment}
+            setRefreshComment={setRefreshComment}
+            toggleComment={toggleComment}
+            setToggleComment={setToggleComment}
+            setMyComments={setMyComments}
             refresh={refresh}
           />
           <Repost
@@ -160,49 +163,49 @@ export default function Post({
             </div>
           </div>
 
-        <h2>
-          {edit ? (
-            <Edit
-              message={message}
-              setMessage={setMessage}
-              accountInformation={accountInformation}
-              posts={posts}
-              inputRef={inputRef}
-              isLoading={isLoading}
-              setIsLoading={setIsLoading}
-              setEditSucess={setEditSucess}
-              setEdit={setEdit}
-              setRefresh={setRefresh}
-            />
+          <h2>
+            {edit ? (
+              <Edit
+                message={message}
+                setMessage={setMessage}
+                accountInformation={accountInformation}
+                posts={posts}
+                inputRef={inputRef}
+                isLoading={isLoading}
+                setIsLoading={setIsLoading}
+                setEditSucess={setEditSucess}
+                setEdit={setEdit}
+                setRefresh={setRefresh}
+              />
+            ) : (
+              <ReactHashtag
+                renderHashtag={(hashtag) => (
+                  <a href={`/hashtag/${hashtag.substring(1)}`}>{hashtag}</a>
+                )}
+              >
+                {editSucess ? message.text : posts.text}
+              </ReactHashtag>
+            )}
+          </h2>
+          {getYouTubeID(posts.link) !== null ? (
+            <PositionPlayer>
+              <ReactPlayer width="100%" url={posts.link} />
+              <a href={posts.link}>{posts.link}</a>
+            </PositionPlayer>
           ) : (
-            <ReactHashtag
-              renderHashtag={(hashtag) => (
-                <a href={`/hashtag/${hashtag.substring(1)}`}>{hashtag}</a>
-              )}
-            >
-              {editSucess ? message.text : posts.text}
-            </ReactHashtag>
-          )}
-        </h2>
-        {getYouTubeID(posts.link) !== null ? (
-          <PositionPlayer>
-            <ReactPlayer width="100%" url={posts.link} />
-            <a href={posts.link}>{posts.link}</a>
-          </PositionPlayer>
-        ) : (
-          <>
-            <LinkSheet onClick={() => setOpenDialog(true)}>
-              <LinkText>
-                <h1>{posts.linkTitle}</h1>
-                <h2>{posts.linkDescription}</h2>
-                <h3>{posts.link}</h3>
-              </LinkText>
-              <LinkImage src={posts.linkImage} alt="link" />
-            </LinkSheet>
-            <DialogLink
-              openDialog={openDialog}
-              setOpenDialog={setOpenDialog}
-              posts={posts}
+            <>
+              <LinkSheet onClick={() => setOpenDialog(true)}>
+                <LinkText>
+                  <h1>{posts.linkTitle}</h1>
+                  <h2>{posts.linkDescription}</h2>
+                  <h3>{posts.link}</h3>
+                </LinkText>
+                <LinkImage src={posts.linkImage} alt="link" />
+              </LinkSheet>
+              <DialogLink
+                openDialog={openDialog}
+                setOpenDialog={setOpenDialog}
+                posts={posts}
               />
             </>
           )}
@@ -261,12 +264,12 @@ export default function Post({
                 />
               </Form>
               <PaperPlaneOutline
-                  color={"#F3F3F3"}
-                  title={"Comment"}
-                  height="25px"
-                  width="25px"
-                  onClick={submit}
-                />
+                color={"#F3F3F3"}
+                title={"Comment"}
+                height="25px"
+                width="25px"
+                onClick={submit}
+              />
             </ContainerSendComment>
           </CommentSection>
         </>
@@ -512,6 +515,7 @@ const WhoResposted = styled.div`
 
   strong {
     margin-left: 4px;
+    cursor: pointer;
   }
 `;
 

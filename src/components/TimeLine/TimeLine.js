@@ -11,7 +11,7 @@ import useInterval from "./useInterval";
 
 export default function TimeLine() {
   const { accountInformation, whoYouFollow } = useContext(UserContext);
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState(null);
   const [refresh, setRefresh] = useState(false);
   const [lastId, setLastId] = useState(null);
   const [delay, setDelay] = useState(15000);
